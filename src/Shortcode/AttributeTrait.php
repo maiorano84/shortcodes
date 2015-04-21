@@ -49,6 +49,6 @@ trait AttributeTrait{
      */
     public function getAttributes(array $atts=array())
     {
-        return array_merge($this->atts, $atts);
+        return array_merge($this->attributes, $atts);
     }
 }

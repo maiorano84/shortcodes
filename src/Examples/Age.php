@@ -24,7 +24,7 @@ class Age implements ShortcodeInterface, AttributeInterface{
     /**
      * @var array
      */
-    protected $atts = ['units'=>'years'];
+    protected $attributes = ['units'=>'years'];
 
     /**
      * @param array $atts

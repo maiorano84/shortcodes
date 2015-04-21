@@ -17,7 +17,7 @@ class SimpleShortcode implements ShortcodeInterface, AttributeInterface{
     /**
      * @var array
      */
-    protected $atts;
+    protected $attributes;
 
     /**
      * @var callable
@@ -32,7 +32,7 @@ class SimpleShortcode implements ShortcodeInterface, AttributeInterface{
     public function __construct($name, $atts=[], Callable $callback=null)
     {
         $this->name = $name;
-        $this->atts = $atts;
+        $this->attributes = (array)$atts;
         $this->callback = $callback;
     }
 
