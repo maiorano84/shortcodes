@@ -4,6 +4,7 @@ namespace Maiorano\WPShortcodes\Test;
 use Maiorano\WPShortcodes\Manager\ShortcodeManager;
 use Maiorano\WPShortcodes\Shortcode\SimpleShortcode;
 use Maiorano\WPShortcodes\Examples\Age;
+use Maiorano\WPShortcodes\Examples\Ipsum;
 
 class ShortcodeTest extends TestCase{
     public function testSimpleShortcodeContent()
@@ -36,5 +37,11 @@ class ShortcodeTest extends TestCase{
         $manager->register(new Age);
         $this->assertEquals($manager->doShortcode('[age]Now[/age]'), '0 years');
         $this->assertEquals($manager->doShortcode('[age units=seconds]Now[/age]'), '0 seconds');
+    }
+    public function testCustomShortcodeNoAttributes()
+    {
+        $manager = new ShortcodeManager();
+        $manager->register(new Ipsum);
+        $this->assertEquals($manager->doShortcode('[ipsum]'), $manager['ipsum']->getIpsum());
     }
 }
