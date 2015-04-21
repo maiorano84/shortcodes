@@ -2,7 +2,7 @@
   "name": "maiorano84/wp-shortcodes",
   "description": "Implement Wordpress' Shortcode functionality anywhere",
   "minimum-stability": "dev",
-  "license": "MIT",
+  "license": "GPLv2",
   "authors": [
     {
       "name": "Matt Maiorano",
