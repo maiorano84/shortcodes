@@ -12,7 +12,8 @@ use \ArrayIterator;
  * Class BaseManager
  * @package Maiorano\WPShortcodes\Manager
  */
-abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeManagerInterface{
+abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeManagerInterface
+{
 
     /**
      * @var array
@@ -23,10 +24,9 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
      * @param array $shortcodes
      * @throws WPShortcodeRegisterException
      */
-    public function __construct(array $shortcodes=[])
+    public function __construct(array $shortcodes = [])
     {
-        foreach($shortcodes as $k=>$s)
-        {
+        foreach ($shortcodes as $k => $s) {
             $this->register($s);
         }
     }
@@ -62,10 +62,15 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
     /**
      * @param mixed $offset
      * @return null
+     * @throws WPShortcodeRegisterException
      */
     public function offsetGet($offset)
     {
-        return isset($this->shortcodes[$offset]) ? $this->shortcodes[$offset] : null;
+        if ($this->isRegistered($offset)) {
+            return $this->shortcodes[$offset];
+        }
+        $e = sprintf(WPShortcodeRegisterException::MISSING, $offset);
+        throw new WPShortcodeRegisterException($e);
     }
 
     /**
@@ -84,11 +89,13 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
     public function register(ShortcodeInterface $shortcode)
     {
         $name = $shortcode->getName();
-        if(!$this->isRegistered($name)) {
+        if (!$this->isRegistered($name)) {
             $this->shortcodes[$name] = $shortcode;
+
             return $this;
         }
-        throw new WPShortcodeRegisterException(sprintf('The shortcode \'%s\' has already been registered', $name));
+        $e = sprintf(WPShortcodeRegisterException::DUPLICATE, $name);
+        throw new WPShortcodeRegisterException($e);
     }
 
     /**
@@ -98,11 +105,13 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
      */
     public function deregister($name)
     {
-        if(isset($this->shortcodes[$name])){
+        if (isset($this->shortcodes[$name])) {
             unset($this->shortcodes[$name]);
+
             return $this;
         }
-        throw new WPShortcodeDeregisterException(sprintf('The shortcode \'%s\' does not exist in the current library', $name));
+        $e = sprintf(WPShortcodeDeregisterException::MISSING, $name);
+        throw new WPShortcodeDeregisterException($e);
     }
 
     /**
@@ -127,37 +136,38 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
      * @return string
      * @see https://core.trac.wordpress.org/browser/tags/4.1.1/src/wp-includes/shortcodes.php#L221
      */
-    protected function getShortcodeRegex($tags=null)
+    protected function getShortcodeRegex($tags = null)
     {
         $tagregexp = join('|', $tags ?: $this->getRegistered());
+
         return
-            '\\['                              // Opening bracket
-            . '(\\[?)'                           // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
-            . "($tagregexp)"                     // 2: Shortcode name
-            . '(?![\\w-])'                       // Not followed by word character or hyphen
-            . '('                                // 3: Unroll the loop: Inside the opening shortcode tag
-            .     '[^\\]\\/]*'                   // Not a closing bracket or forward slash
-            .     '(?:'
-            .         '\\/(?!\\])'               // A forward slash not followed by a closing bracket
-            .         '[^\\]\\/]*'               // Not a closing bracket or forward slash
-            .     ')*?'
+            '\\['                // Opening bracket
+            . '(\\[?)'           // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
+            . "($tagregexp)"     // 2: Shortcode name
+            . '(?![\\w-])'       // Not followed by word character or hyphen
+            . '('                // 3: Unroll the loop: Inside the opening shortcode tag
+            . '[^\\]\\/]*'       // Not a closing bracket or forward slash
+            . '(?:'
+            . '\\/(?!\\])'       // A forward slash not followed by a closing bracket
+            . '[^\\]\\/]*'       // Not a closing bracket or forward slash
+            . ')*?'
             . ')'
             . '(?:'
-            .     '(\\/)'                        // 4: Self closing tag ...
-            .     '\\]'                          // ... and closing bracket
+            . '(\\/)'            // 4: Self closing tag ...
+            . '\\]'              // ... and closing bracket
             . '|'
-            .     '\\]'                          // Closing bracket
-            .     '(?:'
-            .         '('                        // 5: Unroll the loop: Optionally, anything between the opening and closing shortcode tags
-            .             '[^\\[]*+'             // Not an opening bracket
-            .             '(?:'
-            .                 '\\[(?!\\/\\2\\])' // An opening bracket not followed by the closing shortcode tag
-            .                 '[^\\[]*+'         // Not an opening bracket
-            .             ')*+'
-            .         ')'
-            .         '\\[\\/\\2\\]'             // Closing shortcode tag
-            .     ')?'
+            . '\\]'              // Closing bracket
+            . '(?:'
+            . '('                // 5: Unroll the loop: Optionally, anything between the opening and closing shortcode tags
+            . '[^\\[]*+'         // Not an opening bracket
+            . '(?:'
+            . '\\[(?!\\/\\2\\])' // An opening bracket not followed by the closing shortcode tag
+            . '[^\\[]*+'         // Not an opening bracket
+            . ')*+'
             . ')'
-            . '(\\]?)';                          // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
+            . '\\[\\/\\2\\]'     // Closing shortcode tag
+            . ')?'
+            . ')'
+            . '(\\]?)';          // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
     }
 }

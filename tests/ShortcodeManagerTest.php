@@ -21,9 +21,9 @@ class ShortcodeManagerTest extends TestCase
     public function testHasShortcode()
     {
         $manager = new ShortcodeManager(array(
-            'foo'=>new SimpleShortcode('foo'),
-            'bar'=>new SimpleShortcode('bar'),
-            'baz'=>new SimpleShortcode('baz')
+            'foo' => new SimpleShortcode('foo'),
+            'bar' => new SimpleShortcode('bar'),
+            'baz' => new SimpleShortcode('baz')
         ));
 
         $content = '[foo]';
@@ -44,6 +44,16 @@ class ShortcodeManagerTest extends TestCase
         $test = new SimpleShortcode('test');
         $manager['test'] = $test;
         $manager->register($test);
+    }
+
+    /**
+     * @expectedException Maiorano\WPShortcodes\Exceptions\WPShortcodeRegisterException
+     * @expectedExceptionMessage No shortcode with identifier 'test' has been registered
+     */
+    public function testMissing()
+    {
+        $manager = new ShortcodeManager();
+        $var = $manager['test'];
     }
 
     /**
