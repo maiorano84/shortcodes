@@ -47,4 +47,11 @@ class ShortcodeTest extends TestCase
         $manager->register(new Ipsum);
         $this->assertEquals($manager->doShortcode('[ipsum]'), $manager['ipsum']->getIpsum());
     }
+
+    public function testEscapedShortcode()
+    {
+        $manager = new ShortcodeManager();
+        $manager->register(new Ipsum);
+        $this->assertEquals($manager->doShortcode('[[ipsum]]'), '[ipsum]');
+    }
 }
