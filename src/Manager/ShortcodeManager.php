@@ -1,6 +1,8 @@
 <?php
 namespace Maiorano\WPShortcodes\Manager;
 
+use Maiorano\WPShortcodes\Shortcode\AttributeInterface;
+
 /**
  * Class ShortcodeManager
  * @package Maiorano\WPShortcodes\Manager
@@ -62,15 +64,15 @@ class ShortcodeManager extends BaseManager{
             return substr($match[0], 1, -1);
         }
 
-        $tag = $match[2];
+        $shortcode = $this[$match[2]];
         $content = isset($match[5]) ? $match[5] : null;
 
-        if(method_exists($this[$tag], 'parseAttributes'))
+        if($shortcode instanceof AttributeInterface)
         {
-            $atts = $this[$tag]->parseAttributes($match[3]);
-            return $this[$tag]->handle($atts, $content);
+            $atts = $shortcode->parseAttributes($match[3]);
+            return $shortcode->handle($atts, $content);
         }
-        return $this[$tag]->handle($content);
+        return $shortcode->handle($content);
     }
 
     /**
@@ -96,7 +98,6 @@ class ShortcodeManager extends BaseManager{
      */
     private function preCheck($content, $tags)
     {
-        if(strpos($content, '[') === false) return false;
-        return !empty($tags);
+        return strpos($content, '[') !== false && !empty($tags);
     }
 }

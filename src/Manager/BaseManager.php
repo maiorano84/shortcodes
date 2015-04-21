@@ -1,13 +1,12 @@
 <?php
 namespace Maiorano\WPShortcodes\Manager;
 
-use \ArrayAccess;
-use \IteratorAggregate;
-use \ArrayIterator;
-
 use Maiorano\WPShortcodes\Shortcode\ShortcodeInterface;
 use Maiorano\WPShortcodes\Exceptions\WPShortcodeRegisterException;
 use Maiorano\WPShortcodes\Exceptions\WPShortcodeDeregisterException;
+use \ArrayAccess;
+use \IteratorAggregate;
+use \ArrayIterator;
 
 /**
  * Class BaseManager
@@ -126,6 +125,7 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
     /**
      * @param null $tags
      * @return string
+     * @see https://core.trac.wordpress.org/browser/tags/4.1.1/src/wp-includes/shortcodes.php#L221
      */
     protected function getShortcodeRegex($tags=null)
     {

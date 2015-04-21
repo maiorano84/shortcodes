@@ -2,14 +2,17 @@
 namespace Maiorano\WPShortcodes\Shortcode;
 
 /**
+ * Allows shortcodes to use the attribute format if needed
+ * IE: [tag foo=bar]
  * Class AttributeTrait
  * @package Maiorano\WPShortcodes\Shortcode
  */
 trait AttributeTrait{
 
     /**
-     * @param $text
+     * @param string $text
      * @return array
+     * @see https://core.trac.wordpress.org/browser/tags/4.1.1/src/wp-includes/shortcodes.php#L302
      */
     public function parseAttributes($text)
     {
@@ -40,10 +43,11 @@ trait AttributeTrait{
     }
 
     /**
+     * Non-strict merge of attributes
      * @param array $atts
      * @return array
      */
-    protected function processAttributes($atts)
+    public function getAttributes(array $atts=array())
     {
         return array_merge($this->atts, $atts);
     }

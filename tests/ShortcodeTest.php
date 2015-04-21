@@ -1,5 +1,4 @@
 <?php
-
 namespace Maiorano\WPShortcodes\Test;
 
 use Maiorano\WPShortcodes\Manager\ShortcodeManager;
@@ -35,7 +34,7 @@ class ShortcodeTest extends TestCase{
     {
         $manager = new ShortcodeManager();
         $manager->register(new Age);
-        $content = '[age units=seconds]Now[/age]';
-        $this->assertEquals($manager->doShortcode($content), '0 seconds');
+        $this->assertEquals($manager->doShortcode('[age]Now[/age]'), '0 years');
+        $this->assertEquals($manager->doShortcode('[age units=seconds]Now[/age]'), '0 seconds');
     }
 }

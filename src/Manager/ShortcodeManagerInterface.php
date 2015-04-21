@@ -8,6 +8,7 @@ use Maiorano\WPShortcodes\Shortcode\ShortcodeInterface;
  * @package Maiorano\WPShortcodes\Manager
  */
 interface ShortcodeManagerInterface{
+
     /**
      * @param ShortcodeInterface $shortcode
      * @return mixed

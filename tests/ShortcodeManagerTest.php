@@ -1,5 +1,4 @@
 <?php
-
 namespace Maiorano\WPShortcodes\Test;
 
 use Maiorano\WPShortcodes\Manager\ShortcodeManager;

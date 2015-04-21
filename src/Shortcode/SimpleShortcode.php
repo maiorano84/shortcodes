@@ -2,16 +2,23 @@
 namespace Maiorano\WPShortcodes\Shortcode;
 
 /**
- * Class SimpleShortcode
+ * Creation of Shortcodes programatically
  * @package Maiorano\WPShortcodes\Shortcode
  */
-class SimpleShortcode implements ShortcodeInterface{
+class SimpleShortcode implements ShortcodeInterface, AttributeInterface{
     use ShortcodeTrait;
     use AttributeTrait;
 
+    /**
+     * @var string
+     */
     protected $name;
 
+    /**
+     * @var array
+     */
     protected $atts;
+
     /**
      * @var callable
      */
@@ -33,12 +40,13 @@ class SimpleShortcode implements ShortcodeInterface{
      * @param array $atts
      * @param string|null $content
      * @return string
+     * @see Maiorano\WPShortcodes\Shortcode\ShortcodeInterface::handle()
      */
     public function handle(array $atts=[], $content=null)
     {
         if(!is_null($this->callback))
         {
-            return call_user_func($this->callback, $this->processAttributes($atts), $content);
+            return call_user_func($this->callback, $this->getAttributes($atts), $content);
         }
         return (string)$content;
     }

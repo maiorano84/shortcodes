@@ -9,6 +9,7 @@ trait ShortcodeTrait{
 
     /**
      * @return string
+     * * @see Maiorano\WPShortcodes\Shortcode\ShortcodeInterface::getName()
      */
     public function getName()
     {
