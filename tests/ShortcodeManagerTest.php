@@ -21,15 +21,11 @@ class ShortcodeManagerTest extends TestCase
 
     public function testHasShortcode()
     {
-        $manager = new ShortcodeManager();
-        $shortcodes = array(
+        $manager = new ShortcodeManager(array(
             'foo'=>new SimpleShortcode('foo'),
             'bar'=>new SimpleShortcode('bar'),
             'baz'=>new SimpleShortcode('baz')
-        );
-        foreach($shortcodes as $k=>$shortcode) {
-            $manager->register($shortcode);
-        }
+        ));
 
         $content = '[foo]';
         $this->assertTrue($manager->hasShortcode($content)); //Check all registered

@@ -6,37 +6,77 @@ class ShortcodeManager extends BaseShortcodeManager{
     public function hasShortcode($content, $tags=array())
     {
         /*
-         * Determine if the provided content has anything that could possibly denote shortcode
-         * If not, return false
-         */
-        if(false === strpos($content, '[')) return false;
+         * Precheck fails if:
+         * 1) Content contains no shortcode
+         * 2) Provided tags are not registered
+         * */
+        $content = $this->preCheckContent($content);
+        $tags = $this->preCheckTags($tags);
 
-        /*
-         * Determine if the provided tags exist in the library
-         * If nothing is leftover, there's nothing to check
-         */
-        $tags = $tags ? $this->cleanTags($tags) : $this->getRegistered();
-        if(empty($tags)) return false;
+        if($content === false || $tags === false) return false;
 
         $regex = $this->getShortcodeRegex($tags);
         preg_match_all("/$regex/s", $content, $matches, PREG_SET_ORDER);
+
         if(empty($matches)) return false;
 
         foreach($matches as $shortcode)
         {
-            if(in_array($shortcode[2], $tags))
+            if(in_array($shortcode[2], $tags)) //Shortcode matched
             {
                 return true;
             }
-            elseif(!empty($shortcode[5]) && $this->hasShortcode($shortcode[5], $tags))
+            elseif(!empty($shortcode[5]) && $this->hasShortcode($shortcode[5], $tags)) //Nested Shortcode matched
             {
                 return true;
             }
         }
         return false;
     }
-    private function cleanTags($tags)
+    public function doShortcode($content, $tags=array())
     {
+        $content = $this->preCheckContent($content);
+        $tags = $this->preCheckTags($tags);
+
+        if($content === false || $tags === false) return $content;
+
+        $regex = $this->getShortcodeRegex($tags);
+        $content = preg_replace_callback("/$regex/s", array($this, 'handleShortcode'), $content);
+        return $content;
+    }
+    public function handleShortcode($match)
+    {
+        //Escaped shortcode (ie: [[tag]])
+        if($match[1] == '[' && $match[6] == ']'){
+            return substr($match[0], 1, -1);
+        }
+
+        $tag = $match[2];
+        $atts = $this->parseAttributes($match[3]);
+        $content = isset($match[5]) ? $match[5] : null;
+
+        return $this[$tag]->handle($atts, $content);
+    }
+    private function preCheckContent($content)
+    {
+        /*
+         * Determine if the provided content has anything that could possibly denote shortcode
+         * If not, return false
+         */
+        if(strpos($content, '[') === false)
+        {
+            return false;
+        }
+        return $content;
+    }
+    private function preCheckTags($tags)
+    {
+        /*
+         * Determine if the provided tags exist in the library
+         * If nothing is leftover, there's nothing to check
+         */
+        if(!$tags) return $this->getRegistered();
+
         if(is_string($tags))
         {
             $tags = explode('|', $tags);
@@ -46,16 +86,14 @@ class ShortcodeManager extends BaseShortcodeManager{
         {
             if(!$this->isRegistered($tag)) unset($tags[$i]);
         }
+
+        if(empty($tags))
+        {
+            return false;
+        }
         return $tags;
     }
-
-    /*public function get_results($m){
-        $tag = $m[2];
-        $parsed_attr = $this->shortcode_parse_atts($m[3]);
-        $attr = $this->shortcode_atts($this->config['tags'][$tag]['atts'], $parsed_attr);
-        return array('content'=>(isset($m[5]) ? $m[5] : null), 'atts'=>$attr);
-    }
-    private function shortcode_parse_atts($text) {
+    private function parseAttributes($text) {
         $atts = array();
         $pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
         $text = preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text);
@@ -78,35 +116,7 @@ class ShortcodeManager extends BaseShortcodeManager{
                 }
             }
         }
-        else{
-            $atts = ltrim($text);
-        }
+
         return $atts;
     }
-    private function shortcode_atts(array $pairs, array $atts){
-        $out = array();
-        foreach($pairs as $name => $default){
-            $out[$name] = array_key_exists($name, $atts) ? $atts[$name] : $default;
-        }
-        return $out;
-    }
-    function has_shortcode( $content, $tag ) {
-
-
-	        if ( shortcode_exists( $tag ) ) {
-	                preg_match_all( '/' . get_shortcode_regex() . '/s', $content, $matches, PREG_SET_ORDER );
-	                if ( empty( $matches ) )
-	                        return false;
-
-	                foreach ( $matches as $shortcode ) {
-	                        if ( $tag === $shortcode[2] ) {
-	                                return true;
-	                        } elseif ( ! empty( $shortcode[5] ) && has_shortcode( $shortcode[5], $tag ) ) {
-	                                return true;
-	                        }
-	                }
-	        }
-	        return false;
-    }
-    */
 }

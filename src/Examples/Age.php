@@ -1,30 +1,23 @@
 <?php
 namespace Maiorano\WPShortcodes\Examples;
 
-//use \DateTime;
-
+use \DateTime;
 use Maiorano\WPShortcodes\Shortcode\ShortcodeInterface;
 
 class Age implements ShortcodeInterface{
-
+    protected $atts = array('units'=>'years');
     public function getName()
     {
         return 'age';
     }
-    public function handle()
+    public function handle(array $atts=array(), $content=null)
     {
+        if(!$content) return '';
 
-    }
-
-    /*public static function getAge($results){
-        if(!$results['content']){
-            return $results;
-        }
-        
         $now = new DateTime('now');
-        $birthday = new DateTime($results['content']);
+        $birthday = new DateTime($content);
         $diff = $now->diff($birthday);
-        switch($results['atts']['units']){
+        switch($atts['units']){
             case 'centuries': $v = $diff->y/100; break;
             case 'decades': $v = $diff->y/10; break;
             case 'months': $v = $diff->y*12+$diff->m; break;
@@ -34,10 +27,6 @@ class Age implements ShortcodeInterface{
             case 'seconds': $v = ($diff->days*24*60*60)+$diff->s; break;
             case 'years': default: $v = $diff->y; break;
         }
-        $results['age'] = $v;
-        return $results;
+        return sprintf('%d %s', $v, $atts['units']);
     }
-    public static function check($html){
-        return $html;
-    }*/
 }

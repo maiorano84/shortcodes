@@ -12,6 +12,14 @@ use Maiorano\WPShortcodes\Exceptions\WPShortcodeDeregisterException;
 abstract class BaseShortcodeManager implements ArrayAccess, IteratorAggregate, ShortcodeManagerInterface{
     protected $shortcodes = [];
 
+    public function __construct(array $shortcodes=array())
+    {
+        foreach($shortcodes as $k=>$s)
+        {
+            $this->register($s);
+        }
+    }
+
     public function offsetSet($offset, $value)
     {
         $this->register($value);
@@ -66,7 +74,8 @@ abstract class BaseShortcodeManager implements ArrayAccess, IteratorAggregate, S
         return array_map('preg_quote', array_keys($this->shortcodes));
     }
 
-    protected function getShortcodeRegex($tags=null){
+    protected function getShortcodeRegex($tags=null)
+    {
         $tagregexp = join('|', $tags ?: $this->getRegistered());
         return
             '\\['                              // Opening bracket
