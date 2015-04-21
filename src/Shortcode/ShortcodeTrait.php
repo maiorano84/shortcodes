@@ -5,7 +5,8 @@ namespace Maiorano\WPShortcodes\Shortcode;
  * Class ShortcodeTrait
  * @package Maiorano\WPShortcodes\Shortcode
  */
-trait ShortcodeTrait{
+trait ShortcodeTrait
+{
 
     /**
      * @return string

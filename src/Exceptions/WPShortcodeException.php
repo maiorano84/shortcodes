@@ -7,4 +7,6 @@ use \Exception;
  * Class WPShortcodeException
  * @package Maiorano\WPShortcodes\Exceptions
  */
-class WPShortcodeException extends Exception{}
+class WPShortcodeException extends Exception
+{
+}

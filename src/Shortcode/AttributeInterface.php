@@ -5,7 +5,8 @@ namespace Maiorano\WPShortcodes\Shortcode;
  * Interface AttributeInterface
  * @package Maiorano\WPShortcodes\Shortcode
  */
-interface AttributeInterface{
+interface AttributeInterface
+{
 
     /**
      * Parse a given string into key=>value pairs

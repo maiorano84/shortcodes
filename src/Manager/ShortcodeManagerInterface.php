@@ -7,7 +7,8 @@ use Maiorano\WPShortcodes\Shortcode\ShortcodeInterface;
  * Interface ShortcodeManagerInterface
  * @package Maiorano\WPShortcodes\Manager
  */
-interface ShortcodeManagerInterface{
+interface ShortcodeManagerInterface
+{
 
     /**
      * @param ShortcodeInterface $shortcode
@@ -31,12 +32,12 @@ interface ShortcodeManagerInterface{
      * @param array $tags
      * @return bool
      */
-    public function hasShortcode($content, $tags=[]);
+    public function hasShortcode($content, $tags = []);
 
     /**
      * @param string $content
      * @param array $tags
      * @return string
      */
-    public function doShortcode($content, $tags=[]);
+    public function doShortcode($content, $tags = []);
 }

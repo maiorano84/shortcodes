@@ -5,7 +5,8 @@ namespace Maiorano\WPShortcodes\Shortcode;
  * Interface ShortcodeInterface
  * @package Maiorano\WPShortcodes\Shortcode
  */
-interface ShortcodeInterface{
+interface ShortcodeInterface
+{
 
     /**
      * All Shortcodes must return a name as a string

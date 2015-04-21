@@ -5,7 +5,8 @@ namespace Maiorano\WPShortcodes\Shortcode;
  * Creation of Shortcodes programatically
  * @package Maiorano\WPShortcodes\Shortcode
  */
-class SimpleShortcode implements ShortcodeInterface, AttributeInterface{
+class SimpleShortcode implements ShortcodeInterface, AttributeInterface
+{
     use ShortcodeTrait;
     use AttributeTrait;
 
@@ -29,7 +30,7 @@ class SimpleShortcode implements ShortcodeInterface, AttributeInterface{
      * @param array $atts
      * @param callable $callback
      */
-    public function __construct($name, $atts=[], Callable $callback=null)
+    public function __construct($name, $atts = [], Callable $callback = null)
     {
         $this->name = $name;
         $this->attributes = (array)$atts;
@@ -42,12 +43,12 @@ class SimpleShortcode implements ShortcodeInterface, AttributeInterface{
      * @return string
      * @see Maiorano\WPShortcodes\Shortcode\ShortcodeInterface::handle()
      */
-    public function handle(array $atts=[], $content=null)
+    public function handle(array $atts = [], $content = null)
     {
-        if(!is_null($this->callback))
-        {
+        if (!is_null($this->callback)) {
             return call_user_func($this->callback, $this->getAttributes($atts), $content);
         }
+
         return (string)$content;
     }
 }

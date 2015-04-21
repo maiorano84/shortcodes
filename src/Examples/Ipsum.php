@@ -7,7 +7,8 @@ use Maiorano\WPShortcodes\Shortcode\ShortcodeInterface;
  * Generate Lorem Ipsum
  * @package Maiorano\WPShortcodes\Examples
  */
-class Ipsum implements ShortcodeInterface{
+class Ipsum implements ShortcodeInterface
+{
 
     /**
      * @return string
