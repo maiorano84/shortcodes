@@ -86,7 +86,7 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
         $name = $shortcode->getName();
         if(!$this->isRegistered($name)) {
             $this->shortcodes[$name] = $shortcode;
-            return $shortcode;
+            return $this;
         }
         throw new WPShortcodeRegisterException(sprintf('The shortcode \'%s\' has already been registered', $name));
     }
@@ -100,7 +100,7 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
     {
         if(isset($this->shortcodes[$name])){
             unset($this->shortcodes[$name]);
-            return true;
+            return $this;
         }
         throw new WPShortcodeDeregisterException(sprintf('The shortcode \'%s\' does not exist in the current library', $name));
     }
