@@ -1,10 +1,15 @@
 <?php
 namespace Maiorano\WPShortcodes\Shortcode;
 
+/**
+ * Class ShortcodeTrait
+ * @package Maiorano\WPShortcodes\Shortcode
+ */
 trait ShortcodeTrait{
-    protected $name;
-    protected $atts;
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;

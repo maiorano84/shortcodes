@@ -2,15 +2,34 @@
 namespace Maiorano\WPShortcodes\Examples;
 
 use \DateTime;
+use Maiorano\WPShortcodes\Shortcode\ShortcodeTrait;
+use Maiorano\WPShortcodes\Shortcode\AttributeTrait;
 use Maiorano\WPShortcodes\Shortcode\ShortcodeInterface;
 
+/**
+ * Class Age
+ * @package Maiorano\WPShortcodes\Examples
+ */
 class Age implements ShortcodeInterface{
-    protected $atts = array('units'=>'years');
-    public function getName()
-    {
-        return 'age';
-    }
-    public function handle(array $atts=array(), $content=null)
+    use ShortcodeTrait;
+    use AttributeTrait;
+
+    /**
+     * @var string
+     */
+    protected $name = 'age';
+
+    /**
+     * @var array
+     */
+    protected $atts = ['units'=>'years'];
+
+    /**
+     * @param array $atts
+     * @param string|null $content
+     * @return string
+     */
+    public function handle(array $atts=[], $content=null)
     {
         if(!$content) return '';
 

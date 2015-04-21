@@ -9,10 +9,22 @@ use Maiorano\WPShortcodes\Shortcode\ShortcodeInterface;
 use Maiorano\WPShortcodes\Exceptions\WPShortcodeRegisterException;
 use Maiorano\WPShortcodes\Exceptions\WPShortcodeDeregisterException;
 
-abstract class BaseShortcodeManager implements ArrayAccess, IteratorAggregate, ShortcodeManagerInterface{
+/**
+ * Class BaseManager
+ * @package Maiorano\WPShortcodes\Manager
+ */
+abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeManagerInterface{
+
+    /**
+     * @var array
+     */
     protected $shortcodes = [];
 
-    public function __construct(array $shortcodes=array())
+    /**
+     * @param array $shortcodes
+     * @throws WPShortcodeRegisterException
+     */
+    public function __construct(array $shortcodes=[])
     {
         foreach($shortcodes as $k=>$s)
         {
@@ -20,31 +32,56 @@ abstract class BaseShortcodeManager implements ArrayAccess, IteratorAggregate, S
         }
     }
 
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     * @throws WPShortcodeRegisterException
+     */
     public function offsetSet($offset, $value)
     {
         $this->register($value);
     }
 
+    /**
+     * @param mixed $offset
+     * @throws WPShortcodeDeregisterException
+     */
     public function offsetUnset($offset)
     {
         $this->deregister($offset);
     }
 
+    /**
+     * @param mixed $offset
+     * @return bool
+     */
     public function offsetExists($offset)
     {
         return $this->isRegistered($offset);
     }
 
+    /**
+     * @param mixed $offset
+     * @return null
+     */
     public function offsetGet($offset)
     {
         return isset($this->shortcodes[$offset]) ? $this->shortcodes[$offset] : null;
     }
 
+    /**
+     * @return ArrayIterator
+     */
     public function getIterator()
     {
         return new ArrayIterator($this->shortcodes);
     }
 
+    /**
+     * @param ShortcodeInterface $shortcode
+     * @return ShortcodeInterface
+     * @throws WPShortcodeRegisterException
+     */
     public function register(ShortcodeInterface $shortcode)
     {
         $name = $shortcode->getName();
@@ -55,6 +92,11 @@ abstract class BaseShortcodeManager implements ArrayAccess, IteratorAggregate, S
         throw new WPShortcodeRegisterException(sprintf('The shortcode \'%s\' has already been registered', $name));
     }
 
+    /**
+     * @param $name
+     * @return bool
+     * @throws WPShortcodeDeregisterException
+     */
     public function deregister($name)
     {
         if(isset($this->shortcodes[$name])){
@@ -64,16 +106,27 @@ abstract class BaseShortcodeManager implements ArrayAccess, IteratorAggregate, S
         throw new WPShortcodeDeregisterException(sprintf('The shortcode \'%s\' does not exist in the current library', $name));
     }
 
+    /**
+     * @param $name
+     * @return bool
+     */
     public function isRegistered($name)
     {
         return isset($this->shortcodes[$name]);
     }
 
+    /**
+     * @return array
+     */
     public function getRegistered()
     {
         return array_map('preg_quote', array_keys($this->shortcodes));
     }
 
+    /**
+     * @param null $tags
+     * @return string
+     */
     protected function getShortcodeRegex($tags=null)
     {
         $tagregexp = join('|', $tags ?: $this->getRegistered());

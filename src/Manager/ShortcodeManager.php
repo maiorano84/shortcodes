@@ -1,19 +1,21 @@
 <?php
 namespace Maiorano\WPShortcodes\Manager;
 
-class ShortcodeManager extends BaseShortcodeManager{
+/**
+ * Class ShortcodeManager
+ * @package Maiorano\WPShortcodes\Manager
+ */
+class ShortcodeManager extends BaseManager{
 
-    public function hasShortcode($content, $tags=array())
+    /**
+     * @param $content
+     * @param string|array $tags
+     * @return bool
+     */
+    public function hasShortcode($content, $tags=[])
     {
-        /*
-         * Precheck fails if:
-         * 1) Content contains no shortcode
-         * 2) Provided tags are not registered
-         * */
-        $content = $this->preCheckContent($content);
-        $tags = $this->preCheckTags($tags);
-
-        if($content === false || $tags === false) return false;
+        $tags = $this->preProcessTags($tags);
+        if($this->precheck($content, $tags) === false) return false;
 
         $regex = $this->getShortcodeRegex($tags);
         preg_match_all("/$regex/s", $content, $matches, PREG_SET_ORDER);
@@ -33,18 +35,27 @@ class ShortcodeManager extends BaseShortcodeManager{
         }
         return false;
     }
-    public function doShortcode($content, $tags=array())
-    {
-        $content = $this->preCheckContent($content);
-        $tags = $this->preCheckTags($tags);
 
-        if($content === false || $tags === false) return $content;
+    /**
+     * @param $content
+     * @param string|array $tags
+     * @return bool|mixed
+     */
+    public function doShortcode($content, $tags=[])
+    {
+        $tags = $this->preProcessTags($tags);
+        if($this->precheck($content, $tags) === false) return $content;
 
         $regex = $this->getShortcodeRegex($tags);
-        $content = preg_replace_callback("/$regex/s", array($this, 'handleShortcode'), $content);
+        $content = preg_replace_callback("/$regex/s", [$this, 'handleShortcode'], $content);
         return $content;
     }
-    public function handleShortcode($match)
+
+    /**
+     * @param $match
+     * @return string
+     */
+    private function handleShortcode($match)
     {
         //Escaped shortcode (ie: [[tag]])
         if($match[1] == '[' && $match[6] == ']'){
@@ -52,71 +63,40 @@ class ShortcodeManager extends BaseShortcodeManager{
         }
 
         $tag = $match[2];
-        $atts = $this->parseAttributes($match[3]);
         $content = isset($match[5]) ? $match[5] : null;
 
-        return $this[$tag]->handle($atts, $content);
-    }
-    private function preCheckContent($content)
-    {
-        /*
-         * Determine if the provided content has anything that could possibly denote shortcode
-         * If not, return false
-         */
-        if(strpos($content, '[') === false)
+        if(method_exists($this[$tag], 'parseAttributes'))
         {
-            return false;
+            $atts = $this[$tag]->parseAttributes($match[3]);
+            return $this[$tag]->handle($atts, $content);
         }
-        return $content;
+        return $this[$tag]->handle($content);
     }
-    private function preCheckTags($tags)
+
+    /**
+     * @param string|array $tags
+     * @return array
+     */
+    private function preProcessTags($tags)
     {
-        /*
-         * Determine if the provided tags exist in the library
-         * If nothing is leftover, there's nothing to check
-         */
         if(!$tags) return $this->getRegistered();
 
         if(is_string($tags))
         {
             $tags = explode('|', $tags);
-            $tags = is_string($tags) ? array($tags) : $tags;
+            $tags = is_string($tags) ? [$tags] : $tags;
         }
-        foreach($tags as $i=>$tag)
-        {
-            if(!$this->isRegistered($tag)) unset($tags[$i]);
-        }
-
-        if(empty($tags))
-        {
-            return false;
-        }
-        return $tags;
+        return array_filter($tags, [$this, 'isRegistered']);
     }
-    private function parseAttributes($text) {
-        $atts = array();
-        $pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
-        $text = preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text);
-        if(preg_match_all($pattern, $text, $match, PREG_SET_ORDER)){
-            foreach($match as $m){
-                if(!empty($m[1])){
-                    $atts[strtolower($m[1])] = stripcslashes($m[2]);
-                }
-                elseif(!empty($m[3])){
-                    $atts[strtolower($m[3])] = stripcslashes($m[4]);
-                }
-                elseif(!empty($m[5])){
-                    $atts[strtolower($m[5])] = stripcslashes($m[6]);
-                }
-                elseif(isset($m[7]) and strlen($m[7])){
-                    $atts[] = stripcslashes($m[7]);
-                }
-                elseif(isset($m[8])){
-                    $atts[] = stripcslashes($m[8]);
-                }
-            }
-        }
 
-        return $atts;
+    /**
+     * @param string $content
+     * @param array $tags
+     * @return bool
+     */
+    private function preCheck($content, $tags)
+    {
+        if(strpos($content, '[') === false) return false;
+        return !empty($tags);
     }
 }

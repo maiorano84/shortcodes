@@ -29,9 +29,10 @@ class ShortcodeManagerTest extends TestCase
 
         $content = '[foo]';
         $this->assertTrue($manager->hasShortcode($content)); //Check all registered
+        $this->assertTrue($manager->hasShortcode($content, 'foo')); //Check a single tag
         $this->assertTrue($manager->hasShortcode($content, array('foo', 'bar'))); //Check a set of tags
         $this->assertFalse($manager->hasShortcode($content, 'bar|baz')); //Check a set of tags as a string
-        $this->assertFalse($manager->hasShortcode($content, 'bar')); //Check a single tag
+        $this->assertFalse($manager->hasShortcode($content, 'none|exist')); //Check for non-existent tags
     }
 
     /**

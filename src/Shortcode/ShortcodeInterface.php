@@ -1,7 +1,19 @@
 <?php
 namespace Maiorano\WPShortcodes\Shortcode;
 
+/**
+ * Interface ShortcodeInterface
+ * @package Maiorano\WPShortcodes\Shortcode
+ */
 interface ShortcodeInterface{
+
+    /**
+     * @return string
+     */
     public function getName();
-    public function handle(array $atts=array(), $content=null);
+
+    /**
+     * @return string
+     */
+    public function handle();
 }
