@@ -105,7 +105,7 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
      */
     public function deregister($name)
     {
-        if (isset($this->shortcodes[$name])) {
+        if ($this->isRegistered($name)) {
             unset($this->shortcodes[$name]);
 
             return $this;
