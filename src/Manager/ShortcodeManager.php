@@ -95,7 +95,6 @@ class ShortcodeManager extends BaseManager
 
         if (is_string($tags)) {
             $tags = explode('|', $tags);
-            $tags = is_string($tags) ? [$tags] : $tags;
         }
 
         return array_filter($tags, [$this, 'isRegistered']);
