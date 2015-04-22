@@ -1,8 +1,8 @@
 <?php
-namespace Maiorano\WPShortcodes\Test;
+namespace Maiorano\Shortcodes\Test;
 
-use Maiorano\WPShortcodes\Manager\ShortcodeManager;
-use Maiorano\WPShortcodes\Shortcode\SimpleShortcode;
+use Maiorano\Shortcodes\Manager\ShortcodeManager;
+use Maiorano\Shortcodes\Shortcode\SimpleShortcode;
 
 class ShortcodeManagerTest extends TestCase
 {
@@ -35,7 +35,7 @@ class ShortcodeManagerTest extends TestCase
     }
 
     /**
-     * @expectedException Maiorano\WPShortcodes\Exceptions\WPShortcodeRegisterException
+     * @expectedException Maiorano\Shortcodes\Exceptions\ShortcodeRegisterException
      * @expectedExceptionMessage The shortcode 'test' has already been registered
      */
     public function testRegisterError()
@@ -47,7 +47,7 @@ class ShortcodeManagerTest extends TestCase
     }
 
     /**
-     * @expectedException Maiorano\WPShortcodes\Exceptions\WPShortcodeRegisterException
+     * @expectedException Maiorano\Shortcodes\Exceptions\ShortcodeRegisterException
      * @expectedExceptionMessage No shortcode with identifier 'test' has been registered
      */
     public function testMissing()
@@ -57,7 +57,7 @@ class ShortcodeManagerTest extends TestCase
     }
 
     /**
-     * @expectedException Maiorano\WPShortcodes\Exceptions\WPShortcodeDeregisterException
+     * @expectedException Maiorano\Shortcodes\Exceptions\ShortcodeDeregisterException
      * @expectedExceptionMessage The shortcode 'test' does not exist in the current library
      */
     public function testDeregisterError()

@@ -1,16 +1,16 @@
 <?php
-namespace Maiorano\WPShortcodes\Examples;
+namespace Maiorano\Shortcodes\Examples;
 
-use Maiorano\WPShortcodes\Shortcode\ShortcodeInterface;
-use Maiorano\WPShortcodes\Shortcode\AttributeInterface;
-use Maiorano\WPShortcodes\Shortcode\ShortcodeTrait;
-use Maiorano\WPShortcodes\Shortcode\AttributeTrait;
+use Maiorano\Shortcodes\Shortcode\ShortcodeInterface;
+use Maiorano\Shortcodes\Shortcode\AttributeInterface;
+use Maiorano\Shortcodes\Shortcode\ShortcodeTrait;
+use Maiorano\Shortcodes\Shortcode\AttributeTrait;
 use \DateTime;
 
 /**
  * Calculates the age of something
  * Usage: [age units=years]September 19th 1984[/age]
- * @package Maiorano\WPShortcodes\Examples
+ * @package Maiorano\Shortcodes\Examples
  */
 class Age implements ShortcodeInterface, AttributeInterface
 {

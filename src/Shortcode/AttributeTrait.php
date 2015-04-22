@@ -1,11 +1,11 @@
 <?php
-namespace Maiorano\WPShortcodes\Shortcode;
+namespace Maiorano\Shortcodes\Shortcode;
 
 /**
  * Allows shortcodes to use the attribute format if needed
  * IE: [tag foo=bar]
  * Class AttributeTrait
- * @package Maiorano\WPShortcodes\Shortcode
+ * @package Maiorano\Shortcodes\Shortcode
  */
 trait AttributeTrait
 {

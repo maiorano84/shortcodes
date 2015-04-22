@@ -1,16 +1,16 @@
 <?php
-namespace Maiorano\WPShortcodes\Shortcode;
+namespace Maiorano\Shortcodes\Shortcode;
 
 /**
  * Class ShortcodeTrait
- * @package Maiorano\WPShortcodes\Shortcode
+ * @package Maiorano\Shortcodes\Shortcode
  */
 trait ShortcodeTrait
 {
 
     /**
      * @return string
-     * * @see Maiorano\WPShortcodes\Shortcode\ShortcodeInterface::getName()
+     * * @see Maiorano\Shortcodes\Shortcode\ShortcodeInterface::getName()
      */
     public function getName()
     {
@@ -21,7 +21,7 @@ trait ShortcodeTrait
      * @param string|null $content
      * @param array $atts
      * @return string
-     * @see Maiorano\WPShortcodes\Shortcode\ShortcodeInterface::handle()
+     * @see Maiorano\Shortcodes\Shortcode\ShortcodeInterface::handle()
      */
     public function handle($content = null, array $atts = [])
     {

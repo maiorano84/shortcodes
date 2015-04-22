@@ -1,11 +1,11 @@
 <?php
-namespace Maiorano\WPShortcodes\Manager;
+namespace Maiorano\Shortcodes\Manager;
 
-use Maiorano\WPShortcodes\Shortcode\AttributeInterface;
+use Maiorano\Shortcodes\Shortcode\AttributeInterface;
 
 /**
  * Class ShortcodeManager
- * @package Maiorano\WPShortcodes\Manager
+ * @package Maiorano\Shortcodes\Manager
  */
 class ShortcodeManager extends BaseManager
 {

@@ -1,9 +1,9 @@
 <?php
-namespace Maiorano\WPShortcodes\Shortcode;
+namespace Maiorano\Shortcodes\Shortcode;
 
 /**
  * Creation of Shortcodes programatically
- * @package Maiorano\WPShortcodes\Shortcode
+ * @package Maiorano\Shortcodes\Shortcode
  */
 class SimpleShortcode implements ShortcodeInterface, AttributeInterface
 {

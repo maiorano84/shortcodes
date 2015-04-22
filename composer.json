@@ -1,6 +1,6 @@
 {
-  "name": "maiorano84/wp-shortcodes",
-  "description": "Implement Wordpress' Shortcode functionality anywhere",
+  "name": "maiorano84/shortcodes",
+  "description": "Implement Shortcode functionality anywhere",
   "minimum-stability": "dev",
   "license": "GPLv2",
   "authors": [
@@ -17,7 +17,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Maiorano\\WPShortcodes\\": "src/"
+      "Maiorano\\Shortcodes\\": "src/"
     }
   },
   "autoload-dev": {

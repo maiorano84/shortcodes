@@ -1,11 +1,11 @@
 <?php
-namespace Maiorano\WPShortcodes\Manager;
+namespace Maiorano\Shortcodes\Manager;
 
-use Maiorano\WPShortcodes\Shortcode\ShortcodeInterface;
+use Maiorano\Shortcodes\Shortcode\ShortcodeInterface;
 
 /**
  * Interface ShortcodeManagerInterface
- * @package Maiorano\WPShortcodes\Manager
+ * @package Maiorano\Shortcodes\Manager
  */
 interface ShortcodeManagerInterface
 {

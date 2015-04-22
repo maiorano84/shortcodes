@@ -1,9 +1,9 @@
 <?php
-namespace Maiorano\WPShortcodes\Shortcode;
+namespace Maiorano\Shortcodes\Shortcode;
 
 /**
  * Interface ShortcodeInterface
- * @package Maiorano\WPShortcodes\Shortcode
+ * @package Maiorano\Shortcodes\Shortcode
  */
 interface ShortcodeInterface
 {

@@ -1,11 +1,11 @@
 <?php
 require '../vendor/autoload.php';
 
-$manager = new Maiorano\WPShortcodes\Manager\ShortcodeManager(array(
-    'ipsum' => new Maiorano\WPShortcodes\Examples\Ipsum,
-    'age' => new Maiorano\WPShortcodes\Examples\Age
+$manager = new Maiorano\Shortcodes\Manager\ShortcodeManager(array(
+    'ipsum' => new Maiorano\Shortcodes\Examples\Ipsum,
+    'age' => new Maiorano\Shortcodes\Examples\Age
 ));
-$dateShortcode = new Maiorano\WPShortcodes\Shortcode\SimpleShortcode('date', null, function () {
+$dateShortcode = new Maiorano\Shortcodes\Shortcode\SimpleShortcode('date', null, function () {
     return date('l \t\h\e jS \o\f F, Y');
 });
 

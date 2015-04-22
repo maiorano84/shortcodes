@@ -1,5 +1,5 @@
 <?php
-namespace Maiorano\WPShortcodes\Test;
+namespace Maiorano\Shortcodes\Test;
 
 use \PHPUnit_Framework_TestCase;
 

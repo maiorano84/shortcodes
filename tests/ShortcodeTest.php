@@ -1,10 +1,10 @@
 <?php
-namespace Maiorano\WPShortcodes\Test;
+namespace Maiorano\Shortcodes\Test;
 
-use Maiorano\WPShortcodes\Manager\ShortcodeManager;
-use Maiorano\WPShortcodes\Shortcode\SimpleShortcode;
-use Maiorano\WPShortcodes\Examples\Age;
-use Maiorano\WPShortcodes\Examples\Ipsum;
+use Maiorano\Shortcodes\Manager\ShortcodeManager;
+use Maiorano\Shortcodes\Shortcode\SimpleShortcode;
+use Maiorano\Shortcodes\Examples\Age;
+use Maiorano\Shortcodes\Examples\Ipsum;
 
 class ShortcodeTest extends TestCase
 {

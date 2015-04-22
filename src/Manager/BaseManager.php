@@ -1,16 +1,16 @@
 <?php
-namespace Maiorano\WPShortcodes\Manager;
+namespace Maiorano\Shortcodes\Manager;
 
-use Maiorano\WPShortcodes\Shortcode\ShortcodeInterface;
-use Maiorano\WPShortcodes\Exceptions\WPShortcodeRegisterException;
-use Maiorano\WPShortcodes\Exceptions\WPShortcodeDeregisterException;
+use Maiorano\Shortcodes\Shortcode\ShortcodeInterface;
+use Maiorano\Shortcodes\Exceptions\ShortcodeRegisterException;
+use Maiorano\Shortcodes\Exceptions\ShortcodeDeregisterException;
 use \ArrayAccess;
 use \IteratorAggregate;
 use \ArrayIterator;
 
 /**
  * Class BaseManager
- * @package Maiorano\WPShortcodes\Manager
+ * @package Maiorano\Shortcodes\Manager
  */
 abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeManagerInterface
 {
@@ -22,7 +22,7 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
 
     /**
      * @param array $shortcodes
-     * @throws WPShortcodeRegisterException
+     * @throws ShortcodeRegisterException
      */
     public function __construct(array $shortcodes = [])
     {
@@ -34,7 +34,7 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
     /**
      * @param mixed $offset
      * @param mixed $value
-     * @throws WPShortcodeRegisterException
+     * @throws ShortcodeRegisterException
      */
     public function offsetSet($offset, $value)
     {
@@ -43,7 +43,7 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
 
     /**
      * @param mixed $offset
-     * @throws WPShortcodeDeregisterException
+     * @throws ShortcodeDeregisterException
      */
     public function offsetUnset($offset)
     {
@@ -62,15 +62,15 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
     /**
      * @param mixed $offset
      * @return null
-     * @throws WPShortcodeRegisterException
+     * @throws ShortcodeRegisterException
      */
     public function offsetGet($offset)
     {
         if ($this->isRegistered($offset)) {
             return $this->shortcodes[$offset];
         }
-        $e = sprintf(WPShortcodeRegisterException::MISSING, $offset);
-        throw new WPShortcodeRegisterException($e);
+        $e = sprintf(ShortcodeRegisterException::MISSING, $offset);
+        throw new ShortcodeRegisterException($e);
     }
 
     /**
@@ -84,7 +84,7 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
     /**
      * @param ShortcodeInterface $shortcode
      * @return ShortcodeInterface
-     * @throws WPShortcodeRegisterException
+     * @throws ShortcodeRegisterException
      */
     public function register(ShortcodeInterface $shortcode)
     {
@@ -94,14 +94,14 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
 
             return $this;
         }
-        $e = sprintf(WPShortcodeRegisterException::DUPLICATE, $name);
-        throw new WPShortcodeRegisterException($e);
+        $e = sprintf(ShortcodeRegisterException::DUPLICATE, $name);
+        throw new ShortcodeRegisterException($e);
     }
 
     /**
      * @param $name
      * @return bool
-     * @throws WPShortcodeDeregisterException
+     * @throws ShortcodeDeregisterException
      */
     public function deregister($name)
     {
@@ -110,8 +110,8 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
 
             return $this;
         }
-        $e = sprintf(WPShortcodeDeregisterException::MISSING, $name);
-        throw new WPShortcodeDeregisterException($e);
+        $e = sprintf(ShortcodeDeregisterException::MISSING, $name);
+        throw new ShortcodeDeregisterException($e);
     }
 
     /**
