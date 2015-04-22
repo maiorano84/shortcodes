@@ -1,7 +1,7 @@
 <?php
 namespace Maiorano\Shortcodes\Manager;
 
-use Maiorano\Shortcodes\Shortcode\ShortcodeInterface;
+use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 
 /**
  * Interface ShortcodeManagerInterface

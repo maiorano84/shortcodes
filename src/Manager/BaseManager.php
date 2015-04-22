@@ -1,7 +1,7 @@
 <?php
 namespace Maiorano\Shortcodes\Manager;
 
-use Maiorano\Shortcodes\Shortcode\ShortcodeInterface;
+use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 use Maiorano\Shortcodes\Exceptions\ShortcodeRegisterException;
 use Maiorano\Shortcodes\Exceptions\ShortcodeDeregisterException;
 use \ArrayAccess;
@@ -143,7 +143,7 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
         return
             '\\['                // Opening bracket
             . '(\\[?)'           // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
-            . "($tagregexp)"     // 2: Shortcode name
+            . "($tagregexp)"     // 2: Contracts name
             . '(?![\\w-])'       // Not followed by word character or hyphen
             . '('                // 3: Unroll the loop: Inside the opening shortcode tag
             . '[^\\]\\/]*'       // Not a closing bracket or forward slash

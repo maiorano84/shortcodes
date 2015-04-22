@@ -2,7 +2,7 @@
 namespace Maiorano\Shortcodes\Test;
 
 use Maiorano\Shortcodes\Manager\ShortcodeManager;
-use Maiorano\Shortcodes\Shortcode\SimpleShortcode;
+use Maiorano\Shortcodes\Library\SimpleShortcode;
 
 class ShortcodeManagerTest extends TestCase
 {

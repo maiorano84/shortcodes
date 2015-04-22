@@ -1,9 +1,9 @@
 <?php
-namespace Maiorano\Shortcodes\Shortcode;
+namespace Maiorano\Shortcodes\Contracts;
 
 /**
  * Interface ShortcodeInterface
- * @package Maiorano\Shortcodes\Shortcode
+ * @package Maiorano\Shortcodes\Contracts
  */
 interface ShortcodeInterface
 {
@@ -16,7 +16,7 @@ interface ShortcodeInterface
     public function getName();
 
     /**
-     * Executed upon match and determines output of Shortcode
+     * Executed upon match and determines output of Contracts
      * @return string
      */
     public function handle();

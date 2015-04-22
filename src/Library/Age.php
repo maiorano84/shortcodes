@@ -1,21 +1,18 @@
 <?php
-namespace Maiorano\Shortcodes\Examples;
+namespace Maiorano\Shortcodes\Library;
 
-use Maiorano\Shortcodes\Shortcode\ShortcodeInterface;
-use Maiorano\Shortcodes\Shortcode\AttributeInterface;
-use Maiorano\Shortcodes\Shortcode\ShortcodeTrait;
-use Maiorano\Shortcodes\Shortcode\AttributeTrait;
+use Maiorano\Shortcodes\Contracts;
 use \DateTime;
 
 /**
  * Calculates the age of something
  * Usage: [age units=years]September 19th 1984[/age]
- * @package Maiorano\Shortcodes\Examples
+ * @package Maiorano\Shortcodes\Library
  */
-class Age implements ShortcodeInterface, AttributeInterface
+class Age implements Contracts\ShortcodeInterface, Contracts\AttributeInterface
 {
-    use ShortcodeTrait;
-    use AttributeTrait;
+    use Contracts\ShortcodeTrait;
+    use Contracts\AttributeTrait;
 
     /**
      * @var string

@@ -2,18 +2,16 @@
 namespace Maiorano\Shortcodes\Test;
 
 use Maiorano\Shortcodes\Manager\ShortcodeManager;
-use Maiorano\Shortcodes\Shortcode\SimpleShortcode;
-use Maiorano\Shortcodes\Examples\Age;
-use Maiorano\Shortcodes\Examples\Ipsum;
+use Maiorano\Shortcodes\Library;
 
 class ShortcodeTest extends TestCase
 {
     public function testSimpleShortcodeContent()
     {
         $manager = new ShortcodeManager(array(
-            'foo' => new SimpleShortcode('foo'),
-            'bar' => new SimpleShortcode('bar'),
-            'baz' => new SimpleShortcode('baz')
+            'foo' => new Library\SimpleShortcode('foo'),
+            'bar' => new Library\SimpleShortcode('bar'),
+            'baz' => new Library\SimpleShortcode('baz')
         ));
 
         $content = '[foo]Some text to [bar]display[/bar] [baz]when matched[/baz]';
@@ -24,7 +22,7 @@ class ShortcodeTest extends TestCase
     public function testSimpleShortcodeAttributes()
     {
         $manager = new ShortcodeManager();
-        $foo = new SimpleShortcode('foo', array('bar' => 'baz'), function ($content, $atts) {
+        $foo = new Library\SimpleShortcode('foo', array('bar' => 'baz'), function ($content, $atts) {
             return $content ?: $atts['bar'];
         });
 
@@ -36,7 +34,7 @@ class ShortcodeTest extends TestCase
     public function testCustomShortcode()
     {
         $manager = new ShortcodeManager();
-        $manager->register(new Age);
+        $manager->register(new Library\Age);
         $this->assertEquals($manager->doShortcode('[age]Now[/age]'), '0 years');
         $this->assertEquals($manager->doShortcode('[age units=seconds]Now[/age]'), '0 seconds');
     }
@@ -44,14 +42,27 @@ class ShortcodeTest extends TestCase
     public function testCustomShortcodeNoAttributes()
     {
         $manager = new ShortcodeManager();
-        $manager->register(new Ipsum);
+        $manager->register(new Library\Ipsum);
         $this->assertEquals($manager->doShortcode('[ipsum]'), $manager['ipsum']->getIpsum());
+    }
+
+    public function testNestedShortcode()
+    {
+        $manager = new ShortcodeManager(array(
+            'foo' => new Library\SimpleShortcode('foo', null, function($content){
+                return 'foo'.$this->manager->doShortcode($content);
+            }),
+            'bar' => new Library\SimpleShortcode('bar', null, function(){
+                return 'bar';
+            })
+        ));
+        $this->assertEquals($manager->doShortcode('[foo][bar/][/foo]'), 'foobar');
     }
 
     public function testEscapedShortcode()
     {
         $manager = new ShortcodeManager();
-        $manager->register(new Ipsum);
+        $manager->register(new Library\Ipsum);
         $this->assertEquals($manager->doShortcode('[[ipsum]]'), '[ipsum]');
     }
 }

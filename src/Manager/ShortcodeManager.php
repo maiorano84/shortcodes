@@ -1,7 +1,7 @@
 <?php
 namespace Maiorano\Shortcodes\Manager;
 
-use Maiorano\Shortcodes\Shortcode\AttributeInterface;
+use Maiorano\Shortcodes\Contracts\AttributeInterface;
 
 /**
  * Class ShortcodeManager
@@ -30,10 +30,10 @@ class ShortcodeManager extends BaseManager
         }
 
         foreach ($matches as $shortcode) {
-            if (in_array($shortcode[2], $tags)) //Shortcode matched
+            if (in_array($shortcode[2], $tags)) //Contracts matched
             {
                 return true;
-            } elseif (!empty($shortcode[5]) && $this->hasShortcode($shortcode[5], $tags)) //Nested Shortcode matched
+            } elseif (!empty($shortcode[5]) && $this->hasShortcode($shortcode[5], $tags)) //Nested Contracts matched
             {
                 return true;
             }

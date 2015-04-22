@@ -1,11 +1,11 @@
 <?php
-namespace Maiorano\Shortcodes\Examples;
+namespace Maiorano\Shortcodes\Library;
 
-use Maiorano\Shortcodes\Shortcode\ShortcodeInterface;
+use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 
 /**
  * Generate Lorem Ipsum
- * @package Maiorano\Shortcodes\Examples
+ * @package Maiorano\Shortcodes\Library
  */
 class Ipsum implements ShortcodeInterface
 {

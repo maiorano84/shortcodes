@@ -1,14 +1,24 @@
 <?php
-namespace Maiorano\Shortcodes\Shortcode;
+namespace Maiorano\Shortcodes\Library;
+
+use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
+use Maiorano\Shortcodes\Contracts\AttributeInterface;
+use Maiorano\Shortcodes\Contracts\ShortcodeTrait;
+use Maiorano\Shortcodes\Contracts\AttributeTrait;
 
 /**
  * Creation of Shortcodes programatically
- * @package Maiorano\Shortcodes\Shortcode
+ * @package Maiorano\Shortcodes\Contracts
  */
 class SimpleShortcode implements ShortcodeInterface, AttributeInterface
 {
     use ShortcodeTrait;
     use AttributeTrait;
+
+    /**
+     * @var ShortcodeManagerInterface
+     */
+    protected $manager;
 
     /**
      * @var string

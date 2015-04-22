@@ -1,11 +1,11 @@
 <?php
-namespace Maiorano\Shortcodes\Shortcode;
+namespace Maiorano\Shortcodes\Contracts;
 
 /**
+ * Assists in satisfying the AttributeInterface requirements
  * Allows shortcodes to use the attribute format if needed
  * IE: [tag foo=bar]
- * Class AttributeTrait
- * @package Maiorano\Shortcodes\Shortcode
+ * @package Maiorano\Shortcodes\Contracts
  */
 trait AttributeTrait
 {

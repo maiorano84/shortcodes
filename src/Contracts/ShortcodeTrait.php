@@ -1,16 +1,17 @@
 <?php
-namespace Maiorano\Shortcodes\Shortcode;
+namespace Maiorano\Shortcodes\Contracts;
+
+use Maiorano\Shortcodes\Manager\ShortcodeManagerInterface;
 
 /**
- * Class ShortcodeTrait
- * @package Maiorano\Shortcodes\Shortcode
+ * Assists in satisfying the ShortcodeInterface requirements
+ * @package Maiorano\Shortcodes\Contracts
  */
 trait ShortcodeTrait
 {
-
     /**
      * @return string
-     * * @see Maiorano\Shortcodes\Shortcode\ShortcodeInterface::getName()
+     * * @see Maiorano\Shortcodes\Contracts\ShortcodeInterface::getName()
      */
     public function getName()
     {
@@ -21,13 +22,13 @@ trait ShortcodeTrait
      * @param string|null $content
      * @param array $atts
      * @return string
-     * @see Maiorano\Shortcodes\Shortcode\ShortcodeInterface::handle()
+     * @see Maiorano\Shortcodes\Contracts\ShortcodeInterface::handle()
      */
     public function handle($content = null, array $atts = [])
     {
         if (!is_null($this->callback)) {
             $c = $this->callback;
-            $callback = $c->bindTo($this);
+            $callback = $c->bindTo($this, $this);
 
             return $callback($content, $atts);
         }

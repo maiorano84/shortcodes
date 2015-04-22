@@ -1,9 +1,9 @@
 <?php
-namespace Maiorano\Shortcodes\Shortcode;
+namespace Maiorano\Shortcodes\Contracts;
 
 /**
  * Interface AttributeInterface
- * @package Maiorano\Shortcodes\Shortcode
+ * @package Maiorano\Shortcodes\Contracts
  */
 interface AttributeInterface
 {
@@ -16,7 +16,7 @@ interface AttributeInterface
     public function parseAttributes($text);
 
     /**
-     * Called by the Shortcode handler
+     * Called by the Contracts handler
      * Usually used to merge the results of parseAttributes() with an optionally provided array of defaults
      * @return array
      */
