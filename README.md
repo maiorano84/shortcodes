@@ -8,15 +8,9 @@ Shortcodes requires PHP 5.4 or greater.
 This package may be installed as a Composer dependency by entering the following in your composer.json:
 
 ```
-"repositories": [
-    {
-      "url": "https://github.com/maiorano84/shortcodes",
-      "type": "vcs"
-    }
-  ],
-  "require": {
-    "maiorano84/shortcodes": "dev-master"
-  }
+"require": {
+  "maiorano84/shortcodes": "1.0.0-beta"
+}
 ```
 
 ## Usage

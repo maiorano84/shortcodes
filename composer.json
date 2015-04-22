@@ -1,12 +1,14 @@
 {
   "name": "maiorano84/shortcodes",
-  "description": "Implement Shortcode functionality anywhere",
-  "minimum-stability": "dev",
+  "description": "Implement Shortcode syntax anywhere",
+  "keywords": ["wordpress", "shortcode", "library", "manager"],
   "license": "GPLv2",
   "authors": [
     {
       "name": "Matt Maiorano",
-      "email": "maiorano84@hotmail.com"
+      "email": "maiorano84@hotmail.com",
+      "homepage": "http://mattmaiorano.com",
+      "role": "Developer"
     }
   ],
   "require": {
