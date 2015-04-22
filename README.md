@@ -9,7 +9,7 @@ This package may be installed as a Composer dependency by entering the following
 
 ```
 "require": {
-  "maiorano84/shortcodes": "1.0.0-beta"
+  "maiorano84/shortcodes": "~1.0@beta"
 }
 ```
 
