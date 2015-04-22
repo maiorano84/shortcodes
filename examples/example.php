@@ -12,10 +12,8 @@ $dateShortcode = new Maiorano\WPShortcodes\Shortcode\SimpleShortcode('date', nul
 //Supports method chaining on register/deregister
 echo $manager->register($dateShortcode)->doShortcode('Today is [date]') . '<br><br>';
 //Supports specifying shortcodes individually...
-echo $manager->doShortcode('I am [age units=minutes]September 19th, 1984[/age] old. "[date]" is not rendered',
-        'age') . '<br><br>';
+echo $manager->doShortcode('I am [age units=minutes]September 19th, 1984[/age] old. "[date]" is not rendered', 'age') . '<br><br>';
 //... or in groups
-echo $manager->doShortcode('I am [age units=minutes]September 19th, 1984[/age] old. Today is [date]',
-        'age|date') . '<br><br>';
+echo $manager->doShortcode('I am [age units=minutes]September 19th, 1984[/age] old. Today is [date]', 'age|date') . '<br><br>';
 //If you don't want a particular shortcode rendered, you can escape it
 echo $manager->doShortcode('I am [[age units=minutes]September 19th, 1984[/age]] old. Today is [[date]]') . '<br><br>';

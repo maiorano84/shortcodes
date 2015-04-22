@@ -28,8 +28,8 @@ class Age implements ShortcodeInterface, AttributeInterface
     protected $attributes = ['units' => 'years'];
 
     /**
-     * @param array $atts
      * @param string|null $content
+     * @param array $atts
      * @return string
      */
     public function handle($content = null, array $atts = [])
