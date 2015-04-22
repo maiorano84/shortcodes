@@ -36,19 +36,4 @@ class SimpleShortcode implements ShortcodeInterface, AttributeInterface
         $this->attributes = (array)$atts;
         $this->callback = $callback;
     }
-
-    /**
-     * @param array $atts
-     * @param string|null $content
-     * @return string
-     * @see Maiorano\WPShortcodes\Shortcode\ShortcodeInterface::handle()
-     */
-    public function handle(array $atts = [], $content = null)
-    {
-        if (!is_null($this->callback)) {
-            return call_user_func($this->callback, $this->getAttributes($atts), $content);
-        }
-
-        return (string)$content;
-    }
 }
