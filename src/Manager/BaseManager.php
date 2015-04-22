@@ -92,6 +92,7 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
         if (!$this->isRegistered($name)) {
             $this->shortcodes[$name] = $shortcode;
             $shortcode->bind($this);
+
             return $this;
         }
         $e = sprintf(ShortcodeRegisterException::DUPLICATE, $name);
@@ -134,7 +135,7 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
     /**
      * @param null $tags
      * @return string
-     * @see https://core.trac.wordpress.org/browser/tags/4.1.1/src/wp-includes/shortcodes.php#L221
+     * @link https://core.trac.wordpress.org/browser/tags/4.1.1/src/wp-includes/shortcodes.php#L221
      */
     protected function getShortcodeRegex($tags = null)
     {

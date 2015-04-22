@@ -24,6 +24,8 @@ interface ShortcodeInterface
     public function handle();
 
     /**
+     * Bind the management container to a Shortcode
+     * This helps support nested shortcodes
      * @param ShortcodeManagerInterface $manager
      * @return void
      */

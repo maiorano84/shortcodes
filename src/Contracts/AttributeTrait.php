@@ -13,7 +13,8 @@ trait AttributeTrait
     /**
      * @param string $text
      * @return array
-     * @see https://core.trac.wordpress.org/browser/tags/4.1.1/src/wp-includes/shortcodes.php#L302
+     * @see AttributeInterface::parseAttributes()
+     * @link https://core.trac.wordpress.org/browser/tags/4.1.1/src/wp-includes/shortcodes.php#L302
      */
     public function parseAttributes($text)
     {
@@ -43,6 +44,7 @@ trait AttributeTrait
      * Non-strict merge of attributes
      * @param array $atts
      * @return array
+     * @see AttributeInterface::getAttributes()
      */
     public function getAttributes(array $atts = [])
     {

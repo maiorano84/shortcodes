@@ -30,7 +30,9 @@ class Ipsum implements ShortcodeInterface
     /**
      * @param ShortcodeManagerInterface $manager
      */
-    public function bind(ShortcodeManagerInterface $manager){}
+    public function bind(ShortcodeManagerInterface $manager)
+    {
+    }
 
 
     /**

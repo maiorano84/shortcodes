@@ -16,7 +16,7 @@ trait ShortcodeTrait
 
     /**
      * @return string
-     * * @see Maiorano\Shortcodes\Contracts\ShortcodeInterface::getName()
+     * @see Maiorano\Shortcodes\Contracts\ShortcodeInterface::getName()
      */
     public function getName()
     {
@@ -43,6 +43,7 @@ trait ShortcodeTrait
 
     /**
      * @param ShortcodeManagerInterface $manager
+     * @see Maiorano\Shortcodes\Contracts\ShortcodeInterface::bind()
      */
     public function bind(ShortcodeManagerInterface $manager)
     {

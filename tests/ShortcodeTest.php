@@ -49,10 +49,10 @@ class ShortcodeTest extends TestCase
     public function testNestedShortcode()
     {
         $manager = new ShortcodeManager(array(
-            'foo' => new Library\SimpleShortcode('foo', null, function($content){
-                return 'foo'.$this->manager->doShortcode($content);
+            'foo' => new Library\SimpleShortcode('foo', null, function ($content) {
+                return 'foo' . $this->manager->doShortcode($content);
             }),
-            'bar' => new Library\SimpleShortcode('bar', null, function(){
+            'bar' => new Library\SimpleShortcode('bar', null, function () {
                 return 'bar';
             })
         ));
