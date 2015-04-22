@@ -1,6 +1,8 @@
 <?php
 namespace Maiorano\Shortcodes\Contracts;
 
+use Maiorano\Shortcodes\Manager\ShortcodeManagerInterface;
+
 /**
  * Interface ShortcodeInterface
  * @package Maiorano\Shortcodes\Contracts
@@ -20,4 +22,10 @@ interface ShortcodeInterface
      * @return string
      */
     public function handle();
+
+    /**
+     * @param ShortcodeManagerInterface $manager
+     * @return void
+     */
+    public function bind(ShortcodeManagerInterface $manager);
 }

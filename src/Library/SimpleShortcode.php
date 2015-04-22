@@ -16,11 +16,6 @@ class SimpleShortcode implements ShortcodeInterface, AttributeInterface
     use AttributeTrait;
 
     /**
-     * @var ShortcodeManagerInterface
-     */
-    protected $manager;
-
-    /**
      * @var string
      */
     protected $name;

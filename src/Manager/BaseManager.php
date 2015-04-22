@@ -91,7 +91,7 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
         $name = $shortcode->getName();
         if (!$this->isRegistered($name)) {
             $this->shortcodes[$name] = $shortcode;
-
+            $shortcode->bind($this);
             return $this;
         }
         $e = sprintf(ShortcodeRegisterException::DUPLICATE, $name);

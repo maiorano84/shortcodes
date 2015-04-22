@@ -10,6 +10,11 @@ use Maiorano\Shortcodes\Manager\ShortcodeManagerInterface;
 trait ShortcodeTrait
 {
     /**
+     * @var ShortcodeManagerInterface
+     */
+    protected $manager;
+
+    /**
      * @return string
      * * @see Maiorano\Shortcodes\Contracts\ShortcodeInterface::getName()
      */
@@ -34,5 +39,13 @@ trait ShortcodeTrait
         }
 
         return (string)$content;
+    }
+
+    /**
+     * @param ShortcodeManagerInterface $manager
+     */
+    public function bind(ShortcodeManagerInterface $manager)
+    {
+        $this->manager = $manager;
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace Maiorano\Shortcodes\Library;
 
+use Maiorano\Shortcodes\Manager\ShortcodeManagerInterface;
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 
 /**
@@ -25,6 +26,12 @@ class Ipsum implements ShortcodeInterface
     {
         return $this->getIpsum();
     }
+
+    /**
+     * @param ShortcodeManagerInterface $manager
+     */
+    public function bind(ShortcodeManagerInterface $manager){}
+
 
     /**
      * @return string
