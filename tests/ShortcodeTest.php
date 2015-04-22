@@ -24,7 +24,7 @@ class ShortcodeTest extends TestCase
     public function testSimpleShortcodeAttributes()
     {
         $manager = new ShortcodeManager();
-        $foo = new SimpleShortcode('foo', array('bar' => 'baz'), function ($atts, $content) {
+        $foo = new SimpleShortcode('foo', array('bar' => 'baz'), function ($content, $atts) {
             return $content ?: $atts['bar'];
         });
 

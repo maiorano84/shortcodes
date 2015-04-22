@@ -32,7 +32,7 @@ class Age implements ShortcodeInterface, AttributeInterface
      * @param string|null $content
      * @return string
      */
-    public function handle(array $atts = [], $content = null)
+    public function handle($content = null, array $atts = [])
     {
         if (!$content) {
             return '';

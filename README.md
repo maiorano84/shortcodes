@@ -46,9 +46,8 @@ class ExampleShortcode implements ShortcodeInterface, AttributeInterface{
     use ShortcodeTrait, AttributeTrait;
     protected $name = 'example';
     protected $attributes = array('foo'=>'bar');
-    public function handle(array $atts=[], $content=null)
+    public function handle($content=null, array $atts=[])
     {
-        $atts = $this->getAttributes($atts);
         return $content.$atts['foo'];
     }
 }

@@ -73,14 +73,14 @@ class ShortcodeManager extends BaseManager
 
         $shortcode = $this[$match[2]];
         $content = isset($match[5]) ? $match[5] : null;
+        $atts = array();
 
         if ($shortcode instanceof AttributeInterface) {
-            $atts = $shortcode->parseAttributes($match[3]);
-
-            return $shortcode->handle($atts, $content);
+            $parsed = isset($match[3]) ? $shortcode->parseAttributes($match[3]) : $atts;
+            $atts = $shortcode->getAttributes($parsed);
         }
 
-        return $shortcode->handle($content);
+        return $shortcode->handle($content, $atts);
     }
 
     /**
