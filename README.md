@@ -110,7 +110,7 @@ $manager = new ShortcodeManager(array(
         return 'baz';
     })
 ));
-```php
+```
 
 [foo] - Render shortcode as text with content appended that permits [bar] to be processed
 [bar] - Render shortcode as text with content appended
