@@ -112,8 +112,8 @@ $manager = new ShortcodeManager(array(
 ));
 ```
 
-[foo] - Render shortcode as text with content appended that permits [bar] to be processed
-[bar] - Render shortcode as text with content appended
+[foo] - Render shortcode as text with content appended that permits [bar] to be processed  
+[bar] - Render shortcode as text with content appended  
 [baz] - Render shortcode as text
 
 **Option 1: Selective**
