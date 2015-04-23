@@ -1,7 +1,10 @@
 <?php
 namespace Maiorano\Shortcodes\Library;
 
-use Maiorano\Shortcodes\Contracts;
+use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
+use Maiorano\Shortcodes\Contracts\AttributeInterface;
+use Maiorano\Shortcodes\Contracts\ShortcodeTrait;
+use Maiorano\Shortcodes\Contracts\AttributeTrait;
 use \DateTime;
 
 /**
@@ -9,10 +12,9 @@ use \DateTime;
  * Usage: [age units=years]September 19th 1984[/age]
  * @package Maiorano\Shortcodes\Library
  */
-class Age implements Contracts\ShortcodeInterface, Contracts\AttributeInterface
+class Age implements ShortcodeInterface, AttributeInterface
 {
-    use Contracts\ShortcodeTrait;
-    use Contracts\AttributeTrait;
+    use ShortcodeTrait, AttributeTrait;
 
     /**
      * @var string

@@ -9,15 +9,7 @@ interface AttributeInterface
 {
 
     /**
-     * Parse a given string into key=>value pairs
-     * @param string $text
-     * @return array
-     */
-    public function parseAttributes($text);
-
-    /**
-     * Called by the Contracts handler
-     * Usually used to merge the results of parseAttributes() with an optionally provided array of defaults
+     * Get an array of recognized attributes and their defaults
      * @return array
      */
     public function getAttributes();

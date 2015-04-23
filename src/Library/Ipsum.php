@@ -1,8 +1,8 @@
 <?php
 namespace Maiorano\Shortcodes\Library;
 
-use Maiorano\Shortcodes\Manager\ShortcodeManagerInterface;
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
+use Maiorano\Shortcodes\Contracts\ShortcodeTrait;
 
 /**
  * Generate Lorem Ipsum
@@ -10,40 +10,35 @@ use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
  */
 class Ipsum implements ShortcodeInterface
 {
+    use ShortcodeTrait;
 
     /**
-     * @return string
+     * @var string
      */
-    public function getName()
-    {
-        return 'ipsum';
-    }
+    protected $name = 'ipsum';
+
+    /**
+     * @var string
+     */
+    private $ipsum = '
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent laoreet eu nulla sit amet porttitor. Sed accumsan nulla est,
+        sit amet lobortis nunc convallis pretium. Phasellus aliquet euismod lacus, non maximus odio pulvinar quis. Nulla eu lorem malesuada,
+        aliquam risus sit amet, interdum ligula. Vivamus sollicitudin bibendum accumsan. Maecenas sit amet ornare turpis, quis porttitor quam.
+        Mauris turpis purus, bibendum in diam in, rutrum accumsan arcu.';
 
     /**
      * @return string
      */
     public function handle()
     {
-        return $this->getIpsum();
+        return $this->ipsum;
     }
-
-    /**
-     * @param ShortcodeManagerInterface $manager
-     */
-    public function bind(ShortcodeManagerInterface $manager)
-    {
-    }
-
 
     /**
      * @return string
      */
     public function getIpsum()
     {
-        return '
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent laoreet eu nulla sit amet porttitor. Sed accumsan nulla est,
-            sit amet lobortis nunc convallis pretium. Phasellus aliquet euismod lacus, non maximus odio pulvinar quis. Nulla eu lorem malesuada,
-            aliquam risus sit amet, interdum ligula. Vivamus sollicitudin bibendum accumsan. Maecenas sit amet ornare turpis, quis porttitor quam.
-            Mauris turpis purus, bibendum in diam in, rutrum accumsan arcu.';
+        return $this->ipsum;
     }
 }

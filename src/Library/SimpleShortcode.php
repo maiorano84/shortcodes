@@ -12,8 +12,7 @@ use Maiorano\Shortcodes\Contracts\AttributeTrait;
  */
 class SimpleShortcode implements ShortcodeInterface, AttributeInterface
 {
-    use ShortcodeTrait;
-    use AttributeTrait;
+    use ShortcodeTrait, AttributeTrait;
 
     /**
      * @var string

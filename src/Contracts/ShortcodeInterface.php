@@ -1,7 +1,7 @@
 <?php
 namespace Maiorano\Shortcodes\Contracts;
 
-use Maiorano\Shortcodes\Manager\ShortcodeManagerInterface;
+use Maiorano\Shortcodes\Manager\ManagerInterface;
 
 /**
  * Interface ShortcodeInterface
@@ -18,7 +18,7 @@ interface ShortcodeInterface
     public function getName();
 
     /**
-     * Executed upon match and determines output of Contracts
+     * Executed upon match and determines output of Shortcodes
      * @return string
      */
     public function handle();
@@ -26,8 +26,8 @@ interface ShortcodeInterface
     /**
      * Bind the management container to a Shortcode
      * This helps support nested shortcodes
-     * @param ShortcodeManagerInterface $manager
+     * @param ManagerInterface $manager
      * @return void
      */
-    public function bind(ShortcodeManagerInterface $manager);
+    public function bind(ManagerInterface $manager);
 }

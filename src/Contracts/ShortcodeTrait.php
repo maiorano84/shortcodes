@@ -1,7 +1,7 @@
 <?php
 namespace Maiorano\Shortcodes\Contracts;
 
-use Maiorano\Shortcodes\Manager\ShortcodeManagerInterface;
+use Maiorano\Shortcodes\Manager\ManagerInterface;
 
 /**
  * Assists in satisfying the ShortcodeInterface requirements
@@ -11,7 +11,7 @@ trait ShortcodeTrait
 {
 
     /**
-     * @var ShortcodeManagerInterface
+     * @var ManagerInterface
      */
     protected $manager;
 
@@ -48,10 +48,10 @@ trait ShortcodeTrait
     }
 
     /**
-     * @param ShortcodeManagerInterface $manager
+     * @param ManagerInterface $manager
      * @see Maiorano\Shortcodes\Contracts\ShortcodeInterface::bind()
      */
-    public function bind(ShortcodeManagerInterface $manager)
+    public function bind(ManagerInterface $manager)
     {
         $this->manager = $manager;
     }
