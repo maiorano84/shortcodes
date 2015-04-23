@@ -46,9 +46,6 @@ class ShortcodeTest extends TestCase
         $this->assertEquals($manager->doShortcode('[ipsum]'), $manager['ipsum']->getIpsum());
     }
 
-    /**
-     * @todo Look into possible infinite recursion on line 72
-     */
     public function testNestedShortcode()
     {
         $manager = new ShortcodeManager(array(
@@ -69,7 +66,7 @@ class ShortcodeTest extends TestCase
 
         //Permissive
         $this->assertEquals($manager->doShortcode('[foo][baz/][/foo]', 'foo|baz', true), 'foobaz');
-        //$this->assertNotEquals($manager->doShortcode('[foo][baz/][/foo]', 'foo', true), 'foobaz'); //Memory error
+        $this->assertEquals($manager->doShortcode('[foo][baz/][/foo]', 'foo', true), 'foo[baz/]');
 
         //I DO WHAT I WANT
         $this->assertEquals($manager->doShortcode('[foo][bar][baz/][/bar][/foo]', null, true), 'foobarbaz');
