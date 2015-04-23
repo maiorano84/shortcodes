@@ -26,11 +26,6 @@ class SimpleShortcode implements ShortcodeInterface, AttributeInterface
     protected $attributes;
 
     /**
-     * @var callable
-     */
-    protected $callback;
-
-    /**
      * @param string $name
      * @param array $atts
      * @param callable $callback

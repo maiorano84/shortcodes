@@ -34,7 +34,6 @@ class Age implements Contracts\ShortcodeInterface, Contracts\AttributeInterface
         if (!$content) {
             return '';
         }
-        $atts = $this->getAttributes($atts);
 
         $now = new DateTime('now');
         $birthday = new DateTime($content);

@@ -9,10 +9,16 @@ use Maiorano\Shortcodes\Manager\ShortcodeManagerInterface;
  */
 trait ShortcodeTrait
 {
+
     /**
      * @var ShortcodeManagerInterface
      */
     protected $manager;
+
+    /**
+     * @var callable
+     */
+    protected $callback;
 
     /**
      * @return string
