@@ -3,7 +3,7 @@ namespace Maiorano\Shortcodes\Contracts;
 
 
 /**
- * Class AttributeTrait
+ * Trait AttributeTrait
  * Assists in satisfying the AttributeInterface requirements
  * Allows shortcodes to use the attribute format if needed
  * @package Maiorano\Shortcodes\Contracts
