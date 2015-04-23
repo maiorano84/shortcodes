@@ -127,9 +127,10 @@ The benefit to this approach is that YOU can decide what gets processed and what
 **Option 2: Permissive**
 
 ```php
+echo $manager->doShortcode('[foo][baz/][/foo]', 'foo', true); //Outputs: foo[baz/]
 echo $manager->doShortcode('[foo][baz/][/foo]', 'foo|baz', true); //[baz] Permitted in this instance
 ```
-There is an optional third parameter that you can set within `doShortcode`, which will trigger the manager to run recursively over all defined tags until everything has been processed.
+There is an optional third parameter that you can set within `doShortcode`, which will allow the manager to decide which tags to render and run recursively until everything has been processed.
 
 Even though we've defined that only [bar] is permitted to be processed in the [foo] callback, the Shortcode Manager can choose to override it any time.
 
@@ -145,7 +146,7 @@ echo $manager->doShortcode('[foo][bar][baz/][/bar][/foo]', null, true); //Output
 
 ## Other Notes
 
-You might have noticed that the SimpleShortcode class is calling to a protected member in order to achieve certain results. In every Shortcode that leverages the inherent `handle` method from the ShortcodeTrait, the callback is bound to the scope of that particular instance. That means that even when protected and private members are declared, you still have access to those members within the scope of your callback.
+You might have noticed that the SimpleShortcode class can call to a protected member in order to achieve certain results. In every Shortcode that leverages the inherent `handle` method from the ShortcodeTrait, the callback is bound to the scope of that particular instance. That means that even when protected and private members are declared, you still have access to those members within the scope of your callback.
 
 With that in mind, every custom Shortcode that you create as a separate class will require a `bind` method that accepts the calling Manager container whether or not you actually require it. This is also predefined for you in the ShortcodeTrait provided.
 
