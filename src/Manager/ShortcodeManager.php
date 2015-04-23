@@ -45,9 +45,10 @@ class ShortcodeManager extends BaseManager
     /**
      * @param $content
      * @param string|array $tags
+     * @param bool $deep
      * @return bool|mixed
      */
-    public function doShortcode($content, $tags = [])
+    public function doShortcode($content, $tags = [], $deep = false)
     {
         $tags = $this->preProcessTags($tags);
         if ($this->precheck($content, $tags) === false) {
@@ -57,7 +58,7 @@ class ShortcodeManager extends BaseManager
         $regex = $this->getShortcodeRegex($tags);
         $content = preg_replace_callback("/$regex/s", [$this, 'handleShortcode'], $content);
 
-        return $content;
+        return $deep ? $this->doShortcode($content, $tags, $deep) : $content;
     }
 
     /**

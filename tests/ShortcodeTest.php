@@ -46,17 +46,33 @@ class ShortcodeTest extends TestCase
         $this->assertEquals($manager->doShortcode('[ipsum]'), $manager['ipsum']->getIpsum());
     }
 
+    /**
+     * @todo Determine if segfault only occurs on local environment
+     */
     public function testNestedShortcode()
     {
         $manager = new ShortcodeManager(array(
             'foo' => new Library\SimpleShortcode('foo', null, function ($content) {
-                return 'foo' . $this->manager->doShortcode($content);
+                return 'foo' . $this->manager->doShortcode($content, 'bar');
             }),
-            'bar' => new Library\SimpleShortcode('bar', null, function () {
-                return 'bar';
+            'bar' => new Library\SimpleShortcode('bar', null, function ($content) {
+                return 'bar' . $content;
+            }),
+            'baz' => new Library\SimpleShortcode('baz', null, function () {
+                return 'baz';
             })
         ));
+
+        //Selective
         $this->assertEquals($manager->doShortcode('[foo][bar/][/foo]'), 'foobar');
+        $this->assertNotEquals($manager->doShortcode('[foo][baz/][/foo]'), 'foobaz');
+
+        //Permissive
+        $this->assertEquals($manager->doShortcode('[foo][baz/][/foo]', 'foo|baz', true), 'foobaz');
+        //$this->assertNotEquals($manager->doShortcode('[foo][baz/][/foo]', 'foo', true), 'foobaz'); //Segfault
+
+        //I DO WHAT I WANT
+        $this->assertEquals($manager->doShortcode('[foo][bar][baz/][/bar][/foo]', null, true), 'foobarbaz');
     }
 
     public function testEscapedShortcode()
