@@ -7,5 +7,8 @@ namespace Maiorano\Shortcodes\Exceptions;
  */
 class ShortcodeDeregisterException extends ShortcodeException
 {
+    /**
+     * @const string
+     */
     const MISSING = 'The shortcode \'%s\' does not exist in the current library';
 }
