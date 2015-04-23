@@ -2,6 +2,7 @@
 namespace Maiorano\Shortcodes\Manager;
 
 use Maiorano\Shortcodes\Contracts\AttributeInterface;
+use Maiorano\Shortcodes\Parsers\WordpressParser;
 
 /**
  * Class ShortcodeManager
@@ -9,6 +10,13 @@ use Maiorano\Shortcodes\Contracts\AttributeInterface;
  */
 class ShortcodeManager extends BaseManager
 {
+    /**
+     * @param array $shortcodes
+     */
+    public function __construct(array $shortcodes = [])
+    {
+        parent::__construct($shortcodes, new WordpressParser);
+    }
 
     /**
      * @param $content
@@ -22,18 +30,17 @@ class ShortcodeManager extends BaseManager
             return false;
         }
 
-        $regex = $this->getShortcodeRegex($tags);
-        preg_match_all("/$regex/s", $content, $matches, PREG_SET_ORDER);
+        $matches = $this->parser->parseShortcode($content, $tags);
 
         if (empty($matches)) {
             return false;
         }
 
         foreach ($matches as $shortcode) {
-            if (in_array($shortcode[2], $tags)) //Contracts matched
+            if (in_array($shortcode[2], $tags)) //Shortcodes matched
             {
                 return true;
-            } elseif (!empty($shortcode[5]) && $this->hasShortcode($shortcode[5], $tags)) //Nested Contracts matched
+            } elseif (!empty($shortcode[5]) && $this->hasShortcode($shortcode[5], $tags)) //Nested Shortcodes matched
             {
                 return true;
             }
@@ -55,33 +62,29 @@ class ShortcodeManager extends BaseManager
             return $content;
         }
 
-        $regex = $this->getShortcodeRegex($tags);
-        $content = preg_replace_callback("/$regex/s", [$this, 'handleShortcode'], $content);
+        $content = $this->parser->parseShortcode($content, $tags, function ($match) {
+            //Escaped shortcode
+            if ($match[1] == '[' && $match[6] == ']') {
+                return substr($match[0], 1, -1);
+            }
 
-        return $deep ? $this->doShortcode($content, $tags, $deep) : $content;
-    }
+            $shortcode = $this[$match[2]];
+            $content = isset($match[5]) ? $match[5] : null;
+            $atts = [];
 
-    /**
-     * @param $match
-     * @return string
-     */
-    private function handleShortcode($match)
-    {
-        //Escaped shortcode (ie: [[tag]])
-        if ($match[1] == '[' && $match[6] == ']') {
-            return substr($match[0], 1, -1);
+            if ($shortcode instanceof AttributeInterface) {
+                $parsed = isset($match[3]) ? $this->parser->parseAttributes($match[3]) : $atts;
+                $atts = array_merge($shortcode->getAttributes(), $parsed);
+            }
+
+            return $shortcode->handle($content, $atts);
+        });
+
+        if ($deep && $this->hasShortcode($content, $tags)) {
+            return $this->doShortcode($content, $tags, $deep);
         }
 
-        $shortcode = $this[$match[2]];
-        $content = isset($match[5]) ? $match[5] : null;
-        $atts = array();
-
-        if ($shortcode instanceof AttributeInterface) {
-            $parsed = isset($match[3]) ? $shortcode->parseAttributes($match[3]) : $atts;
-            $atts = $shortcode->getAttributes($parsed);
-        }
-
-        return $shortcode->handle($content, $atts);
+        return $content;
     }
 
     /**

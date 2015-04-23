@@ -4,6 +4,7 @@ namespace Maiorano\Shortcodes\Manager;
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 use Maiorano\Shortcodes\Exceptions\ShortcodeRegisterException;
 use Maiorano\Shortcodes\Exceptions\ShortcodeDeregisterException;
+use Maiorano\Shortcodes\Parsers\ParserInterface;
 use \ArrayAccess;
 use \IteratorAggregate;
 use \ArrayIterator;
@@ -12,8 +13,12 @@ use \ArrayIterator;
  * Class BaseManager
  * @package Maiorano\Shortcodes\Manager
  */
-abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeManagerInterface
+abstract class BaseManager implements ArrayAccess, IteratorAggregate, ManagerInterface
 {
+    /**
+     * @var ParserInterface
+     */
+    protected $parser;
 
     /**
      * @var array
@@ -22,10 +27,12 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
 
     /**
      * @param array $shortcodes
+     * @param ParserInterface $parser
      * @throws ShortcodeRegisterException
      */
-    public function __construct(array $shortcodes = [])
+    public function __construct(array $shortcodes = [], ParserInterface $parser)
     {
+        $this->parser = $parser;
         foreach ($shortcodes as $k => $s) {
             $this->register($s);
         }
@@ -129,46 +136,14 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ShortcodeM
      */
     public function getRegistered()
     {
-        return array_map('preg_quote', array_keys($this->shortcodes));
+        return array_keys($this->shortcodes);
     }
 
     /**
-     * @param null $tags
-     * @return string
-     * @link https://core.trac.wordpress.org/browser/tags/4.1.1/src/wp-includes/shortcodes.php#L221
+     * @return ParserInterface
      */
-    protected function getShortcodeRegex($tags = null)
+    public function getParser()
     {
-        $tagregexp = join('|', $tags ?: $this->getRegistered());
-
-        return
-            '\\['                // Opening bracket
-            . '(\\[?)'           // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
-            . "($tagregexp)"     // 2: Contracts name
-            . '(?![\\w-])'       // Not followed by word character or hyphen
-            . '('                // 3: Unroll the loop: Inside the opening shortcode tag
-            . '[^\\]\\/]*'       // Not a closing bracket or forward slash
-            . '(?:'
-            . '\\/(?!\\])'       // A forward slash not followed by a closing bracket
-            . '[^\\]\\/]*'       // Not a closing bracket or forward slash
-            . ')*?'
-            . ')'
-            . '(?:'
-            . '(\\/)'            // 4: Self closing tag ...
-            . '\\]'              // ... and closing bracket
-            . '|'
-            . '\\]'              // Closing bracket
-            . '(?:'
-            . '('                // 5: Unroll the loop: Optionally, anything between the opening and closing shortcode tags
-            . '[^\\[]*+'         // Not an opening bracket
-            . '(?:'
-            . '\\[(?!\\/\\2\\])' // An opening bracket not followed by the closing shortcode tag
-            . '[^\\[]*+'         // Not an opening bracket
-            . ')*+'
-            . ')'
-            . '\\[\\/\\2\\]'     // Closing shortcode tag
-            . ')?'
-            . ')'
-            . '(\\]?)';          // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
+        return $this->parser;
     }
 }
