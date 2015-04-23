@@ -47,7 +47,7 @@ class ShortcodeTest extends TestCase
     }
 
     /**
-     * @todo Determine if segfault only occurs on local environment
+     * @todo Look into possible infinite recursion on line 72
      */
     public function testNestedShortcode()
     {
@@ -69,7 +69,7 @@ class ShortcodeTest extends TestCase
 
         //Permissive
         $this->assertEquals($manager->doShortcode('[foo][baz/][/foo]', 'foo|baz', true), 'foobaz');
-        //$this->assertNotEquals($manager->doShortcode('[foo][baz/][/foo]', 'foo', true), 'foobaz'); //Segfault
+        //$this->assertNotEquals($manager->doShortcode('[foo][baz/][/foo]', 'foo', true), 'foobaz'); //Memory error
 
         //I DO WHAT I WANT
         $this->assertEquals($manager->doShortcode('[foo][bar][baz/][/bar][/foo]', null, true), 'foobarbaz');
