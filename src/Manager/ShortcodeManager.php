@@ -10,6 +10,7 @@ use Maiorano\Shortcodes\Parsers\WordpressParser;
  */
 class ShortcodeManager extends BaseManager
 {
+
     /**
      * @param array $shortcodes
      */

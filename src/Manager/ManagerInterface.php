@@ -9,6 +9,7 @@ use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
  */
 interface ManagerInterface
 {
+
     /**
      * @param ShortcodeInterface $shortcode
      * @return mixed
@@ -54,7 +55,7 @@ interface ManagerInterface
     public function doShortcode($content, $tags = []);
 
     /**
-     * @return ParserInterface
+     * @return  \Maiorano\Shortcodes\Parsers\ParserInterface
      */
     public function getParser();
 }

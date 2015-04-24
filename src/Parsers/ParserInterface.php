@@ -7,6 +7,7 @@ namespace Maiorano\Shortcodes\Parsers;
  */
 interface ParserInterface
 {
+
     /**
      * @param $content
      * @return mixed

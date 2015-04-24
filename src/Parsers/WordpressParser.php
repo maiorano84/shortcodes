@@ -7,6 +7,7 @@ namespace Maiorano\Shortcodes\Parsers;
  */
 class WordpressParser implements ParserInterface
 {
+
     /**
      * @param $content
      * @param array $tags
