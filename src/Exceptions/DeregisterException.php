@@ -2,10 +2,10 @@
 namespace Maiorano\Shortcodes\Exceptions;
 
 /**
- * Class ShortcodeDeregisterException
+ * Class DeregisterException
  * @package Maiorano\Shortcodes\Exceptions
  */
-class ShortcodeDeregisterException extends ShortcodeException
+class DeregisterException extends ShortcodeException
 {
     /**
      * @const string

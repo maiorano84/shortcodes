@@ -2,10 +2,10 @@
 namespace Maiorano\Shortcodes\Exceptions;
 
 /**
- * Class ShortcodeRegisterException
+ * Class RegisterException
  * @package Maiorano\Shortcodes\Exceptions
  */
-class ShortcodeRegisterException extends ShortcodeException
+class RegisterException extends ShortcodeException
 {
     /**
      * @const string
