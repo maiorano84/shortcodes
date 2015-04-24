@@ -14,7 +14,7 @@ use \ArrayIterator;
  * Class BaseManager
  * @package Maiorano\Shortcodes\Manager
  */
-abstract class BaseManager implements ArrayAccess, IteratorAggregate, ManagerInterface
+abstract class BaseManager implements ArrayAccess, IteratorAggregate
 {
 
     /**

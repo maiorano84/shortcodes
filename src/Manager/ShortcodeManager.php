@@ -8,7 +8,7 @@ use Maiorano\Shortcodes\Parsers\WordpressParser;
  * Class ShortcodeManager
  * @package Maiorano\Shortcodes\Manager
  */
-class ShortcodeManager extends BaseManager
+class ShortcodeManager extends BaseManager implements ManagerInterface
 {
 
     /**
