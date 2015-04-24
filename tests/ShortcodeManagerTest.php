@@ -30,6 +30,25 @@ class ShortcodeManagerTest extends TestCase
         $this->assertFalse($manager->hasShortcode('[foo]', 'bar'));
     }
 
+    public function testAlias()
+    {
+        $manager = new ShortcodeManager(array(
+            'foo' => new SimpleShortcode('foo')
+        ));
+        $manager->alias('foo', 'f');
+        $this->assertEquals($manager['foo'], $manager['f']);
+    }
+
+    /**
+     * @expectedException Maiorano\Shortcodes\Exceptions\ShortcodeRegisterException
+     * @expectedExceptionMessage You must provide a name for your shortcode
+     */
+    public function testEmptyName()
+    {
+        $manager = new ShortcodeManager();
+        $manager->register(new SimpleShortcode(''));
+    }
+
     /**
      * @expectedException Maiorano\Shortcodes\Exceptions\ShortcodeRegisterException
      * @expectedExceptionMessage The shortcode 'test' has already been registered
@@ -50,6 +69,16 @@ class ShortcodeManagerTest extends TestCase
     {
         $manager = new ShortcodeManager();
         $var = $manager['test'];
+    }
+
+    /**
+     * @expectedException Maiorano\Shortcodes\Exceptions\ShortcodeRegisterException
+     * @expectedExceptionMessage No shortcode with identifier 'test' has been registered
+     */
+    public function testAliasMissing()
+    {
+        $manager = new ShortcodeManager();
+        $manager->alias('test', 't');
     }
 
     /**

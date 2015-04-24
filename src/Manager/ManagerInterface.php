@@ -16,15 +16,28 @@ interface ManagerInterface
     public function register(ShortcodeInterface $shortcode);
 
     /**
-     * @param $shortcode
+     * @param string $shortcode
      * @return mixed
      */
     public function deregister($shortcode);
 
     /**
+     * @param string $name
+     * @return bool
+     */
+    public function isRegistered($name);
+
+    /**
      * @return mixed
      */
     public function getRegistered();
+
+    /**
+     * @param string $name
+     * @param string $alias
+     * @return mixed
+     */
+    public function alias($name, $alias);
 
     /**
      * @param string $content

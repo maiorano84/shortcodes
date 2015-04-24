@@ -16,4 +16,9 @@ class ShortcodeRegisterException extends ShortcodeException
      * @const string
      */
     const MISSING = 'No shortcode with identifier \'%s\' has been registered';
+
+    /**
+     * @const string
+     */
+    const BLANK = 'You must provide a name for your shortcode';
 }
