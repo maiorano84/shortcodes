@@ -38,7 +38,7 @@ use Maiorano\Shortcodes\Library;
 //Instantiate a Shortcode Manager
 $manager = new Manager\ShortcodeManager;
 //Create your shortcode
-$example = new Library\SimpleShortcode('example', array('foo'=>'bar'), function($content=null, array $atts=[]){
+$example = new Library\SimpleShortcode('example', ['foo'=>'bar'], function($content=null, array $atts=[]){
     return $content.$atts['foo'];
 });
 $manager->register($example)->doShortcode('[example]Foo[/example]'); //Outputs: Foobar
@@ -55,7 +55,7 @@ class ExampleShortcode implements Contracts\ShortcodeInterface, Contracts\Attrib
 {
     use Contracts\ShortcodeTrait, Contracts\AttributeTrait;
     protected $name = 'example';
-    protected $attributes = array('foo'=>'bar');
+    protected $attributes = ['foo'=>'bar'];
     public function handle($content=null, array $atts=[])
     {
         return $content.$atts['foo'];
@@ -81,14 +81,14 @@ In all of the examples thus far, none of them cover what would happen when you r
 Let's see what happens:
 
 ```php
-$manager = new ShortcodeManager(array(
+$manager = new ShortcodeManager([
     'foo' => new Library\SimpleShortcode('foo', null, function ($content) {
         return 'foo' . $content;
     }),
     'bar' => new Library\SimpleShortcode('bar', null, function () {
         return 'bar';
     })
-));
+]);
 echo $manager->doShortcode('[foo][bar/][/foo]'); //Outputs: foo[bar/]
 ```
 
@@ -99,7 +99,7 @@ The problem here is that [bar/] is matched and passed by the manager as *content
 To handle this, there are several avenues we can take. Let's set up a manager that uses three shortcodes:
 
 ```php
-$manager = new ShortcodeManager(array(
+$manager = new ShortcodeManager([
     'foo' => new Library\SimpleShortcode('foo', null, function ($content) {
         return 'foo' . $this->manager->doShortcode($content, 'bar');
     }),
@@ -109,7 +109,7 @@ $manager = new ShortcodeManager(array(
     'baz' => new Library\SimpleShortcode('baz', null, function () {
         return 'baz';
     })
-));
+]);
 ```
 
 [foo] - Render shortcode as text with content appended that permits [bar] to be processed  

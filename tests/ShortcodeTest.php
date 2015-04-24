@@ -78,4 +78,15 @@ class ShortcodeTest extends TestCase
         $manager->register(new Library\Ipsum);
         $this->assertEquals($manager->doShortcode('[[ipsum]]'), '[ipsum]');
     }
+
+    public function testAliasedShortcode()
+    {
+        $manager = new ShortcodeManager(array(
+            'foo' => new Library\SimpleShortcode('foo', null, function(){
+                return 'foo';
+            })
+        ));
+        $f = $manager->alias('foo', 'f')->doShortcode('[f]');
+        $this->assertEquals($f, 'foo');
+    }
 }
