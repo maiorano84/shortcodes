@@ -2,8 +2,9 @@
 namespace Maiorano\Shortcodes\Manager;
 
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
-use Maiorano\Shortcodes\Exceptions\ShortcodeRegisterException;
-use Maiorano\Shortcodes\Exceptions\ShortcodeDeregisterException;
+use Maiorano\Shortcodes\Contracts\AliasInterface;
+use Maiorano\Shortcodes\Exceptions\RegisterException;
+use Maiorano\Shortcodes\Exceptions\DeregisterException;
 use Maiorano\Shortcodes\Parsers\ParserInterface;
 use \ArrayAccess;
 use \IteratorAggregate;
@@ -15,6 +16,7 @@ use \ArrayIterator;
  */
 abstract class BaseManager implements ArrayAccess, IteratorAggregate, ManagerInterface
 {
+
     /**
      * @var ParserInterface
      */
@@ -28,7 +30,7 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ManagerInt
     /**
      * @param array $shortcodes
      * @param ParserInterface $parser
-     * @throws ShortcodeRegisterException
+     * @throws RegisterException
      */
     public function __construct(array $shortcodes = [], ParserInterface $parser)
     {
@@ -41,7 +43,7 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ManagerInt
     /**
      * @param mixed $offset
      * @param mixed $value
-     * @throws ShortcodeRegisterException
+     * @throws RegisterException
      */
     public function offsetSet($offset, $value)
     {
@@ -50,7 +52,7 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ManagerInt
 
     /**
      * @param mixed $offset
-     * @throws ShortcodeDeregisterException
+     * @throws DeregisterException
      */
     public function offsetUnset($offset)
     {
@@ -69,15 +71,16 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ManagerInt
     /**
      * @param mixed $offset
      * @return null
-     * @throws ShortcodeRegisterException
+     * @throws RegisterException
      */
     public function offsetGet($offset)
     {
-        if ($this->isRegistered($offset)) {
-            return $this->shortcodes[$offset];
+        if (!$this->isRegistered($offset)) {
+            $e = sprintf(RegisterException::MISSING, $offset);
+            throw new RegisterException($e);
         }
-        $e = sprintf(ShortcodeRegisterException::MISSING, $offset);
-        throw new ShortcodeRegisterException($e);
+
+        return $this->shortcodes[$offset];
     }
 
     /**
@@ -90,42 +93,56 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ManagerInt
 
     /**
      * @param ShortcodeInterface $shortcode
+     * @param string $alias
+     * @param bool $includeAlias
      * @return ManagerInterface
-     * @throws ShortcodeRegisterException
+     * @throws RegisterException
      */
-    public function register(ShortcodeInterface $shortcode)
+    public function register(ShortcodeInterface $shortcode, $alias = null, $includeAlias = true)
     {
-        $name = $shortcode->getName();
+        $name = $alias ?: $shortcode->getName();
 
-        if (!$this->isRegistered($name) && $name) {
-            $this->shortcodes[$name] = $shortcode;
-            $shortcode->bind($this);
+        if (!$name) {
+            throw new RegisterException(RegisterException::BLANK);
+        } elseif ($this->isRegistered($name)) {
+            $e = sprintf(RegisterException::DUPLICATE, $name);
+            throw new RegisterException($e);
+        }
 
-            return $this;
+        $this->shortcodes[$name] = $shortcode;
+        $shortcode->bind($this);
+
+        if ($includeAlias && $shortcode instanceof AliasInterface) {
+            foreach ($shortcode->getAlias() as $alias) {
+                $shortcode->alias($alias);
+            }
         }
-        elseif(!$name){
-            $e = ShortcodeRegisterException::BLANK;
-        }
-        else{
-            $e = sprintf(ShortcodeRegisterException::DUPLICATE, $name);
-        }
-        throw new ShortcodeRegisterException($e);
+
+        return $this;
     }
 
     /**
      * @param $name
+     * @param bool $includeAlias
      * @return ManagerInterface
-     * @throws ShortcodeDeregisterException
+     * @throws DeregisterException
      */
-    public function deregister($name)
+    public function deregister($name, $includeAlias = true)
     {
         if ($this->isRegistered($name)) {
+            $shortcode = $this->shortcodes[$name];
+
+            if ($includeAlias && $shortcode instanceof AliasInterface) {
+                foreach ($this->shortcodes[$name]->getAlias() as $alias) {
+                    unset($this->shortcodes[$alias]);
+                }
+            }
             unset($this->shortcodes[$name]);
 
             return $this;
         }
-        $e = sprintf(ShortcodeDeregisterException::MISSING, $name);
-        throw new ShortcodeDeregisterException($e);
+        $e = sprintf(DeregisterException::MISSING, $name);
+        throw new DeregisterException($e);
     }
 
     /**
@@ -145,20 +162,25 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate, ManagerInt
         return array_keys($this->shortcodes);
     }
 
+
     /**
      * @param string $name
      * @param string $alias
-     * @return ManagerInterface
-     * @throws ShortcodeRegisterException
+     * @return ManagerInterface $this
+     * @throws RegisterException
      */
     public function alias($name, $alias)
     {
-        if ($this->isRegistered($name)) {
-            $this->shortcodes[$alias] = $this[$name];
-            return $this;
+        if(!($this[$name] instanceof AliasInterface)) {
+            throw new RegisterException(RegisterException::NO_ALIAS);
         }
-        $e = sprintf(ShortcodeRegisterException::MISSING, $name);
-        throw new ShortcodeRegisterException($e);
+        if (!$this->isRegistered($name)) {
+            $e = sprintf(RegisterException::MISSING, $name);
+            throw new RegisterException($e);
+        }
+        $this[$name]->alias($alias);
+
+        return $this;
     }
 
     /**

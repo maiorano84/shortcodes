@@ -3,16 +3,19 @@ namespace Maiorano\Shortcodes\Library;
 
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 use Maiorano\Shortcodes\Contracts\AttributeInterface;
+use Maiorano\Shortcodes\Contracts\AliasInterface;
 use Maiorano\Shortcodes\Contracts\ShortcodeTrait;
 use Maiorano\Shortcodes\Contracts\AttributeTrait;
+use Maiorano\Shortcodes\Contracts\CallableTrait;
+use Maiorano\Shortcodes\Contracts\AliasTrait;
 
 /**
  * Creation of Shortcodes programatically
  * @package Maiorano\Shortcodes\Contracts
  */
-class SimpleShortcode implements ShortcodeInterface, AttributeInterface
+class SimpleShortcode implements ShortcodeInterface, AttributeInterface, AliasInterface
 {
-    use ShortcodeTrait, AttributeTrait;
+    use ShortcodeTrait, AttributeTrait, CallableTrait, AliasTrait;
 
     /**
      * @var string
@@ -23,6 +26,11 @@ class SimpleShortcode implements ShortcodeInterface, AttributeInterface
      * @var array
      */
     protected $attributes;
+
+    /**
+     * @var array
+     */
+    protected $alias = [];
 
     /**
      * @param string $name

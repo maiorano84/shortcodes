@@ -2,20 +2,28 @@
 namespace Maiorano\Shortcodes\Library;
 
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
+use Maiorano\Shortcodes\Contracts\AliasInterface;
 use Maiorano\Shortcodes\Contracts\ShortcodeTrait;
+use Maiorano\Shortcodes\Contracts\AliasTrait;
 
 /**
  * Generate Lorem Ipsum
+ * Usage: [loremipsum] or [ipsum]
  * @package Maiorano\Shortcodes\Library
  */
-class Ipsum implements ShortcodeInterface
+class Ipsum implements ShortcodeInterface, AliasInterface
 {
-    use ShortcodeTrait;
+    use ShortcodeTrait, AliasTrait;
 
     /**
      * @var string
      */
-    protected $name = 'ipsum';
+    protected $name = 'loremipsum';
+
+    /**
+     * @var string
+     */
+    protected $alias = ['ipsum'];
 
     /**
      * @var string

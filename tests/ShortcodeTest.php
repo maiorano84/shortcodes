@@ -81,12 +81,56 @@ class ShortcodeTest extends TestCase
 
     public function testAliasedShortcode()
     {
-        $manager = new ShortcodeManager(array(
-            'foo' => new Library\SimpleShortcode('foo', null, function(){
-                return 'foo';
-            })
-        ));
-        $f = $manager->alias('foo', 'f')->doShortcode('[f]');
-        $this->assertEquals($f, 'foo');
+        $manager = new ShortcodeManager;
+        $test = new Library\SimpleShortcode('test', null, function () {
+            return 'test';
+        });
+        $manager['test'] = $test;
+        $manager->alias('test', 't');
+
+        $this->assertEquals($test->doShortcode('[test/][t/]'), 'testtest');
+        $this->assertEquals($manager->doShortcode('[test/][t/]'), 'testtest');
+
+        $manager->deregister('test');
+        $this->assertEmpty($manager->getRegistered());
+    }
+
+    public function testShortcodeAliasDeregister()
+    {
+        $manager = new ShortcodeManager();
+        $test = new Library\SimpleShortcode('test', null, function(){
+            return 'test';
+        });
+        $manager->register($test)->alias('test', 't');
+        $manager->deregister('test', false);
+
+        $this->assertTrue(isset($manager['t']));
+        $this->assertFalse(isset($manager['test']));
+        $this->assertEquals($manager->doShortcode('[t]'), 'test');
+        $this->assertEquals($manager->doShortcode('[test]'), '[test]');
+    }
+
+    public function testShorthand()
+    {
+        $manager = new ShortcodeManager;
+        $test = new Library\SimpleShortcode('test', null, function () {
+            return 'test';
+        });
+
+        $manager['test'] = $test;
+        $test->alias('t');
+
+        $this->assertEquals($test->doShortcode('[test/][t/]'), 'testtest');
+        $this->assertEquals($manager->doShortcode('[test/][t/]'), 'testtest');
+    }
+
+    /**
+     * @expectedException \Maiorano\Shortcodes\Exceptions\RegisterException
+     * @expectedExceptionMessage No shortcode with identifier 'test' has been registered
+     */
+    public function testShorthandError()
+    {
+        $test = new Library\SimpleShortcode('test');
+        $test->doShortcode('[test]');
     }
 }

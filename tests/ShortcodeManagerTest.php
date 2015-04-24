@@ -40,7 +40,7 @@ class ShortcodeManagerTest extends TestCase
     }
 
     /**
-     * @expectedException Maiorano\Shortcodes\Exceptions\ShortcodeRegisterException
+     * @expectedException \Maiorano\Shortcodes\Exceptions\RegisterException
      * @expectedExceptionMessage You must provide a name for your shortcode
      */
     public function testEmptyName()
@@ -50,7 +50,7 @@ class ShortcodeManagerTest extends TestCase
     }
 
     /**
-     * @expectedException Maiorano\Shortcodes\Exceptions\ShortcodeRegisterException
+     * @expectedException \Maiorano\Shortcodes\Exceptions\RegisterException
      * @expectedExceptionMessage The shortcode 'test' has already been registered
      */
     public function testRegisterError()
@@ -62,7 +62,7 @@ class ShortcodeManagerTest extends TestCase
     }
 
     /**
-     * @expectedException Maiorano\Shortcodes\Exceptions\ShortcodeRegisterException
+     * @expectedException \Maiorano\Shortcodes\Exceptions\RegisterException
      * @expectedExceptionMessage No shortcode with identifier 'test' has been registered
      */
     public function testMissing()
@@ -72,7 +72,7 @@ class ShortcodeManagerTest extends TestCase
     }
 
     /**
-     * @expectedException Maiorano\Shortcodes\Exceptions\ShortcodeRegisterException
+     * @expectedException \Maiorano\Shortcodes\Exceptions\RegisterException
      * @expectedExceptionMessage No shortcode with identifier 'test' has been registered
      */
     public function testAliasMissing()
@@ -82,7 +82,7 @@ class ShortcodeManagerTest extends TestCase
     }
 
     /**
-     * @expectedException Maiorano\Shortcodes\Exceptions\ShortcodeDeregisterException
+     * @expectedException \Maiorano\Shortcodes\Exceptions\DeregisterException
      * @expectedExceptionMessage The shortcode 'test' does not exist in the current library
      */
     public function testDeregisterError()

@@ -1,7 +1,6 @@
 <?php
 namespace Maiorano\Shortcodes\Contracts;
 
-
 /**
  * Trait AttributeTrait
  * Assists in satisfying the AttributeInterface requirements
@@ -10,6 +9,7 @@ namespace Maiorano\Shortcodes\Contracts;
  */
 trait AttributeTrait
 {
+
     /**
      * @return array
      * @see AttributeInterface::getAttributes()

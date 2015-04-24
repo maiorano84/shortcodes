@@ -26,8 +26,17 @@ interface ShortcodeInterface
     /**
      * Bind the management container to a Shortcode
      * This helps support nested shortcodes
-     * @param ManagerInterface $manager
+     * @param \Maiorano\Shortcodes\Manager\ManagerInterface $manager
      * @return void
      */
     public function bind(ManagerInterface $manager);
+
+    /**
+     * Convenience method
+     * Run the Manager's implementation of doShortcode() for this name and all aliases
+     * @param string $content
+     * @return string
+     * @throws \Maiorano\Shortcodes\Exceptions\RegisterException
+     */
+    public function doShortcode($content);
 }
