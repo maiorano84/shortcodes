@@ -15,7 +15,7 @@ class WordpressParser implements ParserInterface
      * @return mixed
      * @link https://core.trac.wordpress.org/browser/tags/4.2/src/wp-includes/shortcodes.php#L203
      */
-    public function parseShortcode($content, array $tags = [], Callable $callback = null)
+    public function parseContent($content, array $tags = [], Callable $callback = null)
     {
         $tagregexp = join('|', array_map('preg_quote', $tags));
         $regex =
@@ -48,13 +48,34 @@ class WordpressParser implements ParserInterface
             . ')'
             . '(\\]?)';          // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
 
-        if (is_null($callback)) {
-            preg_match_all("/$regex/", $content, $matches, PREG_SET_ORDER);
 
-            return $matches;
+        preg_match_all("/$regex/", $content, $matches, PREG_SET_ORDER);
+
+        if (is_null($callback)) {
+            $results = [];
+            foreach ($matches as $match) {
+                $results[] = $this->parseShortcode($match);
+            }
+
+            return $results;
         }
 
         return preg_replace_callback("/$regex/", $callback, $content);
+    }
+
+    /**
+     * Human-readable format
+     * @param array $match
+     * @return array
+     */
+    public function parseShortcode($match)
+    {
+        return [
+            'tag' => $match[2],
+            'escaped' => $match[1] == '[' && $match[6] == ']' ? substr($match[0], 1, -1) : null,
+            'content' => isset($match[5]) ? $match[5] : null,
+            'attributes' => isset($match[3]) ? $this->parseAttributes($match[3]) : []
+        ];
     }
 
     /**

@@ -27,6 +27,7 @@ class ShortcodeManagerTest extends TestCase
         ));
 
         $this->assertTrue($manager->hasShortcode('[foo]'));
+        $this->assertTrue($manager->hasShortcode('[foo][bar/][foo]', 'bar'));
         $this->assertFalse($manager->hasShortcode('[foo]', 'bar'));
     }
 

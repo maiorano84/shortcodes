@@ -65,8 +65,8 @@ class ShortcodeTest extends TestCase
         $this->assertNotEquals($manager->doShortcode('[foo][baz/][/foo]'), 'foobaz');
 
         //Permissive
-        $this->assertEquals($manager->doShortcode('[foo][baz/][/foo]', 'foo|baz', true), 'foobaz');
-        $this->assertEquals($manager->doShortcode('[foo][baz/][/foo]', 'foo', true), 'foo[baz/]');
+        $this->assertEquals($manager->doShortcode('[foo][bar/][baz/][/foo]', 'foo|baz', true), 'foobarbaz');
+        $this->assertEquals($manager->doShortcode('[foo][bar/][baz/][/foo]', 'foo', true), 'foobar[baz/]');
 
         //I DO WHAT I WANT
         $this->assertEquals($manager->doShortcode('[foo][bar][baz/][/bar][/foo]', null, true), 'foobarbaz');
@@ -98,7 +98,7 @@ class ShortcodeTest extends TestCase
     public function testShortcodeAliasDeregister()
     {
         $manager = new ShortcodeManager();
-        $test = new Library\SimpleShortcode('test', null, function(){
+        $test = new Library\SimpleShortcode('test', null, function () {
             return 'test';
         });
         $manager->register($test)->alias('test', 't');
