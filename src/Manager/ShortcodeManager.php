@@ -31,19 +31,18 @@ class ShortcodeManager extends BaseManager implements ManagerInterface
             return false;
         }
 
-        $matches = $this->parser->parseShortcode($content, $tags);
+        $matches = $this->parser->parseContent($content, $tags);
 
         if (empty($matches)) {
             return false;
         }
 
         foreach ($matches as $shortcode) {
-            if (in_array($shortcode[2], $tags)) //Shortcodes matched
+            if (in_array($shortcode['tag'], $tags)) //Shortcodes matched
             {
                 return true;
-            } elseif (!empty($shortcode[5]) && $this->hasShortcode($shortcode[5], $tags)) //Nested Shortcodes matched
-            {
-                return true;
+            } elseif ($shortcode['content']) {
+                return $this->hasShortcode($shortcode['content'], $tags); //Check Nested Shortcodes
             }
         }
 
@@ -63,22 +62,21 @@ class ShortcodeManager extends BaseManager implements ManagerInterface
             return $content;
         }
 
-        $content = $this->parser->parseShortcode($content, $tags, function ($match) {
-            //Escaped shortcode
-            if ($match[1] == '[' && $match[6] == ']') {
-                return substr($match[0], 1, -1);
+        $content = $this->parser->parseContent($content, $tags, function ($match) {
+            $result = $this->parser->parseShortcode($match);
+
+            if ($result['escaped']) {
+                return $result['escaped'];
             }
 
-            $shortcode = $this[$match[2]];
-            $content = isset($match[5]) ? $match[5] : null;
+            $shortcode = $this[$result['tag']];
+
             $atts = [];
-
             if ($shortcode instanceof AttributeInterface) {
-                $parsed = isset($match[3]) ? $this->parser->parseAttributes($match[3]) : $atts;
-                $atts = array_merge($shortcode->getAttributes(), $parsed);
+                $atts = array_merge($shortcode->getAttributes(), $result['attributes']);
             }
 
-            return $shortcode->handle($content, $atts);
+            return $shortcode->handle($result['content'], $atts);
         });
 
         if ($deep && $this->hasShortcode($content, $tags)) {
