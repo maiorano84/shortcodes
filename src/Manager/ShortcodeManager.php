@@ -27,9 +27,6 @@ class ShortcodeManager extends BaseManager implements ManagerInterface
     public function hasShortcode($content, $tags = [])
     {
         $tags = $this->preProcessTags($tags);
-        if ($this->precheck($content, $tags) === false) {
-            return false;
-        }
         $matches = $this->parser->parseShortcode($content, $tags);
 
         if (empty($matches)) {
@@ -37,8 +34,7 @@ class ShortcodeManager extends BaseManager implements ManagerInterface
         }
 
         foreach ($matches as $shortcode) {
-            if (in_array($shortcode['tag'], $tags)) //Shortcodes matched
-            {
+            if (in_array($shortcode['tag'], $tags)) { //Shortcodes matched
                 return true;
             } elseif ($shortcode['content']) {
                 return $this->hasShortcode($shortcode['content'], $tags); //Check Nested Shortcodes
@@ -57,10 +53,6 @@ class ShortcodeManager extends BaseManager implements ManagerInterface
     public function doShortcode($content, $tags = [], $deep = false)
     {
         $tags = $this->preProcessTags($tags);
-        if ($this->precheck($content, $tags) === false) {
-            return $content;
-        }
-
         $content = $this->parser->parseShortcode($content, $tags, function ($tag, $content, $atts) {
 
             $shortcode = $this[$tag];
@@ -93,15 +85,5 @@ class ShortcodeManager extends BaseManager implements ManagerInterface
         }
 
         return array_filter($tags, [$this, 'isRegistered']);
-    }
-
-    /**
-     * @param string $content
-     * @param array $tags
-     * @return bool
-     */
-    private function preCheck($content, $tags)
-    {
-        return strpos($content, '[') !== false && !empty($tags);
     }
 }
