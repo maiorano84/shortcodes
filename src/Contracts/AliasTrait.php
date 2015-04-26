@@ -23,12 +23,15 @@ trait AliasTrait
         if (!($this instanceof AliasInterface)) {
             throw new RegisterException(RegisterException::NO_ALIAS);
         }
-        if (!($this->manager instanceof ManagerInterface)) {
-            $e = sprintf(RegisterException::MISSING, $this->name);
-            throw new RegisterException($e);
+
+        $alias = (string)$alias;
+        if(!in_array($alias, $this->alias)){
+            $this->alias[] = $alias;
         }
-        $this->alias[] = (string)$alias;
-        $this->manager->register($this, $alias, false);
+
+        if ($this->manager instanceof ManagerInterface) {
+            $this->manager->register($this, $alias, false);
+        }
 
         return $this;
     }

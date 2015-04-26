@@ -21,7 +21,7 @@ class ShortcodeTest extends TestCase
 
     public function testSimpleShortcodeAttributes()
     {
-        $manager = new ShortcodeManager();
+        $manager = new ShortcodeManager;
         $foo = new Library\SimpleShortcode('foo', array('bar' => 'baz'), function ($content, $atts) {
             return $content ?: $atts['bar'];
         });
@@ -33,7 +33,7 @@ class ShortcodeTest extends TestCase
 
     public function testCustomShortcode()
     {
-        $manager = new ShortcodeManager();
+        $manager = new ShortcodeManager;
         $manager->register(new Library\Age);
         $this->assertEquals($manager->doShortcode('[age]Now[/age]'), '0 years');
         $this->assertEquals($manager->doShortcode('[age units=seconds]Now[/age]'), '0 seconds');
@@ -41,7 +41,7 @@ class ShortcodeTest extends TestCase
 
     public function testCustomShortcodeNoAttributes()
     {
-        $manager = new ShortcodeManager();
+        $manager = new ShortcodeManager;
         $manager->register(new Library\Ipsum);
         $this->assertEquals($manager->doShortcode('[ipsum]'), $manager['ipsum']->getIpsum());
     }
@@ -74,7 +74,7 @@ class ShortcodeTest extends TestCase
 
     public function testEscapedShortcode()
     {
-        $manager = new ShortcodeManager();
+        $manager = new ShortcodeManager;
         $manager->register(new Library\Ipsum);
         $this->assertEquals($manager->doShortcode('[[ipsum]]'), '[ipsum]');
     }
@@ -97,7 +97,7 @@ class ShortcodeTest extends TestCase
 
     public function testShortcodeAliasDeregister()
     {
-        $manager = new ShortcodeManager();
+        $manager = new ShortcodeManager;
         $test = new Library\SimpleShortcode('test', null, function () {
             return 'test';
         });
@@ -116,9 +116,9 @@ class ShortcodeTest extends TestCase
         $test = new Library\SimpleShortcode('test', null, function () {
             return 'test';
         });
-
-        $manager['test'] = $test;
         $test->alias('t');
+
+        $manager[] = $test;
 
         $this->assertEquals($test->doShortcode('[test/][t/]'), 'testtest');
         $this->assertEquals($manager->doShortcode('[test/][t/]'), 'testtest');
