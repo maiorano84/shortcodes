@@ -15,7 +15,7 @@ class WordpressParser implements ParserInterface
      * @return mixed
      * @link https://core.trac.wordpress.org/browser/tags/4.2/src/wp-includes/shortcodes.php#L203
      */
-    public function parseContent($content, array $tags = [], Callable $callback = null)
+    public function parseShortcode($content, array $tags = [], Callable $callback = null)
     {
         $tagregexp = join('|', array_map('preg_quote', $tags));
         $regex =
@@ -48,34 +48,33 @@ class WordpressParser implements ParserInterface
             . ')'
             . '(\\]?)';          // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
 
-
         preg_match_all("/$regex/", $content, $matches, PREG_SET_ORDER);
 
         if (is_null($callback)) {
             $results = [];
             foreach ($matches as $match) {
-                $results[] = $this->parseShortcode($match);
+                if($match[1] == '[' && $match[6] == ']'){
+                    continue;
+                }
+                $results[] = [
+                    'tag' => $match[2],
+                    'content' => isset($match[5]) ? $match[5] : null,
+                    'attributes' => isset($match[3]) ? $this->parseAttributes($match[3]) : []
+                ];
             }
-
             return $results;
         }
 
-        return preg_replace_callback("/$regex/", $callback, $content);
-    }
+        return preg_replace_callback("/$regex/", function($match) use ($callback){
+            if($match[1] == '[' && $match[6] == ']'){
+                return substr($match[0], 1, -1);
+            }
 
-    /**
-     * Human-readable format
-     * @param array $match
-     * @return array
-     */
-    public function parseShortcode($match)
-    {
-        return [
-            'tag' => $match[2],
-            'escaped' => $match[1] == '[' && $match[6] == ']' ? substr($match[0], 1, -1) : null,
-            'content' => isset($match[5]) ? $match[5] : null,
-            'attributes' => isset($match[3]) ? $this->parseAttributes($match[3]) : []
-        ];
+            $content = isset($match[5]) ? $match[5] : null;
+            $atts = isset($match[3]) ? $this->parseAttributes($match[3]) : [];
+
+            return $callback($match[2], $content, $atts);
+        }, $content);
     }
 
     /**

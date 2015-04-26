@@ -93,14 +93,14 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate
 
     /**
      * @param ShortcodeInterface $shortcode
-     * @param string $alias
+     * @param string $name
      * @param bool $includeAlias
      * @return ManagerInterface
      * @throws RegisterException
      */
-    public function register(ShortcodeInterface $shortcode, $alias = null, $includeAlias = true)
+    public function register(ShortcodeInterface $shortcode, $name = null, $includeAlias = true)
     {
-        $name = $alias ?: $shortcode->getName();
+        $name = $name ?: $shortcode->getName();
 
         if (!$name) {
             throw new RegisterException(RegisterException::BLANK);

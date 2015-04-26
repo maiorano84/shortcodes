@@ -30,8 +30,7 @@ class ShortcodeManager extends BaseManager implements ManagerInterface
         if ($this->precheck($content, $tags) === false) {
             return false;
         }
-
-        $matches = $this->parser->parseContent($content, $tags);
+        $matches = $this->parser->parseShortcode($content, $tags);
 
         if (empty($matches)) {
             return false;
@@ -62,21 +61,14 @@ class ShortcodeManager extends BaseManager implements ManagerInterface
             return $content;
         }
 
-        $content = $this->parser->parseContent($content, $tags, function ($match) {
-            $result = $this->parser->parseShortcode($match);
+        $content = $this->parser->parseShortcode($content, $tags, function ($tag, $content, $atts) {
 
-            if ($result['escaped']) {
-                return $result['escaped'];
-            }
-
-            $shortcode = $this[$result['tag']];
-
-            $atts = [];
+            $shortcode = $this[$tag];
             if ($shortcode instanceof AttributeInterface) {
-                $atts = array_merge($shortcode->getAttributes(), $result['attributes']);
+                $atts = array_merge($shortcode->getAttributes(), $atts);
             }
 
-            return $shortcode->handle($result['content'], $atts);
+            return $shortcode->handle($content, $atts);
         });
 
         if ($deep && $this->hasShortcode($content, $tags)) {

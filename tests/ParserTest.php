@@ -8,11 +8,11 @@ class ParserTest extends TestCase
     public function testParseShortcodeContent()
     {
         $parser = new WordpressParser;
-        $callback = function ($match) {
-            return isset($match[5]) ? $match[5] : null;
+        $callback = function ($tag, $content, $atts) {
+            return $content;
         };
-        $content = $parser->parseContent('[tag]Content[/tag]', array('tag'), $callback);
-        $empty = $parser->parseContent('[tag]', array('tag'), $callback);
+        $content = $parser->parseShortcode('Content', array('tag'), $callback);
+        $empty = $parser->parseShortcode('[tag]', array('tag'), $callback);
         $this->assertEquals($content, 'Content');
         $this->assertEmpty($empty);
     }
