@@ -1,13 +1,14 @@
 # Shortcodes
 Implementation of Wordpress' Shortcode syntax as a standalone package. Content from editors, databases, etc. can be scanned by the Shortcode Manager and the contents replaced by a custom callback.
 
-====================================================================================================================================================================================================
+======================================================================
 
 [![Build Status](https://travis-ci.org/maiorano84/shortcodes.svg?branch=master)](https://travis-ci.org/maiorano84/shortcodes)
 [![Latest Stable Version](https://poser.pugx.org/maiorano84/shortcodes/v/stable)](https://packagist.org/packages/maiorano84/shortcodes)
 [![Total Downloads](https://poser.pugx.org/maiorano84/shortcodes/downloads)](https://packagist.org/packages/maiorano84/shortcodes)
 [![Latest Unstable Version](https://poser.pugx.org/maiorano84/shortcodes/v/unstable)](https://packagist.org/packages/maiorano84/shortcodes)
 [![License](https://poser.pugx.org/maiorano84/shortcodes/license)](https://packagist.org/packages/maiorano84/shortcodes)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/f1157d4b-fc5f-4b9f-be34-7814abb4edb5/big.png)](https://insight.sensiolabs.com/projects/f1157d4b-fc5f-4b9f-be34-7814abb4edb5)
 
 ## Requirements
 Shortcodes requires PHP 5.4 or greater.
