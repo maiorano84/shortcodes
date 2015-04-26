@@ -11,7 +11,7 @@ class ParserTest extends TestCase
         $callback = function ($tag, $content, $atts) {
             return $content;
         };
-        $content = $parser->parseShortcode('Content', array('tag'), $callback);
+        $content = $parser->parseShortcode('[tag]Content[/tag]', array('tag'), $callback);
         $empty = $parser->parseShortcode('[tag]', array('tag'), $callback);
         $this->assertEquals($content, 'Content');
         $this->assertEmpty($empty);
