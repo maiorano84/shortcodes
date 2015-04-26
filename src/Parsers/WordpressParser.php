@@ -103,8 +103,8 @@ class WordpressParser implements ParserInterface
             . ')*?'
             . ')'
             . '(?:'
-            . '(\\/)'            // 4: Self closing tag ...
-            . '\\]'              // ... and closing bracket
+            . '(\\/)'            // 4: Self closing tag
+            . '\\]'              // followed by closing bracket
             . '|'
             . '\\]'              // Closing bracket
             . '(?:'

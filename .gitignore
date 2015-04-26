@@ -6,16 +6,5 @@
 ehthumbs.db
 Thumbs.db
 
-# IDE
-nbproject
-.classpath
-.buildpath
-.idea
-.project
-.settings
-.metadata
-*.iml
-*.ipr
-
 # Misc
 vendor

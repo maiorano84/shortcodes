@@ -46,11 +46,6 @@ echo $manager->register(new SimpleShortcode('nest', null, function ($content) {
 echo $manager->doShortcode('[nest]My email is [mail address=test@test.com], and the date is [d/][/mail][/nest]', 'nest|d', true).'<br><br>';
 
 /*
- * What have we enabled so far?
- * */
-echo '<pre>';print_r($manager->getRegistered());echo '</pre><br><br>';
-
-/*
  * Let's get rid of 'm' and use it for something else
  * */
 echo $manager->deregister('m')->register(new SimpleShortcode('m', null, function(){
