@@ -25,7 +25,7 @@ trait AliasTrait
         }
 
         $alias = (string)$alias;
-        if(!in_array($alias, $this->alias)){
+        if (!in_array($alias, $this->alias)) {
             $this->alias[] = $alias;
         }
 

@@ -164,7 +164,7 @@ In addition to the above, you may also run `doShortcode` on a Shortcode directly
 
 ```php
 $manager->doShortcode('[bold]Bold[/bold][b]Bold[/b]', 'bold|b');
-$bold->doShortcode('[bold]Bold[/bold][b]Bold Text[/b]');
+$bold->doShortcode('[bold]Bold[/bold][b]Bold[/b]');
 ```
 
 And finally, deregistering a Shortcode and its aliases can be done like so:

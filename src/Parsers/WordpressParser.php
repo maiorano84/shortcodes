@@ -53,7 +53,7 @@ class WordpressParser implements ParserInterface
         if (is_null($callback)) {
             $results = [];
             foreach ($matches as $match) {
-                if($match[1] == '[' && $match[6] == ']'){
+                if ($match[1] == '[' && $match[6] == ']') {
                     continue;
                 }
                 $results[] = [
@@ -62,11 +62,12 @@ class WordpressParser implements ParserInterface
                     'attributes' => isset($match[3]) ? $this->parseAttributes($match[3]) : []
                 ];
             }
+
             return $results;
         }
 
-        return preg_replace_callback("/$regex/", function($match) use ($callback){
-            if($match[1] == '[' && $match[6] == ']'){
+        return preg_replace_callback("/$regex/", function ($match) use ($callback) {
+            if ($match[1] == '[' && $match[6] == ']') {
                 return substr($match[0], 1, -1);
             }
 

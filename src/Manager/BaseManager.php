@@ -171,7 +171,7 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate
      */
     public function alias($name, $alias)
     {
-        if(!($this[$name] instanceof AliasInterface)) {
+        if (!($this[$name] instanceof AliasInterface)) {
             throw new RegisterException(RegisterException::NO_ALIAS);
         }
         if (!$this->isRegistered($name)) {
