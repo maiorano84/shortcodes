@@ -40,34 +40,41 @@ class Age implements ShortcodeInterface, AttributeInterface
         $now = new DateTime('now');
         $birthday = new DateTime($content);
         $diff = $now->diff($birthday);
-        switch ($atts['units']) {
-            case 'centuries':
-                $v = $diff->y / 100;
-                break;
-            case 'decades':
-                $v = $diff->y / 10;
-                break;
-            case 'months':
-                $v = $diff->y * 12 + $diff->m;
-                break;
-            case 'days':
-                $v = $diff->days + $diff->d;
-                break;
-            case 'hours':
-                $v = ($diff->days * 24) + $diff->h;
-                break;
-            case 'minutes':
-                $v = ($diff->days * 24 * 60) + $diff->i;
-                break;
-            case 'seconds':
-                $v = ($diff->days * 24 * 60 * 60) + $diff->s;
-                break;
-            case 'years':
-            default:
-                $v = $diff->y;
-                break;
-        }
+        $v = $this->calculate($atts['units'], $diff);
 
         return sprintf('%d %s', $v, $atts['units']);
+    }
+
+    private function calculate($units, $diff)
+    {
+        $calculator = [
+            'centuries' => function ($diff) {
+                return $diff->y / 100;
+            },
+            'decades' => function ($diff) {
+                return $diff->y / 10;
+            },
+            'years' => function ($diff) {
+                return $diff->y;
+            },
+            'months' => function ($diff) {
+                return $diff->y * 12 + $diff->m;
+            },
+            'days' => function ($diff) {
+                return $diff->days + $diff->d;
+            },
+            'hours' => function ($diff) {
+                return ($diff->days * 24) + $diff->h;
+            },
+            'minutes' => function ($diff) {
+                return ($diff->days * 24 * 60) + $diff->i;
+            },
+            'seconds' => function ($diff) {
+                return ($diff->days * 24 * 60 * 60) + $diff->s;
+            }
+        ];
+        $u = isset($calculator[$units]) ? $units : 'years';
+
+        return $calculator[$u]($diff);
     }
 }
