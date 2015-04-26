@@ -48,7 +48,7 @@ echo $manager->doShortcode('[nest]My email is [mail address=test@test.com], and 
 /*
  * What have we enabled so far?
  * */
-echo '<pre>';var_dump($manager->getRegistered());echo '</pre><br><br>';
+echo '<pre>';print_r($manager->getRegistered());echo '</pre><br><br>';
 
 /*
  * Let's get rid of 'm' and use it for something else

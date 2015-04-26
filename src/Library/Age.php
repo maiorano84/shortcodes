@@ -6,6 +6,7 @@ use Maiorano\Shortcodes\Contracts\AttributeInterface;
 use Maiorano\Shortcodes\Contracts\ShortcodeTrait;
 use Maiorano\Shortcodes\Contracts\AttributeTrait;
 use \DateTime;
+use \DateInterval;
 
 /**
  * Calculates the age of something
@@ -45,31 +46,36 @@ class Age implements ShortcodeInterface, AttributeInterface
         return sprintf('%d %s', $v, $atts['units']);
     }
 
-    private function calculate($units, $diff)
+    /**
+     * @param $units
+     * @param DateInterval $diff
+     * @return mixed
+     */
+    private function calculate($units, DateInterval $diff)
     {
         $calculator = [
-            'centuries' => function ($diff) {
+            'centuries' => function (DateInterval $diff) {
                 return $diff->y / 100;
             },
-            'decades' => function ($diff) {
+            'decades' => function (DateInterval $diff) {
                 return $diff->y / 10;
             },
-            'years' => function ($diff) {
+            'years' => function (DateInterval $diff) {
                 return $diff->y;
             },
-            'months' => function ($diff) {
+            'months' => function (DateInterval $diff) {
                 return $diff->y * 12 + $diff->m;
             },
-            'days' => function ($diff) {
+            'days' => function (DateInterval $diff) {
                 return $diff->days + $diff->d;
             },
-            'hours' => function ($diff) {
+            'hours' => function (DateInterval $diff) {
                 return ($diff->days * 24) + $diff->h;
             },
-            'minutes' => function ($diff) {
+            'minutes' => function (DateInterval $diff) {
                 return ($diff->days * 24 * 60) + $diff->i;
             },
-            'seconds' => function ($diff) {
+            'seconds' => function (DateInterval $diff) {
                 return ($diff->days * 24 * 60 * 60) + $diff->s;
             }
         ];
