@@ -29,7 +29,7 @@ There are many formats that shortcodes can follow, but ultimately the idea is th
 
 ## Usage
 
-This package comes with everything you need for defining your own custom shortcodes and their respective callbacks. To define a custom Shortcode programatically, you can use the SimpleShortcode class:
+This package comes with everything you need to get started in defining your own custom shortcodes and their respective callbacks. To define a custom Shortcode programatically, you can use the SimpleShortcode class:
 
 ```php
 use Maiorano\Shortcodes\Manager;
@@ -46,32 +46,9 @@ $manager->register($example)->doShortcode('[example]Foo[/example]'); //Outputs: 
 
 Now, when you process a string that contains `[example]` it will be replaced by your custom callback.
 
-If you would like to create your own custom class, you can do the following:
+## Nested Shortcodes
 
-```php
-use Maiorano\Shortcodes\Contracts;
-
-class ExampleShortcode implements Contracts\ShortcodeInterface, Contracts\AttributeInterface
-{
-    use Contracts\ShortcodeTrait, Contracts\AttributeTrait;
-    protected $name = 'example';
-    protected $attributes = ['foo'=>'bar'];
-    public function handle($content=null, array $atts=[])
-    {
-        return $content.$atts['foo'];
-    }
-}
-```
-
-Executing the above is as easy as doing this:
-
-```php
-echo $manager->register(new ExampleShortcode)->doShortcode('[example foo=baz]Foo[/example]'); //Outputs: Foobaz
-```
-
-## Advanced Usage
-
-In most cases, the SimpleShortcode class will be sufficient in covering your app's needs. However, some cases may require quite a bit more functionality that the SimpleShortcode class just hasn't thought of.
+In most cases, the SimpleShortcode class will be sufficient in covering your app's needs. However, some cases may require a bit more configuration that the SimpleShortcode class doesn't assume out of the box.
 
 One fairly common scenario you might run into is the need for Nested Shortcodes:
 
@@ -142,6 +119,58 @@ Hold my beer:
 
 ```php
 echo $manager->doShortcode('[foo][bar][baz/][/bar][/foo]', null, true); //Outputs: foobarbaz
+```
+
+## Aliasing
+
+If you would like to create aliases for preexisting shortcodes, there are a number of ways to do this:
+
+```php
+$manager = new ShortcodeManager;
+$bold = new SimpleShortcode('bold', null, function($content){
+    return sprintf('<strong>%s</strong>', $content);
+});
+$manager->register($bold);
+$manager->alias('bold', 'b');
+```
+
+Now when you use `[bold]` or `[b]`, they will both do the same thing.
+
+**Be careful**: When registering aliases, deregistering the original shortcode will also deregister its associated aliases by default.
+
+If you would like to deregister a particular shortcode but leave its aliases intact, you may optionally provide a second parameter that will tell the manager not to deregister aliases:
+
+```php
+$manager->deregister('bold', false);
+```
+
+Now, `[b]` will continue to be rendered, but `[bold]` will no longer be recognized.
+
+## Shortcuts
+
+There are a number of shortcuts provided for you out of the box. Registration can be as easy as this:
+
+```php
+$manager[] = $bold;
+```
+
+You may also alias a Shortcode directly:
+
+```php
+$bold->alias('b');
+```
+
+In addition to the above, you may also run `doShortcode` on a Shortcode directly. These two statements are identical:
+
+```php
+$manager->doShortcode('[bold]Bold[/bold][b]Bold[/b]', 'bold|b');
+$bold->doShortcode('[bold]Bold[/bold][b]Bold Text[/b]');
+```
+
+And finally, deregistering a Shortcode and its aliases can be done like so:
+
+```php
+unset($manager['bold']);
 ```
 
 ## Other Notes
