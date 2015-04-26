@@ -22,13 +22,11 @@ trait CallableTrait
      */
     public function handle($content = null, array $atts = [])
     {
-        if (!is_null($this->callback)) {
-            $c = $this->callback;
-            $callback = $c->bindTo($this, $this);
-
-            return $callback($content, $atts);
+        if (is_null($this->callback)) {
+            return (string)$content;
         }
+        $callback = $this->callback->bindTo($this, $this);
 
-        return (string)$content;
+        return $callback($content, $atts);
     }
 }
