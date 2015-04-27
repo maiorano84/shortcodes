@@ -2,6 +2,7 @@
 namespace Maiorano\Shortcodes\Manager;
 
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
+use Maiorano\Shortcodes\Contracts\ContainerAwareInterface;
 use Maiorano\Shortcodes\Contracts\AliasInterface;
 use Maiorano\Shortcodes\Exceptions\RegisterException;
 use Maiorano\Shortcodes\Exceptions\DeregisterException;
@@ -110,11 +111,16 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate
         }
 
         $this->shortcodes[$name] = $shortcode;
-        $shortcode->bind($this);
+        if ($shortcode instanceof ContainerAwareInterface) {
+            $shortcode->bind($this);
+        }
 
         if ($includeAlias && $shortcode instanceof AliasInterface) {
             foreach ($shortcode->getAlias() as $alias) {
                 $shortcode->alias($alias);
+                if (!($shortcode instanceof ContainerAwareInterface)) {
+                    $this->register($shortcode, $alias, false);
+                }
             }
         }
 
@@ -129,20 +135,21 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate
      */
     public function deregister($name, $includeAlias = true)
     {
-        if ($this->isRegistered($name)) {
-            $shortcode = $this->shortcodes[$name];
-
-            if ($includeAlias && $shortcode instanceof AliasInterface) {
-                foreach ($this->shortcodes[$name]->getAlias() as $alias) {
-                    unset($this->shortcodes[$alias]);
-                }
-            }
-            unset($this->shortcodes[$name]);
-
-            return $this;
+        if (!$this->isRegistered($name)) {
+            $e = sprintf(DeregisterException::MISSING, $name);
+            throw new DeregisterException($e);
         }
-        $e = sprintf(DeregisterException::MISSING, $name);
-        throw new DeregisterException($e);
+
+        $shortcode = $this->shortcodes[$name];
+
+        if ($includeAlias && $shortcode instanceof AliasInterface) {
+            foreach ($this->shortcodes[$name]->getAlias() as $alias) {
+                unset($this->shortcodes[$alias]);
+            }
+        }
+        unset($this->shortcodes[$name]);
+
+        return $this;
     }
 
     /**

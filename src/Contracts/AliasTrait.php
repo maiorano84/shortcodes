@@ -1,7 +1,6 @@
 <?php
 namespace Maiorano\Shortcodes\Contracts;
 
-use Maiorano\Shortcodes\Manager\ManagerInterface;
 use Maiorano\Shortcodes\Exceptions\RegisterException;
 
 /**
@@ -23,14 +22,18 @@ trait AliasTrait
         if (!($this instanceof AliasInterface)) {
             throw new RegisterException(RegisterException::NO_ALIAS);
         }
+        if (!$alias) {
+            throw new RegisterException(RegisterException::BLANK);
+        }
 
-        $alias = (string)$alias;
         if (!in_array($alias, $this->alias)) {
             $this->alias[] = $alias;
         }
 
-        if ($this->manager instanceof ManagerInterface) {
-            $this->manager->register($this, $alias, false);
+        if ($this instanceof ContainerAwareInterface && $this->isBound()) {
+            if (!$this->manager->isRegistered($alias)) {
+                $this->manager->register($this, $alias, false);
+            }
         }
 
         return $this;

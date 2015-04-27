@@ -9,8 +9,7 @@ interface AliasInterface
 {
 
     /**
-     * Convenience method
-     * Store the alias, and register through the Manager
+     * Store the alias, and register through the Manager if available
      * @param string $alias
      * @return ShortcodeInterface
      * @throws \Maiorano\Shortcodes\Exceptions\RegisterException
@@ -18,6 +17,7 @@ interface AliasInterface
     public function alias($alias);
 
     /**
+     * Returns an array of registered aliases
      * @return array
      */
     public function getAlias();

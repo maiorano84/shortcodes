@@ -10,11 +10,6 @@ trait CallableTrait
 {
 
     /**
-     * @var callable
-     */
-    protected $callback;
-
-    /**
      * @param string|null $content
      * @param array $atts
      * @return string
