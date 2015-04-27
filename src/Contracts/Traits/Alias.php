@@ -1,20 +1,22 @@
 <?php
-namespace Maiorano\Shortcodes\Contracts;
+namespace Maiorano\Shortcodes\Contracts\Traits;
 
+use Maiorano\Shortcodes\Contracts\AliasInterface;
+use Maiorano\Shortcodes\Contracts\ContainerAwareInterface;
 use Maiorano\Shortcodes\Exceptions\RegisterException;
 
 /**
- * Trait AliasTrait
+ * Trait Alias
  * Assists in satisfying the AliasInterface requirements
  * Allows shortcodes to be aliased
- * @package Maiorano\Shortcodes\Contracts
+ * @package Maiorano\Shortcodes\Contracts\Traits
  */
-trait AliasTrait
+trait Alias
 {
 
     /**
      * @param string $alias
-     * @return ShortcodeInterface
+     * @return \Maiorano\Shortcodes\Contracts\ShortcodeInterface
      * @throws RegisterException
      */
     public function alias($alias)

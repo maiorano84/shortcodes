@@ -1,19 +1,22 @@
 <?php
-namespace Maiorano\Shortcodes\Contracts;
+namespace Maiorano\Shortcodes\Contracts\Traits;
 
+use Maiorano\Shortcodes\Contracts\AliasInterface;
 use Maiorano\Shortcodes\Manager\ManagerInterface;
 use Maiorano\Shortcodes\Exceptions\RegisterException;
 
 /**
- * Trait ContainerAwareTrait
- * @package Maiorano\Shortcodes\Contracts
+ * Trait ContainerAware
+ * Assists in satisfying the ContainerAwareInterface requirements
+ * Exposes the management container and its public members
+ * @package Maiorano\Shortcodes\Contracts\Traits
  */
-trait ContainerAwareTrait
+trait ContainerAware
 {
 
     /**
      * @param ManagerInterface $manager
-     * @see Maiorano\Shortcodes\Contracts\ContainerAwareInterface::bind()
+     * @see \Maiorano\Shortcodes\Contracts\ContainerAwareInterface::bind()
      */
     public function bind(ManagerInterface $manager)
     {
@@ -22,7 +25,7 @@ trait ContainerAwareTrait
 
     /**
      * @return bool
-     * @see Maiorano\Shortcodes\Contracts\ContainerAwareInterface::isBound()
+     * @see \Maiorano\Shortcodes\Contracts\ContainerAwareInterface::isBound()
      */
     public function isBound()
     {
@@ -30,6 +33,9 @@ trait ContainerAwareTrait
     }
 
     /**
+     * Convenience method
+     * Utilizes manager's implementation of hasShortcode
+     * Limits search to this shortcode's context
      * @param string $content
      * @param bool $deep
      * @return string
@@ -46,6 +52,9 @@ trait ContainerAwareTrait
     }
 
     /**
+     * Convenience method
+     * Utilizes manager's implementation of doShortcode
+     * Limits search to this shortcode's context
      * @param string $content
      * @param bool $deep
      * @return string
@@ -62,6 +71,7 @@ trait ContainerAwareTrait
     }
 
     /**
+     * Utility method
      * @return string|array
      */
     private function getContext()

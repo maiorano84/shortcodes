@@ -5,11 +5,12 @@ use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 use Maiorano\Shortcodes\Contracts\AttributeInterface;
 use Maiorano\Shortcodes\Contracts\AliasInterface;
 use Maiorano\Shortcodes\Contracts\ContainerAwareInterface;
-use Maiorano\Shortcodes\Contracts\ShortcodeTrait;
-use Maiorano\Shortcodes\Contracts\AttributeTrait;
-use Maiorano\Shortcodes\Contracts\CallableTrait;
-use Maiorano\Shortcodes\Contracts\AliasTrait;
-use Maiorano\Shortcodes\Contracts\ContainerAwareTrait;
+
+use Maiorano\Shortcodes\Contracts\Traits\Shortcode;
+use Maiorano\Shortcodes\Contracts\Traits\Attribute;
+use Maiorano\Shortcodes\Contracts\Traits\CallableTrait;
+use Maiorano\Shortcodes\Contracts\Traits\Alias;
+use Maiorano\Shortcodes\Contracts\Traits\ContainerAware;
 
 /**
  * Creation of Shortcodes programatically
@@ -17,7 +18,7 @@ use Maiorano\Shortcodes\Contracts\ContainerAwareTrait;
  */
 class SimpleShortcode implements ShortcodeInterface, AttributeInterface, AliasInterface, ContainerAwareInterface
 {
-    use ShortcodeTrait, AttributeTrait, CallableTrait, AliasTrait, ContainerAwareTrait;
+    use Shortcode, Attribute, CallableTrait, Alias, ContainerAware;
 
     /**
      * @var string

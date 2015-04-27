@@ -1,11 +1,12 @@
 <?php
-namespace Maiorano\Shortcodes\Contracts;
+namespace Maiorano\Shortcodes\Contracts\Traits;
 
 /**
+ * Trait Shortcode
  * Assists in satisfying the ShortcodeInterface requirements
- * @package Maiorano\Shortcodes\Contracts
+ * @package Maiorano\Shortcodes\Contracts\Traits
  */
-trait ShortcodeTrait
+trait Shortcode
 {
 
     /**

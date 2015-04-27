@@ -3,8 +3,8 @@ namespace Maiorano\Shortcodes\Library;
 
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 use Maiorano\Shortcodes\Contracts\AttributeInterface;
-use Maiorano\Shortcodes\Contracts\ShortcodeTrait;
-use Maiorano\Shortcodes\Contracts\AttributeTrait;
+use Maiorano\Shortcodes\Contracts\Traits\Shortcode;
+use Maiorano\Shortcodes\Contracts\Traits\Attribute;
 use \DateTime;
 use \DateInterval;
 
@@ -15,7 +15,7 @@ use \DateInterval;
  */
 class Age implements ShortcodeInterface, AttributeInterface
 {
-    use ShortcodeTrait, AttributeTrait;
+    use Shortcode, Attribute;
 
     /**
      * @var string

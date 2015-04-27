@@ -1,18 +1,18 @@
 <?php
-namespace Maiorano\Shortcodes\Contracts;
+namespace Maiorano\Shortcodes\Contracts\Traits;
 
 /**
- * Trait AttributeTrait
+ * Trait Attribute
  * Assists in satisfying the AttributeInterface requirements
  * Allows shortcodes to use the attribute format if needed
- * @package Maiorano\Shortcodes\Contracts
+ * @package Maiorano\Shortcodes\Contracts\Traits
  */
-trait AttributeTrait
+trait Attribute
 {
 
     /**
      * @return array
-     * @see AttributeInterface::getAttributes()
+     * @see \Maiorano\Shortcodes\Contracts\AttributeInterface::getAttributes()
      */
     public function getAttributes()
     {

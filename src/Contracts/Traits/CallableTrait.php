@@ -1,10 +1,10 @@
 <?php
-namespace Maiorano\Shortcodes\Contracts;
+namespace Maiorano\Shortcodes\Contracts\Traits;
 
 /**
  * Trait CallableTrait
  * Assists in providing Closure functionality
- * @package Maiorano\Shortcodes\Contracts
+ * @package Maiorano\Shortcodes\Contracts\Traits
  */
 trait CallableTrait
 {
@@ -13,7 +13,7 @@ trait CallableTrait
      * @param string|null $content
      * @param array $atts
      * @return string
-     * @see Maiorano\Shortcodes\Contracts\ShortcodeInterface::handle()
+     * @see \Maiorano\Shortcodes\Contracts\ShortcodeInterface::handle()
      */
     public function handle($content = null, array $atts = [])
     {

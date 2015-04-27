@@ -3,8 +3,8 @@ namespace Maiorano\Shortcodes\Library;
 
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 use Maiorano\Shortcodes\Contracts\AliasInterface;
-use Maiorano\Shortcodes\Contracts\ShortcodeTrait;
-use Maiorano\Shortcodes\Contracts\AliasTrait;
+use Maiorano\Shortcodes\Contracts\Traits\Shortcode;
+use Maiorano\Shortcodes\Contracts\Traits\Alias;
 
 /**
  * Generate Lorem Ipsum
@@ -13,7 +13,7 @@ use Maiorano\Shortcodes\Contracts\AliasTrait;
  */
 class Ipsum implements ShortcodeInterface, AliasInterface
 {
-    use ShortcodeTrait, AliasTrait;
+    use Shortcode, Alias;
 
     /**
      * @var string
