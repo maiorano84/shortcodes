@@ -1,13 +1,13 @@
 <?php
 namespace Maiorano\Shortcodes\Test;
 
-use Maiorano\Shortcodes\Parsers\WordpressParser;
+use Maiorano\Shortcodes\Parsers\DefaultParser;
 
 class ParserTest extends TestCase
 {
     public function testParseShortcodeContent()
     {
-        $parser = new WordpressParser;
+        $parser = new DefaultParser;
         $callback = function ($tag, $content, $atts) {
             return $content;
         };
@@ -19,7 +19,7 @@ class ParserTest extends TestCase
 
     public function testParseShortcodeAttributes()
     {
-        $parser = new WordpressParser;
+        $parser = new DefaultParser;
         $simple = $parser->parseAttributes('attribute=value');
         $complex = $parser->parseAttributes('attribute="value1 value2"');
         $nameless = $parser->parseAttributes('attribute');

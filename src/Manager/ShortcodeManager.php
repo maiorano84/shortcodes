@@ -2,7 +2,7 @@
 namespace Maiorano\Shortcodes\Manager;
 
 use Maiorano\Shortcodes\Contracts\AttributeInterface;
-use Maiorano\Shortcodes\Parsers\WordpressParser;
+use Maiorano\Shortcodes\Parsers\DefaultParser;
 
 /**
  * Class ShortcodeManager
@@ -16,7 +16,7 @@ class ShortcodeManager extends BaseManager implements ManagerInterface
      */
     public function __construct(array $shortcodes = [])
     {
-        parent::__construct($shortcodes, new WordpressParser);
+        parent::__construct($shortcodes, new DefaultParser);
     }
 
     /**

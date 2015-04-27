@@ -5,7 +5,7 @@ namespace Maiorano\Shortcodes\Parsers;
  * Class WordpressParser
  * @package Maiorano\Shortcodes\Parsers
  */
-class WordpressParser implements ParserInterface
+class DefaultParser implements ParserInterface
 {
 
     /**
@@ -13,7 +13,6 @@ class WordpressParser implements ParserInterface
      * @param array $tags
      * @param callable $callback
      * @return mixed
-     * @link https://core.trac.wordpress.org/browser/tags/4.2/src/wp-includes/shortcodes.php#L203
      */
     public function parseShortcode($content, array $tags = [], Callable $callback = null)
     {
@@ -85,6 +84,7 @@ class WordpressParser implements ParserInterface
     /**
      * @param $tags
      * @return string
+     * @link https://core.trac.wordpress.org/browser/tags/4.2/src/wp-includes/shortcodes.php#L203
      */
     private function getRegex($tags)
     {
