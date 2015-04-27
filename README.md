@@ -163,13 +163,13 @@ There are a number of shortcuts provided for you out of the box. Registration ca
 $manager[] = $bold;
 ```
 
-You may also alias a Shortcode directly:
+You may also alias a SimpleShortcode directly:
 
 ```php
 $bold->alias('b');
 ```
 
-In addition to the above, you may also run `doShortcode` on a Shortcode directly. These two statements are identical:
+In addition to the above, you may also run `doShortcode` on a SimpleShortcode directly. These two statements are identical:
 
 ```php
 $manager->doShortcode('[bold]Bold[/bold][b]Bold[/b]', 'bold|b');
@@ -184,9 +184,7 @@ unset($manager['bold']);
 
 ## Other Notes
 
-You might have noticed that the SimpleShortcode class can call to a protected member in order to achieve certain results. In every Shortcode that leverages the inherent `handle` method from the ShortcodeTrait, the callback is bound to the scope of that particular instance. That means that even when protected and private members are declared, you still have access to those members within the scope of your callback.
-
-With that in mind, every custom Shortcode that you create as a separate class will require a `bind` method that accepts the calling Manager container whether or not you actually require it. This is also predefined for you in the ShortcodeTrait provided.
+You might have noticed that the SimpleShortcode class can call to a protected member in order to achieve certain results. In every Shortcode that leverages the inherent `handle` method from the CallableTrait, the callback is bound to the scope of that particular instance. That means that even when protected and private members are declared, you still have access to those members within the scope of your callback.
 
 Ultimately, the goal is to keep everything as flexible as possible in allowing you - the developer - to build your application in the way you want it.
 

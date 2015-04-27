@@ -40,8 +40,7 @@ class Age implements ShortcodeInterface, AttributeInterface
 
         $now = new DateTime('now');
         $birthday = new DateTime($content);
-        $diff = $now->diff($birthday);
-        $v = $this->calculate($atts['units'], $diff);
+        $v = $this->calculate($atts['units'], $now->diff($birthday));
 
         return sprintf('%d %s', $v, $atts['units']);
     }
