@@ -1,10 +1,7 @@
 # OS
-.DS_*
 ._*
 .Spotlight-V100
 .Trashes
-ehthumbs.db
-Thumbs.db
 
 # Misc
 vendor
