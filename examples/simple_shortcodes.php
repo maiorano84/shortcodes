@@ -1,5 +1,5 @@
 <?php
-require '../bootstrap/autoload.php';
+require '../vendor/autoload.php';
 
 use Maiorano\Shortcodes\Manager\ShortcodeManager;
 use Maiorano\Shortcodes\Library\SimpleShortcode;

@@ -1,6 +1,7 @@
 <?php
 namespace Maiorano\Shortcodes\Test;
 
+use PHPUnit\Framework\TestCase;
 use Maiorano\Shortcodes\Parsers\DefaultParser;
 
 class ParserTest extends TestCase
