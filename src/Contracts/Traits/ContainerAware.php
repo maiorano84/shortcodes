@@ -42,7 +42,7 @@ trait ContainerAware
      * Limits search to this shortcode's context
      * @param string $content
      * @param bool $deep
-     * @return string
+     * @return bool
      * @throws RegisterException
      */
     public function hasShortcode($content, $deep = false)

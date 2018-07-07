@@ -12,6 +12,8 @@ use Maiorano\Shortcodes\Contracts\Traits\CallableTrait;
 use Maiorano\Shortcodes\Contracts\Traits\Alias;
 use Maiorano\Shortcodes\Contracts\Traits\ContainerAware;
 
+use Closure;
+
 /**
  * Creation of Shortcodes programatically
  * @package Maiorano\Shortcodes\Contracts
@@ -31,11 +33,6 @@ class SimpleShortcode implements ShortcodeInterface, AttributeInterface, AliasIn
     protected $attributes;
 
     /**
-     * @var Callable|null
-     */
-    protected $callback;
-
-    /**
      * @var array
      */
     protected $alias = [];
@@ -43,9 +40,9 @@ class SimpleShortcode implements ShortcodeInterface, AttributeInterface, AliasIn
     /**
      * @param string $name
      * @param array|null $atts
-     * @param Callable|null $callback
+     * @param Closure|null $callback
      */
-    public function __construct($name, $atts = [], Callable $callback = null)
+    public function __construct($name, $atts = [], Closure $callback = null)
     {
         $this->name = $name;
         $this->attributes = (array)$atts;

@@ -1,6 +1,8 @@
 <?php
 namespace Maiorano\Shortcodes\Parsers;
 
+use Closure;
+
 /**
  * Class WordpressParser
  * @package Maiorano\Shortcodes\Parsers
@@ -10,10 +12,10 @@ class DefaultParser implements ParserInterface
     /**
      * @param string $content
      * @param array $tags
-     * @param Callable $callback
+     * @param Closure $callback
      * @return mixed
      */
-    public function parseShortcode(string $content, array $tags, Callable $callback = null)
+    public function parseShortcode(string $content, array $tags, Closure $callback = null)
     {
         if (strpos($content, '[') === false && empty($tags)) {
             return is_null($callback) ? [] : $content;

@@ -1,6 +1,8 @@
 <?php
 namespace Maiorano\Shortcodes\Contracts\Traits;
 
+use Closure;
+
 /**
  * Trait CallableTrait
  * Assists in providing Closure functionality
@@ -8,6 +10,10 @@ namespace Maiorano\Shortcodes\Contracts\Traits;
  */
 trait CallableTrait
 {
+    /**
+     * @var Closure|null
+     */
+    protected $callback;
 
     /**
      * @param string|null $content

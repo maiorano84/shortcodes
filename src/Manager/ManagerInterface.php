@@ -42,14 +42,14 @@ interface ManagerInterface
 
     /**
      * @param string $content
-     * @param array $tags
+     * @param array|string $tags
      * @return bool
      */
     public function hasShortcode($content, $tags = []);
 
     /**
      * @param string $content
-     * @param array $tags
+     * @param array|string $tags
      * @return string
      */
     public function doShortcode($content, $tags = []);
