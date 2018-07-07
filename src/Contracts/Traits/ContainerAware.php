@@ -13,6 +13,10 @@ use Maiorano\Shortcodes\Exceptions\RegisterException;
  */
 trait ContainerAware
 {
+    /**
+     * @var \Maiorano\Shortcodes\Manager\ManagerInterface
+     */
+    protected $manager;
 
     /**
      * @param ManagerInterface $manager

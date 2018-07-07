@@ -46,7 +46,7 @@ class Age implements ShortcodeInterface, AttributeInterface
     }
 
     /**
-     * @param $units
+     * @param string $units
      * @param DateInterval $diff
      * @return mixed
      */

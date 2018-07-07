@@ -7,14 +7,13 @@ namespace Maiorano\Shortcodes\Parsers;
  */
 class DefaultParser implements ParserInterface
 {
-
     /**
-     * @param $content
+     * @param string $content
      * @param array $tags
-     * @param callable $callback
+     * @param Callable $callback
      * @return mixed
      */
-    public function parseShortcode($content, array $tags = [], Callable $callback = null)
+    public function parseShortcode(string $content, array $tags, Callable $callback = null)
     {
         if (strpos($content, '[') === false && empty($tags)) {
             return is_null($callback) ? [] : $content;
@@ -25,19 +24,7 @@ class DefaultParser implements ParserInterface
         preg_match_all("/$regex/", $content, $matches, PREG_SET_ORDER);
 
         if (is_null($callback)) {
-            $results = [];
-            foreach ($matches as $match) {
-                if ($match[1] == '[' && $match[6] == ']') {
-                    continue;
-                }
-                $results[] = [
-                    'tag' => $match[2],
-                    'content' => isset($match[5]) ? $match[5] : null,
-                    'attributes' => isset($match[3]) ? $this->parseAttributes($match[3]) : []
-                ];
-            }
-
-            return $results;
+            return iterator_to_array($this->generateResults($matches));
         }
 
         return preg_replace_callback("/$regex/", function ($match) use ($callback) {
@@ -53,7 +40,7 @@ class DefaultParser implements ParserInterface
     }
 
     /**
-     * @param $text
+     * @param string $text
      * @return array
      * @link https://core.trac.wordpress.org/browser/tags/4.2/src/wp-includes/shortcodes.php#L293
      */
@@ -82,11 +69,11 @@ class DefaultParser implements ParserInterface
     }
 
     /**
-     * @param $tags
+     * @param array $tags
      * @return string
      * @link https://core.trac.wordpress.org/browser/tags/4.2/src/wp-includes/shortcodes.php#L203
      */
-    private function getRegex($tags)
+    private function getRegex(array $tags)
     {
         $tagregexp = join('|', array_map('preg_quote', $tags));
 
@@ -119,5 +106,23 @@ class DefaultParser implements ParserInterface
             . ')?'
             . ')'
             . '(\\]?)';          // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
+    }
+
+
+    /**
+     * @param array $matches
+     * @return \Generator
+     */
+    private function generateResults(array $matches){
+        foreach ($matches as $match) {
+            if ($match[1] == '[' && $match[6] == ']') {
+                continue;
+            }
+            yield [
+                'tag' => $match[2],
+                'content' => isset($match[5]) ? $match[5] : null,
+                'attributes' => isset($match[3]) ? $this->parseAttributes($match[3]) : []
+            ];
+        }
     }
 }

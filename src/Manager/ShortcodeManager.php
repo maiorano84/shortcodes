@@ -20,7 +20,7 @@ class ShortcodeManager extends BaseManager implements ManagerInterface
     }
 
     /**
-     * @param $content
+     * @param string $content
      * @param string|array $tags
      * @return bool
      */
@@ -45,8 +45,8 @@ class ShortcodeManager extends BaseManager implements ManagerInterface
     }
 
     /**
-     * @param $content
-     * @param string|array $tags
+     * @param string $content
+     * @param string|array|null $tags
      * @param bool $deep
      * @return bool|mixed
      */
@@ -71,7 +71,7 @@ class ShortcodeManager extends BaseManager implements ManagerInterface
     }
 
     /**
-     * @param string|array $tags
+     * @param string|array|null $tags
      * @return array
      */
     private function preProcessTags($tags)

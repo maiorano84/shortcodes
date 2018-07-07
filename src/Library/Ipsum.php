@@ -21,7 +21,7 @@ class Ipsum implements ShortcodeInterface, AliasInterface
     protected $name = 'loremipsum';
 
     /**
-     * @var string
+     * @var array
      */
     protected $alias = ['ipsum'];
 

@@ -43,8 +43,9 @@ class ShortcodeTest extends TestCase
     public function testCustomShortcodeNoAttributes()
     {
         $manager = new ShortcodeManager;
-        $manager->register(new Library\Ipsum);
-        $this->assertEquals($manager->doShortcode('[ipsum]'), $manager['ipsum']->getIpsum());
+        $ipsum = new Library\Ipsum;
+        $manager->register($ipsum);
+        $this->assertEquals($manager->doShortcode('[ipsum]'), $ipsum->getIpsum());
     }
 
     public function testNestedShortcode()

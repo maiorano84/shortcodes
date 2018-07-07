@@ -31,7 +31,7 @@ class SimpleShortcode implements ShortcodeInterface, AttributeInterface, AliasIn
     protected $attributes;
 
     /**
-     * @var callable
+     * @var Callable|null
      */
     protected $callback;
 
@@ -41,14 +41,9 @@ class SimpleShortcode implements ShortcodeInterface, AttributeInterface, AliasIn
     protected $alias = [];
 
     /**
-     * @var \Maiorano\Shortcodes\Manager\ManagerInterface
-     */
-    protected $manager;
-
-    /**
      * @param string $name
-     * @param array $atts
-     * @param callable $callback
+     * @param array|null $atts
+     * @param Callable|null $callback
      */
     public function __construct($name, $atts = [], Callable $callback = null)
     {

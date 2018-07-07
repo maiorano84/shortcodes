@@ -15,7 +15,7 @@ use \ArrayIterator;
  * Class BaseManager
  * @package Maiorano\Shortcodes\Manager
  */
-abstract class BaseManager implements ArrayAccess, IteratorAggregate
+abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAggregate
 {
 
     /**
@@ -71,7 +71,7 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate
 
     /**
      * @param mixed $offset
-     * @return null
+     * @return ShortcodeInterface
      * @throws RegisterException
      */
     public function offsetGet($offset)
@@ -128,7 +128,7 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @param bool $includeAlias
      * @return ManagerInterface
      * @throws DeregisterException
@@ -153,7 +153,7 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate
     }
 
     /**
-     * @param $name
+     * @param string $name
      * @return bool
      */
     public function isRegistered($name)
