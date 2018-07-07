@@ -2,7 +2,7 @@
   "name": "maiorano84/shortcodes",
   "description": "Implement Shortcode syntax anywhere",
   "keywords": ["wordpress", "shortcode", "library", "manager"],
-  "license": "GPL-2.0",
+  "license": "GPL-2.0-or-later",
   "authors": [
     {
       "name": "Matt Maiorano",
