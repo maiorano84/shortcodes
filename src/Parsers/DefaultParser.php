@@ -52,7 +52,7 @@ class DefaultParser implements ParserInterface
         $atts = [];
         $pattern = '/(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
         $text = preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text);
-        if (preg_match_all($pattern, $text, $match, PREG_SET_ORDER)) {
+        if (preg_match_all($pattern, (string)$text, $match, PREG_SET_ORDER)) {
             foreach ($match as $m) {
                 if (!empty($m[1])) {
                     $atts[strtolower($m[1])] = stripcslashes($m[2]);

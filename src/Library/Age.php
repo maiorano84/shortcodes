@@ -14,9 +14,9 @@ use \DateInterval;
  * Usage: [age units=years]September 19th 1984[/age]
  * @package Maiorano\Shortcodes\Library
  */
-class Age implements ShortcodeInterface, AttributeInterface
+class Age implements AttributeInterface
 {
-    use Shortcode, Attribute;
+    use Attribute;
 
     /**
      * @var string

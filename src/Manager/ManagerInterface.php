@@ -15,10 +15,9 @@ interface ManagerInterface
     /**
      * @param ShortcodeInterface $shortcode
      * @param string|null $name
-     * @param bool $includeAlias
      * @return ManagerInterface
      */
-    public function register(ShortcodeInterface $shortcode, ?string $name = null, bool $includeAlias = true): ManagerInterface;
+    public function register(ShortcodeInterface $shortcode, ?string $name = null): ManagerInterface;
 
     /**
      * @param string $shortcode

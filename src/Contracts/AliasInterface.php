@@ -8,7 +8,7 @@ use Maiorano\Shortcodes\Exceptions\RegisterException;
  * Interface AliasInterface
  * @package Maiorano\Shortcodes\Contracts
  */
-interface AliasInterface
+interface AliasInterface extends ShortcodeInterface
 {
     /**
      * Store the alias, and register through the Manager if available

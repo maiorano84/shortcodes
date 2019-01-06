@@ -43,18 +43,17 @@ trait ContainerAware
      * Utilizes manager's implementation of hasShortcode
      * Limits search to this shortcode's context
      * @param string $content
-     * @param bool $deep
      * @return bool
      * @throws RegisterException
      */
-    public function hasShortcode($content, $deep = false)
+    public function hasShortcode($content)
     {
         if (!($this->isBound())) {
             $e = sprintf(RegisterException::MISSING, $this->name);
             throw new RegisterException($e);
         }
 
-        return $this->manager->hasShortcode($content, $this->getContext(), $deep);
+        return $this->manager->hasShortcode($content, $this->getContext());
     }
 
     /**

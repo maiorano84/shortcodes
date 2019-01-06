@@ -19,9 +19,9 @@ use Closure;
  * Creation of Shortcodes programatically
  * @package Maiorano\Shortcodes\Contracts
  */
-class SimpleShortcode implements ShortcodeInterface, AttributeInterface, AliasInterface, ContainerAwareInterface
+class SimpleShortcode implements AttributeInterface, AliasInterface, ContainerAwareInterface
 {
-    use Shortcode, Attribute, CallableTrait, Alias, ContainerAware;
+    use Attribute, CallableTrait, Alias, ContainerAware;
 
     /**
      * @var string

@@ -8,7 +8,7 @@ use Maiorano\Shortcodes\Manager\ManagerInterface;
  * Interface ContainerAwareInterface
  * @package Maiorano\Shortcodes\Contracts
  */
-interface ContainerAwareInterface
+interface ContainerAwareInterface extends ShortcodeInterface
 {
     /**
      * Bind the management container to a Shortcode

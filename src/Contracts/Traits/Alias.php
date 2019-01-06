@@ -34,7 +34,7 @@ trait Alias
 
         if ($this instanceof ContainerAwareInterface && $this->isBound()) {
             if (!$this->getManager()->isRegistered($alias)) {
-                $this->getManager()->register($this, $alias, false);
+                $this->getManager()->register($this, $alias);
             }
         }
 

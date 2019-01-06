@@ -10,6 +10,8 @@ namespace Maiorano\Shortcodes\Contracts\Traits;
  */
 trait Attribute
 {
+    use Shortcode;
+
     /**
      * @return array
      * @see \Maiorano\Shortcodes\Contracts\AttributeInterface::getAttributes()

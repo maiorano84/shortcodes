@@ -37,7 +37,7 @@ class ShortcodeManager extends BaseManager implements ManagerInterface
         foreach ($matches as $shortcode) {
             if (in_array($shortcode['tag'], $tags)) { //Shortcodes matched
                 return true;
-            } elseif ($shortcode['content']) {
+            } else if ($shortcode['content']) {
                 return $this->hasShortcode($shortcode['content'], $tags); //Check Nested Shortcodes
             }
         }

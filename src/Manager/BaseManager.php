@@ -102,11 +102,10 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
     /**
      * @param ShortcodeInterface $shortcode
      * @param string $name
-     * @param bool $includeAlias
      * @return ManagerInterface
      * @throws RegisterException
      */
-    public function register(ShortcodeInterface $shortcode, ?string $name = null, bool $includeAlias = true): ManagerInterface
+    public function register(ShortcodeInterface $shortcode, ?string $name = null): ManagerInterface
     {
         $name = $name ?: $shortcode->getName();
 
@@ -122,11 +121,10 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
             $shortcode->bind($this);
         }
 
-        if ($includeAlias && $shortcode instanceof AliasInterface) {
+        if ($shortcode instanceof AliasInterface) {
             foreach ($shortcode->getAlias() as $alias) {
-                $shortcode->alias($alias);
-                if (!($shortcode instanceof ContainerAwareInterface)) {
-                    $this->register($shortcode, $alias, false);
+                if (!$this->isRegistered($alias)) {
+                    $this->register($shortcode, $alias);
                 }
             }
         }
