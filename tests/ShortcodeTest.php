@@ -9,14 +9,10 @@ class ShortcodeTest extends TestCase
 {
     public function testSimpleShortcodeContent()
     {
-        $manager = new ShortcodeManager(array(
-            'foo' => new Library\SimpleShortcode('foo'),
-            'bar' => new Library\SimpleShortcode('bar'),
-            'baz' => new Library\SimpleShortcode('baz')
-        ));
-
-        $content = '[foo]Some text to [bar]display[/bar] [baz]when matched[/baz]';
-        $this->assertEquals($manager->doShortcode($content), 'Some text to display when matched');
+        $manager = new ShortcodeManager([
+            'foo' => new Library\SimpleShortcode('foo')
+        ]);
+        $this->assertEquals($manager->doShortcode('[foo]Matched[/foo]'), 'Matched');
         $this->assertEquals($manager->doShortcode('[qux]Unmatched[/qux]'), '[qux]Unmatched[/qux]');
     }
 

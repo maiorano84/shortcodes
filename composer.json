@@ -31,6 +31,6 @@
   },
   "scripts": {
     "phpunit": "phpunit --verbose",
-    "phpstan": "phpstan analyse src tests -l 7"
+    "phpstan": "phpstan analyse src -l 7"
   }
 }

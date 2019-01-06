@@ -27,7 +27,7 @@ class ParserTest extends TestCase
     /**
      *
      */
-    public function testParseShortcodeContent()
+    public function testParseShortcode()
     {
         $callback = function ($tag, $content, $atts) {
             return $content;
