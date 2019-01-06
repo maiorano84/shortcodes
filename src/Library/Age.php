@@ -1,4 +1,5 @@
 <?php
+
 namespace Maiorano\Shortcodes\Library;
 
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
@@ -31,8 +32,9 @@ class Age implements ShortcodeInterface, AttributeInterface
      * @param string|null $content
      * @param array $atts
      * @return string
+     * @throws \Exception
      */
-    public function handle($content = null, array $atts = [])
+    public function handle(string $content = null, array $atts = []): string
     {
         if (!$content) {
             return '';

@@ -1,4 +1,5 @@
 <?php
+
 namespace Maiorano\Shortcodes\Contracts;
 
 /**
@@ -7,10 +8,9 @@ namespace Maiorano\Shortcodes\Contracts;
  */
 interface AttributeInterface
 {
-
     /**
      * Get an array of recognized attributes and their defaults
      * @return array
      */
-    public function getAttributes();
+    public function getAttributes(): array;
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Maiorano\Shortcodes\Contracts\Traits;
 
 use Closure;
@@ -21,7 +22,7 @@ trait CallableTrait
      * @return string
      * @see \Maiorano\Shortcodes\Contracts\ShortcodeInterface::handle()
      */
-    public function handle($content = null, array $atts = [])
+    public function handle(?string $content = null, array $atts = []): string
     {
         if (is_null($this->callback)) {
             return (string)$content;

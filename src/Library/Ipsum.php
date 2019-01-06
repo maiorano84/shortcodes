@@ -1,4 +1,5 @@
 <?php
+
 namespace Maiorano\Shortcodes\Library;
 
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
@@ -35,9 +36,11 @@ class Ipsum implements ShortcodeInterface, AliasInterface
         Mauris turpis purus, bibendum in diam in, rutrum accumsan arcu.';
 
     /**
+     * @param string|null $content
+     * @param array $atts
      * @return string
      */
-    public function handle()
+    public function handle(?string $content = null, array $atts = []): string
     {
         return $this->ipsum;
     }

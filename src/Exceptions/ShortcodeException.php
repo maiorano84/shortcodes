@@ -1,4 +1,5 @@
 <?php
+
 namespace Maiorano\Shortcodes\Exceptions;
 
 use \Exception;

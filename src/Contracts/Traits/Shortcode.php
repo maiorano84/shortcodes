@@ -1,4 +1,5 @@
 <?php
+
 namespace Maiorano\Shortcodes\Contracts\Traits;
 
 /**
@@ -8,12 +9,11 @@ namespace Maiorano\Shortcodes\Contracts\Traits;
  */
 trait Shortcode
 {
-
     /**
      * @return string
-     * @see Maiorano\Shortcodes\Contracts\ShortcodeInterface::getName()
+     * @see \Maiorano\Shortcodes\Contracts\ShortcodeInterface::getName()
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Maiorano\Shortcodes\Parsers;
 
 use Closure;
@@ -115,7 +116,8 @@ class DefaultParser implements ParserInterface
      * @param array $matches
      * @return \Generator
      */
-    private function generateResults(array $matches){
+    private function generateResults(array $matches)
+    {
         foreach ($matches as $match) {
             if ($match[1] == '[' && $match[6] == ']') {
                 continue;

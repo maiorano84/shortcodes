@@ -1,4 +1,5 @@
 <?php
+
 namespace Maiorano\Shortcodes\Contracts\Traits;
 
 /**
@@ -9,12 +10,11 @@ namespace Maiorano\Shortcodes\Contracts\Traits;
  */
 trait Attribute
 {
-
     /**
      * @return array
      * @see \Maiorano\Shortcodes\Contracts\AttributeInterface::getAttributes()
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return $this->attributes;
     }

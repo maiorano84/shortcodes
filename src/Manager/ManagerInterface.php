@@ -1,4 +1,5 @@
 <?php
+
 namespace Maiorano\Shortcodes\Manager;
 
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
@@ -9,12 +10,15 @@ use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
  */
 interface ManagerInterface
 {
+    public function registerAll(array $shortcodes);
 
     /**
      * @param ShortcodeInterface $shortcode
-     * @return mixed
+     * @param string|null $name
+     * @param bool $includeAlias
+     * @return ManagerInterface
      */
-    public function register(ShortcodeInterface $shortcode);
+    public function register(ShortcodeInterface $shortcode, ?string $name = null, bool $includeAlias = true): ManagerInterface;
 
     /**
      * @param string $shortcode
@@ -50,9 +54,10 @@ interface ManagerInterface
     /**
      * @param string $content
      * @param array|string $tags
+     * @param bool $deep
      * @return string
      */
-    public function doShortcode($content, $tags = []);
+    public function doShortcode($content, $tags = [], $deep = false);
 
     /**
      * @return  \Maiorano\Shortcodes\Parsers\ParserInterface

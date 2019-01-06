@@ -1,4 +1,5 @@
 <?php
+
 namespace Maiorano\Shortcodes\Contracts;
 
 /**
@@ -7,17 +8,18 @@ namespace Maiorano\Shortcodes\Contracts;
  */
 interface ShortcodeInterface
 {
-
     /**
      * All Shortcodes must return a name as a string
      * This is used by the management container for registration
      * @return string
      */
-    public function getName();
+    public function getName(): string;
 
     /**
      * Executed upon match and determines output of Shortcodes
+     * @param string|null $content
+     * @param array $atts
      * @return string
      */
-    public function handle();
+    public function handle(?string $content = null, array $atts = []): string;
 }

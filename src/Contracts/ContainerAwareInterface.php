@@ -1,4 +1,5 @@
 <?php
+
 namespace Maiorano\Shortcodes\Contracts;
 
 use Maiorano\Shortcodes\Manager\ManagerInterface;
@@ -9,18 +10,19 @@ use Maiorano\Shortcodes\Manager\ManagerInterface;
  */
 interface ContainerAwareInterface
 {
-
     /**
      * Bind the management container to a Shortcode
      * Exposes a manager's public methods
-     * @param \Maiorano\Shortcodes\Manager\ManagerInterface $manager
+     * @param ManagerInterface $manager
      * @return void
      */
-    public function bind(ManagerInterface $manager);
+    public function bind(ManagerInterface $manager): void;
 
     /**
      * Determine if the management container exists as a property
      * @return bool
      */
-    public function isBound();
+    public function isBound(): bool;
+
+    public function getManager(): ManagerInterface;
 }

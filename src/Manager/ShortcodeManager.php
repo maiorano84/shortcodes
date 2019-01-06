@@ -1,4 +1,5 @@
 <?php
+
 namespace Maiorano\Shortcodes\Manager;
 
 use Maiorano\Shortcodes\Contracts\AttributeInterface;
@@ -16,7 +17,7 @@ class ShortcodeManager extends BaseManager implements ManagerInterface
      */
     public function __construct(array $shortcodes = [])
     {
-        parent::__construct($shortcodes, new DefaultParser);
+        parent::__construct(new DefaultParser, $shortcodes);
     }
 
     /**

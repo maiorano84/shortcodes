@@ -1,4 +1,5 @@
 <?php
+
 namespace Maiorano\Shortcodes\Library;
 
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;

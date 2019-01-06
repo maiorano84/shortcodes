@@ -1,29 +1,51 @@
 <?php
+
 namespace Maiorano\Shortcodes\Test;
 
 use PHPUnit\Framework\TestCase;
 use Maiorano\Shortcodes\Parsers\DefaultParser;
 
+/**
+ * Class ParserTest
+ * @package Maiorano\Shortcodes\Test
+ */
 class ParserTest extends TestCase
 {
+    /**
+     * @var DefaultParser
+     */
+    private $parser;
+
+    /**
+     *
+     */
+    public function setUp()
+    {
+        $this->parser = new DefaultParser;
+    }
+
+    /**
+     *
+     */
     public function testParseShortcodeContent()
     {
-        $parser = new DefaultParser;
         $callback = function ($tag, $content, $atts) {
             return $content;
         };
-        $content = $parser->parseShortcode('[tag]Content[/tag]', array('tag'), $callback);
-        $empty = $parser->parseShortcode('[tag]', array('tag'), $callback);
+        $content = $this->parser->parseShortcode('[tag]Content[/tag]', ['tag'], $callback);
+        $empty = $this->parser->parseShortcode('[tag]', ['tag'], $callback);
         $this->assertEquals($content, 'Content');
         $this->assertEmpty($empty);
     }
 
+    /**
+     *
+     */
     public function testParseShortcodeAttributes()
     {
-        $parser = new DefaultParser;
-        $simple = $parser->parseAttributes('attribute=value');
-        $complex = $parser->parseAttributes('attribute="value1 value2"');
-        $nameless = $parser->parseAttributes('attribute');
+        $simple = $this->parser->parseAttributes('attribute=value');
+        $complex = $this->parser->parseAttributes('attribute="value1 value2"');
+        $nameless = $this->parser->parseAttributes('attribute');
 
         $this->assertEquals($simple['attribute'], 'value');
         $this->assertEquals($complex['attribute'], 'value1 value2');

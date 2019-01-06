@@ -1,4 +1,5 @@
 <?php
+
 namespace Maiorano\Shortcodes\Contracts\Traits;
 
 use Maiorano\Shortcodes\Contracts\AliasInterface;
@@ -14,15 +15,16 @@ use Maiorano\Shortcodes\Exceptions\RegisterException;
 trait ContainerAware
 {
     /**
-     * @var \Maiorano\Shortcodes\Manager\ManagerInterface
+     * @var ManagerInterface
      */
     protected $manager;
 
     /**
      * @param ManagerInterface $manager
+     * @return void
      * @see \Maiorano\Shortcodes\Contracts\ContainerAwareInterface::bind()
      */
-    public function bind(ManagerInterface $manager)
+    public function bind(ManagerInterface $manager): void
     {
         $this->manager = $manager;
     }
@@ -31,7 +33,7 @@ trait ContainerAware
      * @return bool
      * @see \Maiorano\Shortcodes\Contracts\ContainerAwareInterface::isBound()
      */
-    public function isBound()
+    public function isBound(): bool
     {
         return $this->manager instanceof ManagerInterface;
     }
@@ -72,6 +74,11 @@ trait ContainerAware
         }
 
         return $this->manager->doShortcode($content, $this->getContext(), $deep);
+    }
+
+    public function getManager(): ManagerInterface
+    {
+        return $this->manager;
     }
 
     /**

@@ -1,44 +1,71 @@
 <?php
+
 namespace Maiorano\Shortcodes\Test;
 
 use PHPUnit\Framework\TestCase;
 use Maiorano\Shortcodes\Manager\ShortcodeManager;
 use Maiorano\Shortcodes\Library\SimpleShortcode;
+use Maiorano\Shortcodes\Exceptions\RegisterException;
+use Maiorano\Shortcodes\Exceptions\DeregisterException;
 
+/**
+ * Class ShortcodeManagerTest
+ * @package Maiorano\Shortcodes\Test
+ */
 class ShortcodeManagerTest extends TestCase
 {
-    public function testShortcodeRegisterDeregister()
+    /**
+     * @var ShortcodeManager
+     */
+    private $manager;
+
+    /**
+     *
+     */
+    public function setUp()
     {
-        $manager = new ShortcodeManager();
-        $test = new SimpleShortcode('test');
-
-        $manager->register($test);
-        $this->assertTrue(isset($manager['test']));
-
-        $manager->deregister('test');
-        $this->assertTrue(empty($manager['test']));
+        $this->manager = new ShortcodeManager();
     }
 
+    /**
+     * @throws RegisterException
+     * @throws DeregisterException
+     */
+    public function testShortcodeRegisterDeregister()
+    {
+        $test = new SimpleShortcode('test');
+
+        $this->manager->register($test);
+        $this->assertTrue(isset($this->manager['test']));
+
+        $this->manager->deregister('test');
+        $this->assertTrue(empty($this->manager['test']));
+    }
+
+    /**
+     *
+     */
     public function testHasShortcode()
     {
-        $manager = new ShortcodeManager(array(
+        $this->manager->registerAll([
             'foo' => new SimpleShortcode('foo'),
             'bar' => new SimpleShortcode('bar'),
             'baz' => new SimpleShortcode('baz')
-        ));
+        ]);
 
-        $this->assertTrue($manager->hasShortcode('[foo]'));
-        $this->assertTrue($manager->hasShortcode('[foo][bar/][foo]', 'bar'));
-        $this->assertFalse($manager->hasShortcode('[foo]', 'bar'));
+        $this->assertTrue($this->manager->hasShortcode('[foo]'));
+        $this->assertTrue($this->manager->hasShortcode('[foo][bar/][foo]', 'bar'));
+        $this->assertFalse($this->manager->hasShortcode('[foo]', 'bar'));
     }
 
+    /**
+     * @throws RegisterException
+     */
     public function testAlias()
     {
-        $manager = new ShortcodeManager(array(
-            'foo' => new SimpleShortcode('foo')
-        ));
-        $manager->alias('foo', 'f');
-        $this->assertEquals($manager['foo'], $manager['f']);
+        $this->manager->register(new SimpleShortcode('foo'));
+        $this->manager->alias('foo', 'f');
+        $this->assertEquals($this->manager['foo'], $this->manager['f']);
     }
 
     /**
@@ -47,8 +74,7 @@ class ShortcodeManagerTest extends TestCase
      */
     public function testEmptyName()
     {
-        $manager = new ShortcodeManager();
-        $manager->register(new SimpleShortcode(''));
+        $this->manager->register(new SimpleShortcode(''));
     }
 
     /**
@@ -57,10 +83,9 @@ class ShortcodeManagerTest extends TestCase
      */
     public function testRegisterError()
     {
-        $manager = new ShortcodeManager();
         $test = new SimpleShortcode('test');
-        $manager['test'] = $test;
-        $manager->register($test);
+        $this->manager['test'] = $test;
+        $this->manager->register($test);
     }
 
     /**
@@ -69,8 +94,7 @@ class ShortcodeManagerTest extends TestCase
      */
     public function testMissing()
     {
-        $manager = new ShortcodeManager();
-        $var = $manager['test'];
+        $var = $this->manager['test'];
     }
 
     /**
@@ -79,8 +103,7 @@ class ShortcodeManagerTest extends TestCase
      */
     public function testAliasMissing()
     {
-        $manager = new ShortcodeManager();
-        $manager->alias('test', 't');
+        $this->manager->alias('test', 't');
     }
 
     /**
@@ -89,7 +112,6 @@ class ShortcodeManagerTest extends TestCase
      */
     public function testDeregisterError()
     {
-        $manager = new ShortcodeManager();
-        $manager->deregister('test');
+        $this->manager->deregister('test');
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace Maiorano\Shortcodes\Manager;
 
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
@@ -33,12 +34,10 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
      * @param ParserInterface $parser
      * @throws RegisterException
      */
-    public function __construct(array $shortcodes = [], ParserInterface $parser)
+    public function __construct(ParserInterface $parser, array $shortcodes = [])
     {
         $this->parser = $parser;
-        foreach ($shortcodes as $k => $s) {
-            $this->register($s);
-        }
+        $this->registerAll($shortcodes);
     }
 
     /**
@@ -92,6 +91,14 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
         return new ArrayIterator($this->shortcodes);
     }
 
+    public function registerAll(array $shortcodes)
+    {
+        foreach ($shortcodes as $k => $s) {
+            $this->register($s);
+        }
+        return $this;
+    }
+
     /**
      * @param ShortcodeInterface $shortcode
      * @param string $name
@@ -99,7 +106,7 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
      * @return ManagerInterface
      * @throws RegisterException
      */
-    public function register(ShortcodeInterface $shortcode, $name = null, $includeAlias = true)
+    public function register(ShortcodeInterface $shortcode, ?string $name = null, bool $includeAlias = true): ManagerInterface
     {
         $name = $name ?: $shortcode->getName();
 
