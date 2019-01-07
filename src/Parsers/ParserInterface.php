@@ -10,12 +10,11 @@ use Closure;
  */
 interface ParserInterface
 {
-
     /**
      * Scan all content for possible shortcode
      * @param string $content
      * @param array $tags
-     * @param Closure $callback
+     * @param Closure|null $callback
      * @return mixed
      */
     public function parseShortcode(string $content, array $tags, Closure $callback = null);
