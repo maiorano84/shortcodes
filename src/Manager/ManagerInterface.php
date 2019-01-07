@@ -10,8 +10,6 @@ use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
  */
 interface ManagerInterface
 {
-    public function registerAll(array $shortcodes);
-
     /**
      * @param ShortcodeInterface $shortcode
      * @param string|null $name
@@ -21,34 +19,27 @@ interface ManagerInterface
 
     /**
      * @param string $shortcode
-     * @return mixed
+     * @return ManagerInterface
      */
-    public function deregister($shortcode);
+    public function deregister(string $shortcode): ManagerInterface;
 
     /**
      * @param string $name
      * @return bool
      */
-    public function isRegistered($name);
+    public function isRegistered(string $name): bool;
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getRegistered();
-
-    /**
-     * @param string $name
-     * @param string $alias
-     * @return mixed
-     */
-    public function alias($name, $alias);
+    public function getRegistered(): array;
 
     /**
      * @param string $content
      * @param array|string $tags
      * @return bool
      */
-    public function hasShortcode($content, $tags = []);
+    public function hasShortcode(string $content, $tags = []): bool;
 
     /**
      * @param string $content
@@ -56,10 +47,5 @@ interface ManagerInterface
      * @param bool $deep
      * @return string
      */
-    public function doShortcode($content, $tags = [], $deep = false);
-
-    /**
-     * @return  \Maiorano\Shortcodes\Parsers\ParserInterface
-     */
-    public function getParser();
+    public function doShortcode(string $content, $tags = [], bool $deep = false): string;
 }
