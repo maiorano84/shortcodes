@@ -48,7 +48,6 @@ class ShortcodeManagerTest extends TestCase
 
     /**
      * @return void
-     * @throws RegisterException
      */
     public function setUp(): void
     {
@@ -121,7 +120,6 @@ class ShortcodeManagerTest extends TestCase
 
     /**
      * @return void
-     * @throws RegisterException
      */
     public function testRegisterAll(): void
     {
@@ -335,7 +333,6 @@ class ShortcodeManagerTest extends TestCase
 
     /**
      * @return void
-     * @throws RegisterException
      */
     public function testHasShortcode(): void
     {
@@ -387,7 +384,6 @@ class ShortcodeManagerTest extends TestCase
 
     /**
      * @return void
-     * @throws RegisterException
      */
     public function testDoShortcodeNested(): void
     {
