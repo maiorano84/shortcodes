@@ -4,7 +4,6 @@ namespace Maiorano\Shortcodes\Manager;
 
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 use Maiorano\Shortcodes\Contracts\ContainerAwareInterface;
-use Maiorano\Shortcodes\Contracts\AliasInterface;
 use Maiorano\Shortcodes\Exceptions\RegisterException;
 use Maiorano\Shortcodes\Exceptions\DeregisterException;
 use ArrayAccess;
@@ -45,37 +44,21 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
 
         $this->shortcodes[$name] = $shortcode;
 
-        if ($shortcode instanceof AliasInterface) {
-            foreach ($shortcode->getAlias() as $alias) {
-                if (!$this->isRegistered($alias)) {
-                    $this->register($shortcode, $alias);
-                }
-            }
-        }
-
         return $this;
     }
 
     /**
      * @param string $name
-     * @param bool $includeAlias
      * @return ManagerInterface
      * @throws DeregisterException
      */
-    public function deregister(string $name, $includeAlias = true): ManagerInterface
+    public function deregister(string $name): ManagerInterface
     {
         if (!$this->isRegistered($name)) {
             $e = sprintf(DeregisterException::MISSING, $name);
             throw new DeregisterException($e);
         }
 
-        $shortcode = $this->shortcodes[$name];
-
-        if ($includeAlias && $shortcode instanceof AliasInterface) {
-            foreach ($shortcode->getAlias() as $alias) {
-                unset($this->shortcodes[$alias]);
-            }
-        }
         unset($this->shortcodes[$name]);
 
         return $this;
@@ -131,17 +114,16 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
     /**
      * @param mixed $offset
      * @param mixed $value
-     * @return void
      * @throws RegisterException
      */
     public function offsetSet($offset, $value): void
     {
-        $this->register($value);
+        $name = is_string($offset) && !is_numeric($offset) ? $offset : null;
+        $this->register($value, $name);
     }
 
     /**
      * @param mixed $offset
-     * @return void
      * @throws DeregisterException
      */
     public function offsetUnset($offset): void

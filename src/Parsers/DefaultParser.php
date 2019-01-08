@@ -84,24 +84,6 @@ class DefaultParser implements ParserInterface
     }
 
     /**
-     * @param array $matches
-     * @return Generator
-     */
-    private function generateResults(array $matches): Generator
-    {
-        foreach ($matches as $match) {
-            if ($match[1] == '[' && $match[6] == ']') {
-                continue;
-            }
-            yield [
-                'tag' => $match[2],
-                'content' => isset($match[5]) ? $match[5] : null,
-                'attributes' => isset($match[3]) ? $this->parseAttributes($match[3]) : []
-            ];
-        }
-    }
-
-    /**
      * @param string $text
      * @return array
      * @see https://core.trac.wordpress.org/browser/tags/4.9/src/wp-includes/shortcodes.php#L482
@@ -149,5 +131,23 @@ class DefaultParser implements ParserInterface
             }
         }
         return $atts;
+    }
+
+    /**
+     * @param array $matches
+     * @return Generator
+     */
+    private function generateResults(array $matches): Generator
+    {
+        foreach ($matches as $match) {
+            if ($match[1] == '[' && $match[6] == ']') {
+                continue;
+            }
+            yield [
+                'tag' => $match[2],
+                'content' => isset($match[5]) ? $match[5] : null,
+                'attributes' => isset($match[3]) ? $this->parseAttributes($match[3]) : []
+            ];
+        }
     }
 }

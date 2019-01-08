@@ -2,7 +2,8 @@
 
 namespace Maiorano\Shortcodes\Exceptions;
 
-use \Exception;
+use Maiorano\Shortcodes\Contracts\AliasInterface;
+use Exception;
 
 /**
  * Class ShortcodeException
@@ -13,5 +14,5 @@ class ShortcodeException extends Exception
     /**
      * @const string
      */
-    const NO_ALIAS = 'Cannot alias a shortcode that does not implement \Maiorano\Shortcodes\Contracts\AliasInterface';
+    const NO_ALIAS = 'Cannot alias a shortcode that does not implement ' . AliasInterface::class;
 }

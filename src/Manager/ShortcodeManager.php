@@ -4,6 +4,8 @@ namespace Maiorano\Shortcodes\Manager;
 
 use Maiorano\Shortcodes\Contracts\AliasInterface;
 use Maiorano\Shortcodes\Contracts\AttributeInterface;
+use Maiorano\Shortcodes\Contracts\ContainerAwareInterface;
+use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 use Maiorano\Shortcodes\Parsers\ParserInterface;
 use Maiorano\Shortcodes\Parsers\DefaultParser;
 use Maiorano\Shortcodes\Exceptions\RegisterException;
@@ -15,7 +17,7 @@ use Maiorano\Shortcodes\Exceptions\RegisterException;
 class ShortcodeManager extends BaseManager
 {
     /**
-     * @var ParserInterface
+     * @var DefaultParser|ParserInterface
      */
     protected $parser;
 
@@ -32,6 +34,25 @@ class ShortcodeManager extends BaseManager
     }
 
     /**
+     * @param ShortcodeInterface $shortcode
+     * @param string|null $name
+     * @return ManagerInterface
+     * @throws RegisterException
+     */
+    public function register(ShortcodeInterface $shortcode, ?string $name = null): ManagerInterface
+    {
+        parent::register($shortcode, $name);
+        if ($shortcode instanceof AliasInterface) {
+            foreach ($shortcode->getAlias() as $alias) {
+                if (!$this->isRegistered($alias)) {
+                    parent::register($shortcode, $alias);
+                }
+            }
+        }
+        return $this;
+    }
+
+    /**
      * @param array $shortcodes
      * @return ManagerInterface
      * @throws RegisterException
@@ -39,9 +60,28 @@ class ShortcodeManager extends BaseManager
     public function registerAll(array $shortcodes): ManagerInterface
     {
         foreach ($shortcodes as $k => $s) {
-            $this->register($s);
+            $this[$k] = $s;
         }
         return $this;
+    }
+
+    /**
+     * @param string $name
+     * @param bool $includeAlias
+     * @return ManagerInterface
+     * @throws \Maiorano\Shortcodes\Exceptions\DeregisterException
+     */
+    public function deregister(string $name, bool $includeAlias = true): ManagerInterface
+    {
+        $shortcode = $this->shortcodes[$name] ?? false;
+        if ($shortcode && $shortcode instanceof AliasInterface) {
+            if($name === $shortcode->getName() && $includeAlias) {
+                foreach ($shortcode->getAlias() as $alias) {
+                    parent::deregister($alias);
+                }
+            }
+        }
+        return parent::deregister($name);
     }
 
     /**
@@ -52,14 +92,19 @@ class ShortcodeManager extends BaseManager
      */
     public function alias(string $name, string $alias): ManagerInterface
     {
-        if (!($this[$name] instanceof AliasInterface)) {
-            throw new RegisterException(RegisterException::NO_ALIAS);
-        }
         if (!$this->isRegistered($name)) {
             $e = sprintf(RegisterException::MISSING, $name);
             throw new RegisterException($e);
         }
+        if (!($this[$name] instanceof AliasInterface)) {
+            throw new RegisterException(RegisterException::NO_ALIAS);
+        }
+
         $this[$name]->alias($alias);
+
+        if(!$this[$name] instanceof ContainerAwareInterface) {
+            parent::register($this[$name], $alias);
+        }
 
         return $this;
     }
@@ -74,24 +119,12 @@ class ShortcodeManager extends BaseManager
         $tags = $this->preProcessTags($tags);
         $matches = $this->parser->parseShortcode($content, $tags);
 
-        if (empty($matches)) {
-            return false;
-        }
-
-        foreach ($matches as $shortcode) {
-            if (in_array($shortcode['tag'], $tags)) { //Shortcodes matched
-                return true;
-            } else if ($shortcode['content']) {
-                return $this->hasShortcode($shortcode['content'], $tags); //Check Nested Shortcodes
-            }
-        }
-
-        return false;
+        return !empty($matches);
     }
 
     /**
      * @param string $content
-     * @param array $tags
+     * @param string|array $tags
      * @param bool $deep
      * @return string
      */
@@ -116,7 +149,7 @@ class ShortcodeManager extends BaseManager
     }
 
     /**
-     * @param array|string $tags
+     * @param string|array $tags
      * @return array
      */
     private function preProcessTags($tags): array
