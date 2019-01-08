@@ -8,6 +8,7 @@ use Maiorano\Shortcodes\Contracts\ContainerAwareInterface;
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 use Maiorano\Shortcodes\Parsers\ParserInterface;
 use Maiorano\Shortcodes\Parsers\DefaultParser;
+use Maiorano\Shortcodes\Exceptions\DeregisterException;
 use Maiorano\Shortcodes\Exceptions\RegisterException;
 
 /**
@@ -25,7 +26,6 @@ class ShortcodeManager extends BaseManager
      * ShortcodeManager constructor.
      * @param array $shortcodes
      * @param ParserInterface|null $parser
-     * @throws RegisterException
      */
     public function __construct(array $shortcodes = [], ParserInterface $parser = null)
     {
@@ -55,7 +55,6 @@ class ShortcodeManager extends BaseManager
     /**
      * @param array $shortcodes
      * @return ManagerInterface
-     * @throws RegisterException
      */
     public function registerAll(array $shortcodes): ManagerInterface
     {
@@ -69,7 +68,7 @@ class ShortcodeManager extends BaseManager
      * @param string $name
      * @param bool $includeAlias
      * @return ManagerInterface
-     * @throws \Maiorano\Shortcodes\Exceptions\DeregisterException
+     * @throws DeregisterException
      */
     public function deregister(string $name, bool $includeAlias = true): ManagerInterface
     {
@@ -111,7 +110,7 @@ class ShortcodeManager extends BaseManager
 
     /**
      * @param string $content
-     * @param array $tags
+     * @param string|array $tags
      * @return bool
      */
     public function hasShortcode(string $content, $tags = []): bool
