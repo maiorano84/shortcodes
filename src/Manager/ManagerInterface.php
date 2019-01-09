@@ -13,13 +13,13 @@ interface ManagerInterface
     /**
      * @param ShortcodeInterface $shortcode
      * @param string|null $name
-     * @return ManagerInterface
+     * @return static
      */
     public function register(ShortcodeInterface $shortcode, ?string $name = null): ManagerInterface;
 
     /**
      * @param string $shortcode
-     * @return ManagerInterface
+     * @return static
      */
     public function deregister(string $shortcode): ManagerInterface;
 

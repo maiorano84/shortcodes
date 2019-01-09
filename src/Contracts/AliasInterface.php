@@ -2,8 +2,6 @@
 
 namespace Maiorano\Shortcodes\Contracts;
 
-use Maiorano\Shortcodes\Exceptions\RegisterException;
-
 /**
  * Interface AliasInterface
  * @package Maiorano\Shortcodes\Contracts
@@ -13,8 +11,7 @@ interface AliasInterface extends ShortcodeInterface
     /**
      * Store the alias, and register through the Manager if available
      * @param string $alias
-     * @return AliasInterface
-     * @throws RegisterException
+     * @return static
      */
     public function alias(string $alias): AliasInterface;
 

@@ -3,8 +3,8 @@
 namespace Maiorano\Shortcodes\Contracts\Traits;
 
 use Maiorano\Shortcodes\Contracts\AliasInterface;
-use Maiorano\Shortcodes\Manager\ManagerInterface;
 use Maiorano\Shortcodes\Exceptions\RegisterException;
+use Maiorano\Shortcodes\Manager\ManagerInterface;
 
 /**
  * Trait ContainerAware
@@ -22,7 +22,6 @@ trait ContainerAware
     /**
      * @param ManagerInterface $manager
      * @return void
-     * @see \Maiorano\Shortcodes\Contracts\ContainerAwareInterface::bind()
      */
     public function bind(ManagerInterface $manager): void
     {
@@ -31,7 +30,6 @@ trait ContainerAware
 
     /**
      * @return bool
-     * @see \Maiorano\Shortcodes\Contracts\ContainerAwareInterface::isBound()
      */
     public function isBound(): bool
     {
@@ -46,11 +44,10 @@ trait ContainerAware
      * @return bool
      * @throws RegisterException
      */
-    public function hasShortcode($content)
+    public function hasShortcode(string $content): bool
     {
         if (!($this->isBound())) {
-            $e = sprintf(RegisterException::MISSING, $this->name);
-            throw new RegisterException($e);
+            throw RegisterException::missing($this->name);
         }
 
         return $this->manager->hasShortcode($content, $this->getContext());
@@ -65,16 +62,18 @@ trait ContainerAware
      * @return string
      * @throws RegisterException
      */
-    public function doShortcode($content, $deep = false)
+    public function doShortcode(string $content, bool $deep = false): string
     {
         if (!($this->isBound())) {
-            $e = sprintf(RegisterException::MISSING, $this->name);
-            throw new RegisterException($e);
+            throw RegisterException::missing($this->name);
         }
 
         return $this->manager->doShortcode($content, $this->getContext(), $deep);
     }
 
+    /**
+     * @return ManagerInterface
+     */
     public function getManager(): ManagerInterface
     {
         return $this->manager;
@@ -82,14 +81,13 @@ trait ContainerAware
 
     /**
      * Utility method
-     * @return string|array
+     * @return array
      */
-    private function getContext()
+    private function getContext(): array
     {
-        $context = $this->name;
+        $context = [$this->name];
         if ($this instanceof AliasInterface) {
-            $context = $this->alias;
-            $context[] = $this->name;
+            $context = array_unique(array_merge($context, $this->getAlias()));
         }
 
         return $context;

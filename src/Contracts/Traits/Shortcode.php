@@ -11,7 +11,6 @@ trait Shortcode
 {
     /**
      * @return string
-     * @see \Maiorano\Shortcodes\Contracts\ShortcodeInterface::getName()
      */
     public function getName(): string
     {

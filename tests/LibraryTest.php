@@ -2,9 +2,9 @@
 
 namespace Maiorano\Shortcodes\Test;
 
-use PHPUnit\Framework\TestCase;
 use Maiorano\Shortcodes\Contracts;
 use Maiorano\Shortcodes\Library;
+use PHPUnit\Framework\TestCase;
 use Exception;
 
 /**
@@ -33,7 +33,9 @@ class LibraryTest extends TestCase
     {
         $this->age = new Library\Age;
         $this->ipsum = new Library\Ipsum;
-        $this->simple = new Library\SimpleShortcode('simple');
+        $this->simple = new Library\SimpleShortcode('simple', [], function (?string $content = null, array $atts = []) {
+            return 'simple';
+        });
     }
 
     /**
@@ -64,7 +66,7 @@ class LibraryTest extends TestCase
      */
     public function testIpsumShortcode(): void
     {
-        $str = trim(preg_replace('/\s+/', ' ', '
+        $str = trim((string)preg_replace('/\s+/', ' ', '
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent laoreet eu nulla sit amet porttitor. Sed 
         accumsan nulla est, sit amet lobortis nunc convallis pretium. Phasellus aliquet euismod lacus, non maximus 
         odio pulvinar quis. Nulla eu lorem malesuada, aliquam risus sit amet, interdum ligula. Vivamus sollicitudin 
@@ -79,10 +81,13 @@ class LibraryTest extends TestCase
      */
     public function testSimpleShortcode(): void
     {
+        $noContent = new Library\SimpleShortcode('alt');
         $this->assertInstanceOf(Contracts\AliasInterface::class, $this->simple);
         $this->assertInstanceOf(Contracts\AttributeInterface::class, $this->simple);
         $this->assertInstanceOf(Contracts\ContainerAwareInterface::class, $this->simple);
         $this->assertInstanceOf(Contracts\ShortcodeInterface::class, $this->simple);
+        $this->assertEquals('simple', $this->simple->handle('test'));
+        $this->assertEquals('test', $noContent->handle('test'));
     }
 
     /**

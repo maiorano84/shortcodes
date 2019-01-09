@@ -36,7 +36,7 @@ class ShortcodeManager extends BaseManager
     /**
      * @param ShortcodeInterface $shortcode
      * @param string|null $name
-     * @return ManagerInterface
+     * @return static
      * @throws RegisterException
      */
     public function register(ShortcodeInterface $shortcode, ?string $name = null): ManagerInterface
@@ -54,7 +54,7 @@ class ShortcodeManager extends BaseManager
 
     /**
      * @param array $shortcodes
-     * @return ManagerInterface
+     * @return static
      */
     public function registerAll(array $shortcodes): ManagerInterface
     {
@@ -67,7 +67,7 @@ class ShortcodeManager extends BaseManager
     /**
      * @param string $name
      * @param bool $includeAlias
-     * @return ManagerInterface
+     * @return static
      * @throws DeregisterException
      */
     public function deregister(string $name, bool $includeAlias = true): ManagerInterface
@@ -86,17 +86,16 @@ class ShortcodeManager extends BaseManager
     /**
      * @param string $name
      * @param string $alias
-     * @return ManagerInterface
+     * @return static
      * @throws RegisterException
      */
     public function alias(string $name, string $alias): ManagerInterface
     {
         if (!$this->isRegistered($name)) {
-            $e = sprintf(RegisterException::MISSING, $name);
-            throw new RegisterException($e);
+            throw RegisterException::missing($name);
         }
         if (!($this[$name] instanceof AliasInterface)) {
-            throw new RegisterException(RegisterException::NO_ALIAS);
+            throw RegisterException::noAlias();
         }
 
         $this[$name]->alias($alias);
@@ -130,7 +129,7 @@ class ShortcodeManager extends BaseManager
     public function doShortcode(string $content, $tags = [], bool $deep = false): string
     {
         $tags = $this->preProcessTags($tags);
-        $content = $this->parser->parseShortcode($content, $tags, function ($tag, $content, $atts) {
+        $handler = function (string $tag, ?string $content = null, array $atts = []) {
 
             $shortcode = $this[$tag];
             if ($shortcode instanceof AttributeInterface) {
@@ -139,7 +138,8 @@ class ShortcodeManager extends BaseManager
             }
 
             return $shortcode->handle($content);
-        });
+        };
+        $content = $this->parser->parseShortcode($content, $tags, $handler);
 
         if ($deep && $this->hasShortcode($content, $tags)) {
             return $this->doShortcode($content, $tags, $deep);

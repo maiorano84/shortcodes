@@ -2,8 +2,8 @@
 
 namespace Maiorano\Shortcodes\Test;
 
-use PHPUnit\Framework\TestCase;
 use Maiorano\Shortcodes\Parsers\DefaultParser;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class ParserTest

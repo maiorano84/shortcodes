@@ -22,10 +22,10 @@ trait Alias
     public function alias(string $alias): AliasInterface
     {
         if (!($this instanceof AliasInterface)) {
-            throw new RegisterException(RegisterException::NO_ALIAS);
+            throw RegisterException::noAlias();
         }
         if (!$alias) {
-            throw new RegisterException(RegisterException::BLANK);
+            throw RegisterException::blank();
         }
 
         if (!in_array($alias, $this->alias)) {

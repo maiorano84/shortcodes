@@ -4,8 +4,8 @@ namespace Maiorano\Shortcodes\Manager;
 
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 use Maiorano\Shortcodes\Contracts\ContainerAwareInterface;
-use Maiorano\Shortcodes\Exceptions\RegisterException;
 use Maiorano\Shortcodes\Exceptions\DeregisterException;
+use Maiorano\Shortcodes\Exceptions\RegisterException;
 use ArrayAccess;
 use IteratorAggregate;
 use ArrayIterator;
@@ -24,7 +24,7 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
     /**
      * @param ShortcodeInterface $shortcode
      * @param string|null $name
-     * @return ManagerInterface
+     * @return static
      * @throws RegisterException
      */
     public function register(ShortcodeInterface $shortcode, ?string $name = null): ManagerInterface
@@ -32,10 +32,9 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
         $name = $name ?: $shortcode->getName();
 
         if (!$name) {
-            throw new RegisterException(RegisterException::BLANK);
+            throw RegisterException::blank();
         } elseif ($this->isRegistered($name)) {
-            $e = sprintf(RegisterException::DUPLICATE, $name);
-            throw new RegisterException($e);
+            throw RegisterException::duplicate($name);
         }
 
         if ($shortcode instanceof ContainerAwareInterface) {
@@ -49,14 +48,15 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
 
     /**
      * @param string $name
-     * @return ManagerInterface
+     * @return static
      * @throws DeregisterException
      */
     public function deregister(string $name): ManagerInterface
     {
-        if (!$this->isRegistered($name)) {
-            $e = sprintf(DeregisterException::MISSING, $name);
-            throw new DeregisterException($e);
+        if (!$name) {
+            throw DeregisterException::blank();
+        } elseif (!$this->isRegistered($name)) {
+            throw DeregisterException::missing($name);
         }
 
         unset($this->shortcodes[$name]);
@@ -104,8 +104,7 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
     public function offsetGet($offset): ShortcodeInterface
     {
         if (!$this->isRegistered($offset)) {
-            $e = sprintf(RegisterException::MISSING, $offset);
-            throw new RegisterException($e);
+            throw RegisterException::missing($offset);
         }
 
         return $this->shortcodes[$offset];

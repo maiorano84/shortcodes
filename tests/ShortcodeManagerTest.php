@@ -227,7 +227,17 @@ class ShortcodeManagerTest extends TestCase
     /**
      * @return void
      * @expectedException \Maiorano\Shortcodes\Exceptions\DeregisterException
-     * @expectedExceptionMessage The shortcode 'test' does not exist in the current library
+     * @expectedExceptionMessage You must provide a name for your shortcode
+     */
+    public function testDeregisterExceptionBlank(): void
+    {
+        $this->manager->deregister('');
+    }
+
+    /**
+     * @return void
+     * @expectedException \Maiorano\Shortcodes\Exceptions\DeregisterException
+     * @expectedExceptionMessage No shortcode with identifier 'test' has been registered
      */
     public function testDeregisterMissing(): void
     {
@@ -260,10 +270,9 @@ class ShortcodeManagerTest extends TestCase
             ->willReturn('test');
         $this->manager[] = $this->shortcode;
 
-        $this->assertFalse(isset($this->manager['empty']));
         $this->assertTrue(isset($this->manager['test']));
-        $this->assertTrue(empty($this->manager['empty']));
         $this->assertFalse(empty($this->manager['test']));
+        $this->assertTrue(empty($this->manager['empty']));
     }
 
     /**

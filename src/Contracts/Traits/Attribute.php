@@ -14,7 +14,6 @@ trait Attribute
 
     /**
      * @return array
-     * @see \Maiorano\Shortcodes\Contracts\AttributeInterface::getAttributes()
      */
     public function getAttributes(): array
     {
