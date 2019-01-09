@@ -74,7 +74,7 @@ class ShortcodeManager extends BaseManager
     {
         $shortcode = $this->shortcodes[$name] ?? false;
         if ($shortcode && $shortcode instanceof AliasInterface) {
-            if($name === $shortcode->getName() && $includeAlias) {
+            if ($name === $shortcode->getName() && $includeAlias) {
                 foreach ($shortcode->getAlias() as $alias) {
                     parent::deregister($alias);
                 }
@@ -101,7 +101,7 @@ class ShortcodeManager extends BaseManager
 
         $this[$name]->alias($alias);
 
-        if(!$this[$name] instanceof ContainerAwareInterface) {
+        if (!$this[$name] instanceof ContainerAwareInterface) {
             parent::register($this[$name], $alias);
         }
 
@@ -135,9 +135,10 @@ class ShortcodeManager extends BaseManager
             $shortcode = $this[$tag];
             if ($shortcode instanceof AttributeInterface) {
                 $atts = array_merge($shortcode->getAttributes(), $atts);
+                return $shortcode->handle($content, $atts);
             }
 
-            return $shortcode->handle($content, $atts);
+            return $shortcode->handle($content);
         });
 
         if ($deep && $this->hasShortcode($content, $tags)) {

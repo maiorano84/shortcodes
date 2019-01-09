@@ -37,19 +37,10 @@ class Ipsum implements ShortcodeInterface, AliasInterface
 
     /**
      * @param string|null $content
-     * @param array $atts
      * @return string
      */
-    public function handle(?string $content = null, array $atts = []): string
+    public function handle(?string $content = null): string
     {
-        return $this->ipsum;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIpsum()
-    {
-        return $this->ipsum;
+        return trim((string)preg_replace('/\s+/', ' ', $this->ipsum));
     }
 }

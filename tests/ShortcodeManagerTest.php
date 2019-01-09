@@ -91,6 +91,7 @@ class ShortcodeManagerTest extends TestCase
         $this->assertCount(2, $this->manager);
         $this->assertArrayHasKey('test', $this->manager);
         $this->assertArrayHasKey('t', $this->manager);
+        $this->assertArrayNotHasKey(5, $this->manager);
     }
 
     /**
@@ -363,12 +364,12 @@ class ShortcodeManagerTest extends TestCase
      * @return void
      * @dataProvider shortcodeVariationProvider
      */
-    public function testDoShortcode($shortcode, $content, $expected): void
+    public function testDoShortcode(string $shortcode, string $content, string $expected): void
     {
         $this->parser
             ->expects($this->once())
             ->method('parseShortcode')
-            ->will($this->returnCallback(function($content, $tags, \Closure $callback) use ($shortcode){
+            ->will($this->returnCallback(function ($content, $tags, \Closure $callback) use ($shortcode) {
                 return $callback($shortcode, '', []);
             }));
 

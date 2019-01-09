@@ -18,8 +18,7 @@ interface ShortcodeInterface
     /**
      * Executed upon match and determines output of Shortcodes
      * @param string|null $content
-     * @param array $atts
      * @return string
      */
-    public function handle(?string $content = null, array $atts = []): string;
+    public function handle(?string $content = null): string;
 }

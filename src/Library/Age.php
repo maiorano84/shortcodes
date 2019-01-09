@@ -2,12 +2,11 @@
 
 namespace Maiorano\Shortcodes\Library;
 
-use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 use Maiorano\Shortcodes\Contracts\AttributeInterface;
-use Maiorano\Shortcodes\Contracts\Traits\Shortcode;
 use Maiorano\Shortcodes\Contracts\Traits\Attribute;
-use \DateTime;
-use \DateInterval;
+use DateTime;
+use DateInterval;
+use Exception;
 
 /**
  * Calculates the age of something
@@ -32,7 +31,7 @@ class Age implements AttributeInterface
      * @param string|null $content
      * @param array $atts
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public function handle(string $content = null, array $atts = []): string
     {
@@ -68,7 +67,7 @@ class Age implements AttributeInterface
                 return $diff->y * 12 + $diff->m;
             },
             'days' => function (DateInterval $diff) {
-                return $diff->days + $diff->d;
+                return $diff->days;
             },
             'hours' => function (DateInterval $diff) {
                 return ($diff->days * 24) + $diff->h;

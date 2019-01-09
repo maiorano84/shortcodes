@@ -24,5 +24,8 @@ interface ContainerAwareInterface extends ShortcodeInterface
      */
     public function isBound(): bool;
 
+    /**
+     * @return ManagerInterface
+     */
     public function getManager(): ManagerInterface;
 }
