@@ -47,7 +47,7 @@ class LibraryTest extends TestCase
      */
     public function testAgeShortcode(string $unit): void
     {
-        $result = $this->age->handle("now", ['units' => $unit]);
+        $result = $this->age->handle('now', ['units' => $unit]);
         $this->assertEquals("0 {$unit}", $result);
     }
 
