@@ -4,7 +4,8 @@ Implementation of Wordpress' Shortcode syntax as a standalone package. Content f
 ----
 
 [![Build Status](https://travis-ci.org/maiorano84/shortcodes.svg?branch=master)](https://travis-ci.org/maiorano84/shortcodes)
-[![Coverage Status](https://coveralls.io/repos/github/maiorano84/shortcodes/badge.svg?branch=master)](https://coveralls.io/github/maiorano84/shortcodes?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maiorano84/shortcodes/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maiorano84/shortcodes/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/maiorano84/shortcodes/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/maiorano84/shortcodes/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/maiorano84/shortcodes/v/stable)](https://packagist.org/packages/maiorano84/shortcodes)
 [![Latest Unstable Version](https://poser.pugx.org/maiorano84/shortcodes/v/unstable)](https://packagist.org/packages/maiorano84/shortcodes)
 [![Total Downloads](https://poser.pugx.org/maiorano84/shortcodes/downloads)](https://packagist.org/packages/maiorano84/shortcodes)
