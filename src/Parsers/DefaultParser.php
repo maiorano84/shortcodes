@@ -109,8 +109,8 @@ class DefaultParser implements ParserInterface
 
             // Reject any unclosed HTML elements
             foreach ($this->generateAttributes($match) as $att => $value) {
-                if (strpos($value, '<') !== false) {
-                    if (preg_match('/^[^<]*+(?:<[^>]*+>[^<]*+)*+$/', $value) !== 1) {
+                if ($value !== true && strpos((string)$value, '<') !== false) {
+                    if (preg_match('/^[^<]*+(?:<[^>]*+>[^<]*+)*+$/', (string)$value) !== 1) {
                         $value = '';
                     }
                 }
@@ -128,20 +128,12 @@ class DefaultParser implements ParserInterface
      */
     private function generateAttributes(array $matches): Generator
     {
-        foreach ($matches as $m) {
-            if (!empty($m[1])) {
-                yield strtolower($m[1]) => stripcslashes($m[2]);
-            } elseif (!empty($m[3])) {
-                yield strtolower($m[3]) => stripcslashes($m[4]);
-            } elseif (!empty($m[5])) {
-                yield strtolower($m[5]) => stripcslashes($m[6]);
-            } elseif (isset($m[7]) && strlen($m[7])) {
-                yield strtolower($m[7]) => true;
-            } elseif (isset($m[8]) && strlen($m[8])) {
-                yield strtolower($m[8]) => true;
-            } elseif (isset($m[9])) {
-                yield strtolower($m[9]) => true;
-            }
+        foreach ($matches as $match) {
+            $m = array_filter($match);
+            $key = $m[1] ?? $m[3] ?? $m[5] ?? $m[7] ?? $m[8] ?? $m[9];
+            $stringMatch = $m[2] ?? $m[4] ?? $m[6] ?? false;
+            $value = $stringMatch ? stripcslashes($stringMatch) : true;
+            yield strtolower($key) => $value;
         }
     }
 
