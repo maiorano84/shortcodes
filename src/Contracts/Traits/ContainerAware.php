@@ -9,8 +9,7 @@ use Maiorano\Shortcodes\Manager\ManagerInterface;
 /**
  * Trait ContainerAware
  * Assists in satisfying the ContainerAwareInterface requirements
- * Exposes the management container and its public members
- * @package Maiorano\Shortcodes\Contracts\Traits
+ * Exposes the management container and its public members.
  */
 trait ContainerAware
 {
@@ -21,6 +20,7 @@ trait ContainerAware
 
     /**
      * @param ManagerInterface $manager
+     *
      * @return void
      */
     public function bind(ManagerInterface $manager): void
@@ -39,10 +39,13 @@ trait ContainerAware
     /**
      * Convenience method
      * Utilizes manager's implementation of hasShortcode
-     * Limits search to this shortcode's context
+     * Limits search to this shortcode's context.
+     *
      * @param string $content
-     * @return bool
+     *
      * @throws RegisterException
+     *
+     * @return bool
      */
     public function hasShortcode(string $content): bool
     {
@@ -56,11 +59,14 @@ trait ContainerAware
     /**
      * Convenience method
      * Utilizes manager's implementation of doShortcode
-     * Limits search to this shortcode's context
+     * Limits search to this shortcode's context.
+     *
      * @param string $content
-     * @param bool $deep
-     * @return string
+     * @param bool   $deep
+     *
      * @throws RegisterException
+     *
+     * @return string
      */
     public function doShortcode(string $content, bool $deep = false): string
     {
@@ -80,7 +86,8 @@ trait ContainerAware
     }
 
     /**
-     * Utility method
+     * Utility method.
+     *
      * @return array
      */
     private function getContext(): array

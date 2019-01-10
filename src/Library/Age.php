@@ -2,16 +2,15 @@
 
 namespace Maiorano\Shortcodes\Library;
 
+use DateInterval;
+use DateTime;
+use Exception;
 use Maiorano\Shortcodes\Contracts\AttributeInterface;
 use Maiorano\Shortcodes\Contracts\Traits\Attribute;
-use DateTime;
-use DateInterval;
-use Exception;
 
 /**
  * Calculates the age of something
- * Usage: [age units=years]September 19th 1984[/age]
- * @package Maiorano\Shortcodes\Library
+ * Usage: [age units=years]September 19th 1984[/age].
  */
 class Age implements AttributeInterface
 {
@@ -29,9 +28,11 @@ class Age implements AttributeInterface
 
     /**
      * @param string|null $content
-     * @param array $atts
-     * @return string
+     * @param array       $atts
+     *
      * @throws Exception
+     *
+     * @return string
      */
     public function handle(string $content = null, array $atts = []): string
     {
@@ -47,8 +48,9 @@ class Age implements AttributeInterface
     }
 
     /**
-     * @param string $units
+     * @param string       $units
      * @param DateInterval $diff
+     *
      * @return mixed
      */
     private function calculate($units, DateInterval $diff)
@@ -77,7 +79,7 @@ class Age implements AttributeInterface
             },
             'seconds' => function (DateInterval $diff) {
                 return ($diff->days * 24 * 60 * 60) + $diff->s;
-            }
+            },
         ];
         $u = isset($calculator[$units]) ? $units : 'years';
 

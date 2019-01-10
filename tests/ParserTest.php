@@ -6,8 +6,7 @@ use Maiorano\Shortcodes\Parsers\DefaultParser;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ParserTest
- * @package Maiorano\Shortcodes\Test
+ * Class ParserTest.
  */
 class ParserTest extends TestCase
 {
@@ -21,7 +20,7 @@ class ParserTest extends TestCase
      */
     public function setUp(): void
     {
-        $this->parser = new DefaultParser;
+        $this->parser = new DefaultParser();
     }
 
     /**
@@ -59,10 +58,11 @@ class ParserTest extends TestCase
     }
 
     /**
-     * @param string $text
-     * @param string $key
+     * @param string      $text
+     * @param string      $key
      * @param string|bool $expected
-     * @param int $count
+     * @param int         $count
+     *
      * @return void
      * @dataProvider attributeVariationProvider
      */
@@ -86,7 +86,7 @@ class ParserTest extends TestCase
             ['"attribute"', 'attribute', true, 1],
             ['\'attribute\'', 'attribute', true, 1],
             ['attribute', 'attribute', true, 1],
-            ['attribute="<div"', 'attribute', '', 1]
+            ['attribute="<div"', 'attribute', '', 1],
         ];
     }
 }

@@ -4,8 +4,7 @@ namespace Maiorano\Shortcodes\Contracts\Traits;
 
 /**
  * Trait Shortcode
- * Assists in satisfying the ShortcodeInterface requirements
- * @package Maiorano\Shortcodes\Contracts\Traits
+ * Assists in satisfying the ShortcodeInterface requirements.
  */
 trait Shortcode
 {

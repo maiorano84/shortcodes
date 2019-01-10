@@ -9,15 +9,16 @@ use Maiorano\Shortcodes\Exceptions\RegisterException;
 /**
  * Trait Alias
  * Assists in satisfying the AliasInterface requirements
- * Allows shortcodes to be aliased
- * @package Maiorano\Shortcodes\Contracts\Traits
+ * Allows shortcodes to be aliased.
  */
 trait Alias
 {
     /**
      * @param string $alias
-     * @return AliasInterface
+     *
      * @throws RegisterException
+     *
+     * @return AliasInterface
      */
     public function alias(string $alias): AliasInterface
     {

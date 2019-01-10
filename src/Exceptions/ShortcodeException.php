@@ -5,8 +5,7 @@ namespace Maiorano\Shortcodes\Exceptions;
 use Exception;
 
 /**
- * Class ShortcodeException
- * @package Maiorano\Shortcodes\Exceptions
+ * Class ShortcodeException.
  */
 class ShortcodeException extends Exception
 {

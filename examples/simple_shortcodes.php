@@ -1,8 +1,9 @@
 <?php
+
 require '../vendor/autoload.php';
 
-use Maiorano\Shortcodes\Manager\ShortcodeManager;
 use Maiorano\Shortcodes\Library\SimpleShortcode;
+use Maiorano\Shortcodes\Manager\ShortcodeManager;
 
 /*
  * Managers may be instantiated with an array of Shortcodes pre-registered into its library
@@ -10,7 +11,7 @@ use Maiorano\Shortcodes\Library\SimpleShortcode;
 $manager = new ShortcodeManager([
     'date' => new SimpleShortcode('date', null, function () {
         return date('l \t\h\e jS \o\f F, Y');
-    })
+    }),
 ]);
 
 /*
@@ -27,7 +28,7 @@ echo $manager->doShortcode('Today is [date], not "[d]"', 'date').'<br><br>';
 /*
  * Shortcodes and their aliases can be registered at any time
  * */
-echo $manager->register(new SimpleShortcode('mail', ['address'=>''], function($content, $atts){
+echo $manager->register(new SimpleShortcode('mail', ['address'=>''], function ($content, $atts) {
     return sprintf('<a href="%s">%1$s</a>%s', $atts['address'] ? 'mailto:'.$atts['address'] : '#', $content);
 }))->alias('mail', 'm')->doShortcode('[m address=test@test.com]Test[/m]').'<br><br>';
 
@@ -48,7 +49,7 @@ echo $manager->doShortcode('[nest]My email is [mail address=test@test.com], and 
 /*
  * Let's get rid of 'm' and use it for something else
  * */
-echo $manager->deregister('m')->register(new SimpleShortcode('m', null, function(){
+echo $manager->deregister('m')->register(new SimpleShortcode('m', null, function () {
     return 'M is pretty fantastic';
 }))->doShortcode('My opinion on the letter "M": [m]').'<br><br>';
 
@@ -65,7 +66,7 @@ echo $manager->deregister('date', false)->doShortcode('Today is [d], not "[date]
  * There is also a doShortcode method for Shortcode Classes that will allow you to run the manager against only that particular shortcode and its aliases
  * Aliasing is also availble to SimpleShortcode, and Shortcodes that implement AliasInterface
  * */
-$bold = new SimpleShortcode('bold', null, function($content){
+$bold = new SimpleShortcode('bold', null, function ($content) {
     return sprintf('<strong>%s</strong>', $content);
 });
 $manager[] = $bold; //Shorthand register

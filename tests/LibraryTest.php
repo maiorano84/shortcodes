@@ -2,14 +2,13 @@
 
 namespace Maiorano\Shortcodes\Test;
 
+use Exception;
 use Maiorano\Shortcodes\Contracts;
 use Maiorano\Shortcodes\Library;
 use PHPUnit\Framework\TestCase;
-use Exception;
 
 /**
- * Class LibraryTest
- * @package Maiorano\Shortcodes\Test
+ * Class LibraryTest.
  */
 class LibraryTest extends TestCase
 {
@@ -31,8 +30,8 @@ class LibraryTest extends TestCase
      */
     public function setUp(): void
     {
-        $this->age = new Library\Age;
-        $this->ipsum = new Library\Ipsum;
+        $this->age = new Library\Age();
+        $this->ipsum = new Library\Ipsum();
         $this->simple = new Library\SimpleShortcode('simple', [], function (?string $content = null, array $atts = []) {
             return 'simple';
         });
@@ -41,7 +40,9 @@ class LibraryTest extends TestCase
     /**
      * @param string $unit
      * @param string $time
+     *
      * @throws Exception
+     *
      * @return void
      * @dataProvider ageVariationProvider
      */
@@ -53,8 +54,9 @@ class LibraryTest extends TestCase
     }
 
     /**
-     * @return void
      * @throws Exception
+     *
+     * @return void
      */
     public function testAgeShortcodeEmpty(): void
     {
@@ -66,7 +68,7 @@ class LibraryTest extends TestCase
      */
     public function testIpsumShortcode(): void
     {
-        $str = trim((string)preg_replace('/\s+/', ' ', '
+        $str = trim((string) preg_replace('/\s+/', ' ', '
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent laoreet eu nulla sit amet porttitor. Sed 
         accumsan nulla est, sit amet lobortis nunc convallis pretium. Phasellus aliquet euismod lacus, non maximus 
         odio pulvinar quis. Nulla eu lorem malesuada, aliquam risus sit amet, interdum ligula. Vivamus sollicitudin 

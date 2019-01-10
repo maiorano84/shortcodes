@@ -6,14 +6,13 @@ use Maiorano\Shortcodes\Contracts\AliasInterface;
 use Maiorano\Shortcodes\Contracts\AttributeInterface;
 use Maiorano\Shortcodes\Contracts\ContainerAwareInterface;
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
-use Maiorano\Shortcodes\Parsers\ParserInterface;
-use Maiorano\Shortcodes\Parsers\DefaultParser;
 use Maiorano\Shortcodes\Exceptions\DeregisterException;
 use Maiorano\Shortcodes\Exceptions\RegisterException;
+use Maiorano\Shortcodes\Parsers\DefaultParser;
+use Maiorano\Shortcodes\Parsers\ParserInterface;
 
 /**
- * Class ShortcodeManager
- * @package Maiorano\Shortcodes\Manager
+ * Class ShortcodeManager.
  */
 class ShortcodeManager extends BaseManager
 {
@@ -24,20 +23,23 @@ class ShortcodeManager extends BaseManager
 
     /**
      * ShortcodeManager constructor.
-     * @param array $shortcodes
+     *
+     * @param array                $shortcodes
      * @param ParserInterface|null $parser
      */
     public function __construct(array $shortcodes = [], ParserInterface $parser = null)
     {
-        $this->parser = $parser ?? new DefaultParser;
+        $this->parser = $parser ?? new DefaultParser();
         $this->registerAll($shortcodes);
     }
 
     /**
      * @param ShortcodeInterface $shortcode
-     * @param string|null $name
-     * @return static
+     * @param string|null        $name
+     *
      * @throws RegisterException
+     *
+     * @return static
      */
     public function register(ShortcodeInterface $shortcode, ?string $name = null): ManagerInterface
     {
@@ -49,11 +51,13 @@ class ShortcodeManager extends BaseManager
                 }
             }
         }
+
         return $this;
     }
 
     /**
      * @param array $shortcodes
+     *
      * @return static
      */
     public function registerAll(array $shortcodes): ManagerInterface
@@ -61,14 +65,17 @@ class ShortcodeManager extends BaseManager
         foreach ($shortcodes as $k => $s) {
             $this[$k] = $s;
         }
+
         return $this;
     }
 
     /**
      * @param string $name
-     * @param bool $includeAlias
-     * @return static
+     * @param bool   $includeAlias
+     *
      * @throws DeregisterException
+     *
+     * @return static
      */
     public function deregister(string $name, bool $includeAlias = true): ManagerInterface
     {
@@ -80,14 +87,17 @@ class ShortcodeManager extends BaseManager
                 }
             }
         }
+
         return parent::deregister($name);
     }
 
     /**
      * @param string $name
      * @param string $alias
-     * @return static
+     *
      * @throws RegisterException
+     *
+     * @return static
      */
     public function alias(string $name, string $alias): ManagerInterface
     {
@@ -108,8 +118,9 @@ class ShortcodeManager extends BaseManager
     }
 
     /**
-     * @param string $content
+     * @param string       $content
      * @param string|array $tags
+     *
      * @return bool
      */
     public function hasShortcode(string $content, $tags = []): bool
@@ -121,19 +132,20 @@ class ShortcodeManager extends BaseManager
     }
 
     /**
-     * @param string $content
+     * @param string       $content
      * @param string|array $tags
-     * @param bool $deep
+     * @param bool         $deep
+     *
      * @return string
      */
     public function doShortcode(string $content, $tags = [], bool $deep = false): string
     {
         $tags = $this->preProcessTags($tags);
         $handler = function (string $tag, ?string $content = null, array $atts = []) {
-
             $shortcode = $this[$tag];
             if ($shortcode instanceof AttributeInterface) {
                 $atts = array_merge($shortcode->getAttributes(), $atts);
+
                 return $shortcode->handle($content, $atts);
             }
 
@@ -150,6 +162,7 @@ class ShortcodeManager extends BaseManager
 
     /**
      * @param string|array $tags
+     *
      * @return array
      */
     private function preProcessTags($tags): array

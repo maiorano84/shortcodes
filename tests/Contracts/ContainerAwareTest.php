@@ -9,8 +9,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ContainerAwareTest
- * @package Maiorano\Shortcodes\Test\Contracts
+ * Class ContainerAwareTest.
  */
 class ContainerAwareTest extends TestCase
 {
@@ -29,7 +28,7 @@ class ContainerAwareTest extends TestCase
     public function setUp(): void
     {
         $this->container = new SimpleShortcode('container', [], function (?string $content = null, array $atts = []) {
-            return (string)$content;
+            return (string) $content;
         });
         $this->manager = $this->createMock(ManagerInterface::class);
     }
@@ -61,8 +60,9 @@ class ContainerAwareTest extends TestCase
     }
 
     /**
-     * @return void
      * @throws RegisterException
+     *
+     * @return void
      */
     public function testHasShortcode(): void
     {
@@ -76,8 +76,9 @@ class ContainerAwareTest extends TestCase
     }
 
     /**
-     * @return void
      * @throws RegisterException
+     *
+     * @return void
      */
     public function testDoShortcode(): void
     {

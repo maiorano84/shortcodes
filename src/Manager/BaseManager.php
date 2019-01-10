@@ -2,17 +2,16 @@
 
 namespace Maiorano\Shortcodes\Manager;
 
-use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
+use ArrayAccess;
+use ArrayIterator;
+use IteratorAggregate;
 use Maiorano\Shortcodes\Contracts\ContainerAwareInterface;
+use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 use Maiorano\Shortcodes\Exceptions\DeregisterException;
 use Maiorano\Shortcodes\Exceptions\RegisterException;
-use ArrayAccess;
-use IteratorAggregate;
-use ArrayIterator;
 
 /**
- * Class BaseManager
- * @package Maiorano\Shortcodes\Manager
+ * Class BaseManager.
  */
 abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAggregate
 {
@@ -23,9 +22,11 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
 
     /**
      * @param ShortcodeInterface $shortcode
-     * @param string|null $name
-     * @return static
+     * @param string|null        $name
+     *
      * @throws RegisterException
+     *
+     * @return static
      */
     public function register(ShortcodeInterface $shortcode, ?string $name = null): ManagerInterface
     {
@@ -48,8 +49,10 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
 
     /**
      * @param string $name
-     * @return static
+     *
      * @throws DeregisterException
+     *
+     * @return static
      */
     public function deregister(string $name): ManagerInterface
     {
@@ -66,6 +69,7 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
 
     /**
      * @param string $name
+     *
      * @return bool
      */
     public function isRegistered(string $name): bool
@@ -83,23 +87,27 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
 
     /**
      * @param string $content
-     * @param array $tags
+     * @param array  $tags
+     *
      * @return bool
      */
-    public abstract function hasShortcode(string $content, $tags = []): bool;
+    abstract public function hasShortcode(string $content, $tags = []): bool;
 
     /**
      * @param string $content
-     * @param array $tags
-     * @param bool $deep
+     * @param array  $tags
+     * @param bool   $deep
+     *
      * @return string
      */
-    public abstract function doShortcode(string $content, $tags = [], bool $deep = false): string;
+    abstract public function doShortcode(string $content, $tags = [], bool $deep = false): string;
 
     /**
      * @param mixed $offset
-     * @return ShortcodeInterface
+     *
      * @throws RegisterException
+     *
+     * @return ShortcodeInterface
      */
     public function offsetGet($offset): ShortcodeInterface
     {
@@ -113,6 +121,7 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
     /**
      * @param mixed $offset
      * @param mixed $value
+     *
      * @throws RegisterException
      */
     public function offsetSet($offset, $value): void
@@ -123,6 +132,7 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
 
     /**
      * @param mixed $offset
+     *
      * @throws DeregisterException
      */
     public function offsetUnset($offset): void
@@ -132,6 +142,7 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
 
     /**
      * @param mixed $offset
+     *
      * @return bool
      */
     public function offsetExists($offset): bool
