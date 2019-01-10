@@ -64,13 +64,14 @@ class SimpleShortcode implements Contracts\AttributeInterface, Contracts\AliasIn
     /**
      * @param string $string
      *
-     * @return Contracts\AliasInterface
-     *
      * @throws \Maiorano\Shortcodes\Exceptions\RegisterException
+     *
+     * @return Contracts\AliasInterface
      */
     public function alias(string $string): Contracts\AliasInterface
     {
         $this->aliasHelper($string);
+
         return $this;
     }
 }
