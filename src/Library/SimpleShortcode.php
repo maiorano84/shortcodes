@@ -5,6 +5,7 @@ namespace Maiorano\Shortcodes\Library;
 use Closure;
 use Maiorano\Shortcodes\Contracts;
 use Maiorano\Shortcodes\Contracts\Traits;
+use Maiorano\Shortcodes\Exceptions\RegisterException;
 
 /**
  * Creation of Shortcodes programatically.
@@ -62,15 +63,18 @@ class SimpleShortcode implements Contracts\AttributeInterface, Contracts\AliasIn
     }
 
     /**
-     * @param string $string
+     * @param string $alias
      *
-     * @throws \Maiorano\Shortcodes\Exceptions\RegisterException
+     * @throws RegisterException
      *
      * @return Contracts\AliasInterface
      */
-    public function alias(string $string): Contracts\AliasInterface
+    public function alias(string $alias): Contracts\AliasInterface
     {
-        $this->aliasHelper($string);
+        if (!in_array($alias, $this->alias)) {
+            $this->alias[] = $alias;
+        }
+        $this->aliasHelper($alias);
 
         return $this;
     }

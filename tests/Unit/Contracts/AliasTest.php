@@ -40,9 +40,12 @@ class AliasTest extends TestCase
                 return (string) $content;
             }
 
-            public function alias(string $string): Contracts\AliasInterface
+            public function alias(string $alias): Contracts\AliasInterface
             {
-                $this->aliasHelper($string);
+                if (!in_array($alias, $this->alias)) {
+                    $this->alias[] = $alias;
+                }
+                $this->aliasHelper($alias);
 
                 return $this;
             }
@@ -77,9 +80,12 @@ class AliasTest extends TestCase
                 return (string) $content;
             }
 
-            public function alias(string $string): Contracts\AliasInterface
+            public function alias(string $alias): Contracts\AliasInterface
             {
-                $this->aliasHelper($string);
+                if (!in_array($alias, $this->alias)) {
+                    $this->alias[] = $alias;
+                }
+                $this->aliasHelper($alias);
 
                 return $this;
             }

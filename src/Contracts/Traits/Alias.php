@@ -28,11 +28,6 @@ trait Alias
         if (!$alias) {
             throw RegisterException::blank();
         }
-
-        if (!in_array($alias, $this->alias)) {
-            $this->alias[] = $alias;
-        }
-
         if ($this instanceof ContainerAwareInterface && $this->isBound()) {
             if (!$this->getManager()->isRegistered($alias)) {
                 $this->getManager()->register($this, $alias);

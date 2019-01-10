@@ -6,6 +6,7 @@ use Maiorano\Shortcodes\Contracts\AliasInterface;
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 use Maiorano\Shortcodes\Contracts\Traits\Alias;
 use Maiorano\Shortcodes\Contracts\Traits\Shortcode;
+use Maiorano\Shortcodes\Exceptions\RegisterException;
 
 /**
  * Generate Lorem Ipsum
@@ -45,15 +46,18 @@ class Ipsum implements ShortcodeInterface, AliasInterface
     }
 
     /**
-     * @param string $string
+     * @param string $alias
      *
-     * @throws \Maiorano\Shortcodes\Exceptions\RegisterException
+     * @throws RegisterException
      *
      * @return AliasInterface
      */
-    public function alias(string $string): AliasInterface
+    public function alias(string $alias): AliasInterface
     {
-        $this->aliasHelper($string);
+        if (!in_array($alias, $this->alias)) {
+            $this->alias[] = $alias;
+        }
+        $this->aliasHelper($alias);
 
         return $this;
     }
