@@ -146,13 +146,14 @@ class ShortcodeManager extends BaseManager
 
             if ($shortcode instanceof AttributeInterface) {
                 $atts = array_merge($shortcode->getAttributes(), $atts);
+
                 return $shortcode->handle($content, $atts);
             }
 
             return $shortcode->handle($content);
         };
 
-        $result = (string)$this->parser->parseShortcode($content, $tags, $handler);
+        $result = (string) $this->parser->parseShortcode($content, $tags, $handler);
 
         if ($deep && $this->hasShortcode($result, $tags)) {
             return $this->doShortcode($result, $tags, $deep);
