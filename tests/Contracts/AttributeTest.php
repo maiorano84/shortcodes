@@ -7,8 +7,7 @@ use Maiorano\Shortcodes\Contracts\Traits;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class AttributeTest
- * @package Maiorano\Shortcodes\Test\Contracts
+ * Class AttributeTest.
  */
 class AttributeTest extends TestCase
 {
@@ -22,8 +21,7 @@ class AttributeTest extends TestCase
      */
     public function setUp(): void
     {
-        $this->attribute = new class implements Contracts\AttributeInterface
-        {
+        $this->attribute = new class() implements Contracts\AttributeInterface {
             use Traits\Attribute;
 
             protected $name = 'attribute';
@@ -31,7 +29,7 @@ class AttributeTest extends TestCase
 
             public function handle(?string $content = null, array $atts = []): string
             {
-                return (string)$content;
+                return (string) $content;
             }
         };
     }

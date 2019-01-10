@@ -10,8 +10,7 @@ use PHPUnit\Framework\TestCase;
 use ReflectionException;
 
 /**
- * Class AliasTest
- * @package Maiorano\Shortcodes\Test\Contracts
+ * Class AliasTest.
  */
 class AliasTest extends TestCase
 {
@@ -29,8 +28,7 @@ class AliasTest extends TestCase
      */
     public function setUp(): void
     {
-        $this->alias = new class implements Contracts\AliasInterface
-        {
+        $this->alias = new class() implements Contracts\AliasInterface {
             use Traits\Shortcode;
             use Traits\Alias;
 
@@ -39,7 +37,7 @@ class AliasTest extends TestCase
 
             public function handle(?string $content = null): string
             {
-                return (string)$content;
+                return (string) $content;
             }
         };
         $this->manager = $this->createMock(ManagerInterface::class);
@@ -59,8 +57,7 @@ class AliasTest extends TestCase
      */
     public function testAliasContainerAware(): void
     {
-        $aware = new class implements Contracts\AliasInterface, Contracts\ContainerAwareInterface
-        {
+        $aware = new class() implements Contracts\AliasInterface, Contracts\ContainerAwareInterface {
             use Traits\ContainerAware;
             use Traits\Shortcode;
             use Traits\Alias;
@@ -70,7 +67,7 @@ class AliasTest extends TestCase
 
             public function handle(?string $content = null): string
             {
-                return (string)$content;
+                return (string) $content;
             }
         };
         $this->manager->expects($this->once())->method('isRegistered')->willReturn(false);
@@ -100,15 +97,16 @@ class AliasTest extends TestCase
     }
 
     /**
-     * @return void
      * @throws ReflectionException
+     *
+     * @return void
      * @expectedException \Maiorano\Shortcodes\Exceptions\RegisterException
      * @expectedExceptionMessage Cannot alias a shortcode that does not implement Maiorano\Shortcodes\Contracts\AliasInterface
      */
     public function testAliasNoAlias(): void
     {
         /**
-         * @var Traits\Alias|MockObject $bad
+         * @var Traits\Alias|MockObject
          */
         $bad = $this->getObjectForTrait(Traits\Alias::class);
         $bad->alias('bad');

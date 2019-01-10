@@ -7,8 +7,7 @@ use Maiorano\Shortcodes\Contracts\Traits;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ShortcodeTest
- * @package Maiorano\Shortcodes\Test\Contracts
+ * Class ShortcodeTest.
  */
 class ShortcodeTest extends TestCase
 {
@@ -22,15 +21,14 @@ class ShortcodeTest extends TestCase
      */
     public function setUp(): void
     {
-        $this->shortcode = new class implements Contracts\ShortcodeInterface
-        {
+        $this->shortcode = new class() implements Contracts\ShortcodeInterface {
             use Traits\Shortcode;
 
             protected $name = 'shortcode';
 
             public function handle(?string $content = null): string
             {
-                return (string)$content;
+                return (string) $content;
             }
         };
     }

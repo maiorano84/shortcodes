@@ -2,13 +2,12 @@
 
 namespace Maiorano\Shortcodes\Library;
 
+use Closure;
 use Maiorano\Shortcodes\Contracts;
 use Maiorano\Shortcodes\Contracts\Traits;
-use Closure;
 
 /**
- * Creation of Shortcodes programatically
- * @package Maiorano\Shortcodes\Contracts
+ * Creation of Shortcodes programatically.
  */
 class SimpleShortcode implements Contracts\AttributeInterface, Contracts\AliasInterface, Contracts\ContainerAwareInterface
 {
@@ -35,26 +34,27 @@ class SimpleShortcode implements Contracts\AttributeInterface, Contracts\AliasIn
     protected $callback;
 
     /**
-     * @param string $name
-     * @param array|null $atts
+     * @param string       $name
+     * @param array|null   $atts
      * @param Closure|null $callback
      */
     public function __construct($name, $atts = [], Closure $callback = null)
     {
         $this->name = $name;
-        $this->attributes = (array)$atts;
+        $this->attributes = (array) $atts;
         $this->callback = $callback;
     }
 
     /**
      * @param string|null $content
-     * @param array $atts
+     * @param array       $atts
+     *
      * @return string
      */
     public function handle(?string $content = null, array $atts = []): string
     {
         if (is_null($this->callback)) {
-            return (string)$content;
+            return (string) $content;
         }
         $callback = $this->callback->bindTo($this, $this);
 

@@ -3,16 +3,15 @@
 namespace Maiorano\Shortcodes\Test;
 
 use Maiorano\Shortcodes\Contracts;
-use Maiorano\Shortcodes\Exceptions\RegisterException;
 use Maiorano\Shortcodes\Exceptions\DeregisterException;
+use Maiorano\Shortcodes\Exceptions\RegisterException;
 use Maiorano\Shortcodes\Manager\ShortcodeManager;
 use Maiorano\Shortcodes\Parsers\ParserInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ShortcodeManagerTest
- * @package Maiorano\Shortcodes\Test
+ * Class ShortcodeManagerTest.
  */
 class ShortcodeManagerTest extends TestCase
 {
@@ -60,8 +59,9 @@ class ShortcodeManagerTest extends TestCase
     }
 
     /**
-     * @return void
      * @throws RegisterException
+     *
+     * @return void
      */
     public function testRegister(): void
     {
@@ -125,10 +125,10 @@ class ShortcodeManagerTest extends TestCase
     public function testRegisterAll(): void
     {
         $library = [
-            'shortcode' => $this->shortcode,
-            'attribute' => $this->attribute,
+            'shortcode'      => $this->shortcode,
+            'attribute'      => $this->attribute,
             'containerAware' => $this->containerAware,
-            'alias' => $this->alias
+            'alias'          => $this->alias,
         ];
         $this->containerAware
             ->expects($this->once())
@@ -144,8 +144,9 @@ class ShortcodeManagerTest extends TestCase
     }
 
     /**
-     * @return void
      * @throws DeregisterException
+     *
+     * @return void
      */
     public function testDeregister(): void
     {
@@ -183,8 +184,9 @@ class ShortcodeManagerTest extends TestCase
     }
 
     /**
-     * @return void
      * @throws DeregisterException
+     *
+     * @return void
      */
     public function testDeregisterAlias(): void
     {
@@ -204,8 +206,9 @@ class ShortcodeManagerTest extends TestCase
     }
 
     /**
-     * @return void
      * @throws DeregisterException
+     *
+     * @return void
      */
     public function testDeregisterOnlyPrimary(): void
     {
@@ -287,8 +290,9 @@ class ShortcodeManagerTest extends TestCase
     }
 
     /**
-     * @return void
      * @throws RegisterException
+     *
+     * @return void
      */
     public function testGetShortcodeShorthand(): void
     {
@@ -307,8 +311,9 @@ class ShortcodeManagerTest extends TestCase
     }
 
     /**
-     * @return void
      * @throws RegisterException
+     *
+     * @return void
      */
     public function testAlias(): void
     {
@@ -358,7 +363,7 @@ class ShortcodeManagerTest extends TestCase
             ->will($this->returnValueMap([
                 ['[qux]', ['foo', 'bar', 'baz'], null, []],
                 ['[foo]', ['foo', 'bar', 'baz'], null, [['tag' => 'foo']]],
-                ['[foo]', ['bar', 'baz'], null, []]
+                ['[foo]', ['bar', 'baz'], null, []],
             ]));
 
         $this->assertFalse($this->manager->hasShortcode('[qux]'));
@@ -370,6 +375,7 @@ class ShortcodeManagerTest extends TestCase
      * @param string $shortcode
      * @param string $content
      * @param string $expected
+     *
      * @return void
      * @dataProvider shortcodeVariationProvider
      */
@@ -426,7 +432,7 @@ class ShortcodeManagerTest extends TestCase
     {
         return [
             ['shortcode', '[shortcode]Content[/shortcode]', 'Content'],
-            ['attribute', '[attributes test]Content[/attributes]', 'Content']
+            ['attribute', '[attributes test]Content[/attributes]', 'Content'],
         ];
     }
 }

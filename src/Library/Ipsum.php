@@ -2,15 +2,14 @@
 
 namespace Maiorano\Shortcodes\Library;
 
-use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 use Maiorano\Shortcodes\Contracts\AliasInterface;
-use Maiorano\Shortcodes\Contracts\Traits\Shortcode;
+use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 use Maiorano\Shortcodes\Contracts\Traits\Alias;
+use Maiorano\Shortcodes\Contracts\Traits\Shortcode;
 
 /**
  * Generate Lorem Ipsum
- * Usage: [loremipsum] or [ipsum]
- * @package Maiorano\Shortcodes\Library
+ * Usage: [loremipsum] or [ipsum].
  */
 class Ipsum implements ShortcodeInterface, AliasInterface
 {
@@ -37,10 +36,11 @@ class Ipsum implements ShortcodeInterface, AliasInterface
 
     /**
      * @param string|null $content
+     *
      * @return string
      */
     public function handle(?string $content = null): string
     {
-        return trim((string)preg_replace('/\s+/', ' ', $this->ipsum));
+        return trim((string) preg_replace('/\s+/', ' ', $this->ipsum));
     }
 }
