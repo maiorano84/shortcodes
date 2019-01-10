@@ -108,7 +108,7 @@ class DefaultParser implements ParserInterface
         if (preg_match_all($pattern, (string) $text, $match, PREG_SET_ORDER)) {
 
             // Reject any unclosed HTML elements
-            foreach($this->generateAttributes($match) as $att => $value){
+            foreach ($this->generateAttributes($match) as $att => $value) {
                 if (strpos($value, '<') !== false) {
                     if (preg_match('/^[^<]*+(?:<[^>]*+>[^<]*+)*+$/', $value) !== 1) {
                         $value = '';
