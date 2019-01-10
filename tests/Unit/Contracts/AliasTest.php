@@ -39,9 +39,11 @@ class AliasTest extends TestCase
             {
                 return (string) $content;
             }
+
             public function alias(string $string): Contracts\AliasInterface
             {
                 $this->aliasHelper($string);
+
                 return $this;
             }
         };
@@ -74,9 +76,11 @@ class AliasTest extends TestCase
             {
                 return (string) $content;
             }
+
             public function alias(string $string): Contracts\AliasInterface
             {
                 $this->aliasHelper($string);
+
                 return $this;
             }
         };

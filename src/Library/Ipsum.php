@@ -47,13 +47,14 @@ class Ipsum implements ShortcodeInterface, AliasInterface
     /**
      * @param string $string
      *
-     * @return AliasInterface
-     *
      * @throws \Maiorano\Shortcodes\Exceptions\RegisterException
+     *
+     * @return AliasInterface
      */
     public function alias(string $string): AliasInterface
     {
         $this->aliasHelper($string);
+
         return $this;
     }
 }

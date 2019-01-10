@@ -62,9 +62,9 @@ class LibraryTest extends TestCase
     }
 
     /**
-     * @return void
-     *
      * @throws \Maiorano\Shortcodes\Exceptions\RegisterException
+     *
+     * @return void
      */
     public function testIpsumShortcode(): void
     {
@@ -81,9 +81,9 @@ class LibraryTest extends TestCase
     }
 
     /**
-     * @return void
-     *
      * @throws \Maiorano\Shortcodes\Exceptions\RegisterException
+     *
+     * @return void
      */
     public function testSimpleShortcode(): void
     {
