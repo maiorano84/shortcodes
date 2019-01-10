@@ -11,6 +11,7 @@ Implementation of Wordpress' Shortcode syntax as a standalone package. Content f
 [![Total Downloads](https://poser.pugx.org/maiorano84/shortcodes/downloads)](https://packagist.org/packages/maiorano84/shortcodes)
 [![License](https://poser.pugx.org/maiorano84/shortcodes/license)](https://packagist.org/packages/maiorano84/shortcodes)
 [![SymfonyInsight](https://insight.symfony.com/projects/f1157d4b-fc5f-4b9f-be34-7814abb4edb5/mini.svg)](https://insight.symfony.com/projects/f1157d4b-fc5f-4b9f-be34-7814abb4edb5)
+[![StyleCI](https://github.styleci.io/repos/34288149/shield?branch=master)](https://github.styleci.io/repos/34288149)
 
 ## Requirements
 Shortcodes requires PHP 7.1 or greater.
