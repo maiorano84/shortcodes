@@ -31,16 +31,7 @@ class DefaultParser implements ParserInterface
             return iterator_to_array($this->generateResults($matches));
         }
 
-        return preg_replace_callback("/$regex/", function ($match) use ($callback) {
-            if ($match[1] == '[' && $match[6] == ']') {
-                return substr($match[0], 1, -1);
-            }
-
-            $content = isset($match[5]) ? $match[5] : null;
-            $atts = isset($match[3]) ? $this->parseAttributes($match[3]) : [];
-
-            return $callback($match[2], $content, $atts);
-        }, $content);
+        return preg_replace_callback("/$regex/", $this->generateCallback($callback), $content);
     }
 
     /**
@@ -154,5 +145,24 @@ class DefaultParser implements ParserInterface
                 'attributes' => isset($match[3]) ? $this->parseAttributes($match[3]) : [],
             ];
         }
+    }
+
+    /**
+     * @param Closure $callback
+     *
+     * @return Closure
+     */
+    private function generateCallback(Closure $callback): Closure
+    {
+        return function ($match) use ($callback) {
+            if ($match[1] == '[' && $match[6] == ']') {
+                return substr($match[0], 1, -1);
+            }
+
+            $content = isset($match[5]) ? $match[5] : null;
+            $atts = isset($match[3]) ? $this->parseAttributes($match[3]) : [];
+
+            return $callback($match[2], $content, $atts);
+        };
     }
 }
