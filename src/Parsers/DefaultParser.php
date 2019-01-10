@@ -106,36 +106,43 @@ class DefaultParser implements ParserInterface
         $pattern = "/{$patterns}/";
         $text = preg_replace("/[\x{00a0}\x{200b}]+/u", ' ', $text);
         if (preg_match_all($pattern, (string) $text, $match, PREG_SET_ORDER)) {
-            foreach ($match as $m) {
-                if (!empty($m[1])) {
-                    $atts[strtolower($m[1])] = stripcslashes($m[2]);
-                } elseif (!empty($m[3])) {
-                    $atts[strtolower($m[3])] = stripcslashes($m[4]);
-                } elseif (!empty($m[5])) {
-                    $atts[strtolower($m[5])] = stripcslashes($m[6]);
-                } elseif (isset($m[7]) && strlen($m[7])) {
-                    $atts[strtolower($m[7])] = true;
-                } elseif (isset($m[8]) && strlen($m[8])) {
-                    $atts[strtolower($m[8])] = true;
-                } elseif (isset($m[9])) {
-                    $atts[strtolower($m[9])] = true;
-                }
-            }
 
             // Reject any unclosed HTML elements
-            foreach ($atts as &$value) {
-                if (!is_string($value)) {
-                    continue;
-                }
+            foreach($this->generateAttributes($match) as $att => $value){
                 if (strpos($value, '<') !== false) {
-                    if (1 !== preg_match('/^[^<]*+(?:<[^>]*+>[^<]*+)*+$/', $value)) {
+                    if (preg_match('/^[^<]*+(?:<[^>]*+>[^<]*+)*+$/', $value) !== 1) {
                         $value = '';
                     }
                 }
+                $atts[$att] = $value;
             }
         }
 
         return $atts;
+    }
+
+    /**
+     * @param array $matches
+     *
+     * @return Generator
+     */
+    private function generateAttributes(array $matches): Generator
+    {
+        foreach ($matches as $m) {
+            if (!empty($m[1])) {
+                yield strtolower($m[1]) => stripcslashes($m[2]);
+            } elseif (!empty($m[3])) {
+                yield strtolower($m[3]) => stripcslashes($m[4]);
+            } elseif (!empty($m[5])) {
+                yield strtolower($m[5]) => stripcslashes($m[6]);
+            } elseif (isset($m[7]) && strlen($m[7])) {
+                yield strtolower($m[7]) => true;
+            } elseif (isset($m[8]) && strlen($m[8])) {
+                yield strtolower($m[8]) => true;
+            } elseif (isset($m[9])) {
+                yield strtolower($m[9]) => true;
+            }
+        }
     }
 
     /**

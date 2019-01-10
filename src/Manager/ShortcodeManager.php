@@ -104,11 +104,11 @@ class ShortcodeManager extends BaseManager
         if (!$this->isRegistered($name)) {
             throw RegisterException::missing($name);
         }
-        if (!($this[$name] instanceof AliasInterface)) {
+        if ($this[$name] instanceof AliasInterface) {
+            $this[$name]->alias($alias);
+        } else {
             throw RegisterException::noAlias();
         }
-
-        $this[$name]->alias($alias);
 
         if (!$this[$name] instanceof ContainerAwareInterface) {
             parent::register($this[$name], $alias);
@@ -143,21 +143,22 @@ class ShortcodeManager extends BaseManager
         $tags = $this->preProcessTags($tags);
         $handler = function (string $tag, ?string $content = null, array $atts = []) {
             $shortcode = $this[$tag];
+
             if ($shortcode instanceof AttributeInterface) {
                 $atts = array_merge($shortcode->getAttributes(), $atts);
-
                 return $shortcode->handle($content, $atts);
             }
 
             return $shortcode->handle($content);
         };
-        $content = $this->parser->parseShortcode($content, $tags, $handler);
 
-        if ($deep && $this->hasShortcode($content, $tags)) {
-            return $this->doShortcode($content, $tags, $deep);
+        $result = (string)$this->parser->parseShortcode($content, $tags, $handler);
+
+        if ($deep && $this->hasShortcode($result, $tags)) {
+            return $this->doShortcode($result, $tags, $deep);
         }
 
-        return $content;
+        return $result;
     }
 
     /**
