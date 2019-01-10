@@ -3,31 +3,27 @@ Implementation of Wordpress' Shortcode syntax as a standalone package. Content f
 
 ----
 
-[![Build Status](https://travis-ci.org/maiorano84/shortcodes.svg?branch=master)](https://travis-ci.org/maiorano84/shortcodes)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maiorano84/shortcodes/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maiorano84/shortcodes/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/maiorano84/shortcodes/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/maiorano84/shortcodes/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/maiorano84/shortcodes/v/stable)](https://packagist.org/packages/maiorano84/shortcodes)
 [![Latest Unstable Version](https://poser.pugx.org/maiorano84/shortcodes/v/unstable)](https://packagist.org/packages/maiorano84/shortcodes)
 [![Total Downloads](https://poser.pugx.org/maiorano84/shortcodes/downloads)](https://packagist.org/packages/maiorano84/shortcodes)
 [![License](https://poser.pugx.org/maiorano84/shortcodes/license)](https://packagist.org/packages/maiorano84/shortcodes)
 [![SymfonyInsight](https://insight.symfony.com/projects/f1157d4b-fc5f-4b9f-be34-7814abb4edb5/mini.svg)](https://insight.symfony.com/projects/f1157d4b-fc5f-4b9f-be34-7814abb4edb5)
+[![Build Status](https://travis-ci.org/maiorano84/shortcodes.svg?branch=master)](https://travis-ci.org/maiorano84/shortcodes)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maiorano84/shortcodes/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maiorano84/shortcodes/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/maiorano84/shortcodes/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/maiorano84/shortcodes/?branch=master)
 [![StyleCI](https://github.styleci.io/repos/34288149/shield?branch=master)](https://github.styleci.io/repos/34288149)
 
 ## Requirements
 Shortcodes requires PHP 7.1 or greater.
 
 ## Composer
-This package may be installed as a Composer dependency by entering the following in your composer.json:
-
-```
-"require": {
-  "maiorano84/shortcodes": "@dev"
-}
-```
-
-or running the following command:
+This package may be installed as a Composer dependency by running the following command:
 
 `composer require maiorano84/shortcodes`
+
+If you would like to use the latest unstable version, you can run:
+
+`composer require maiorano84/shortcodes:dev-master`
 
 ## What are "Shortcodes"?
 
