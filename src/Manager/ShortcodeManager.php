@@ -1,80 +1,173 @@
 <?php
+
 namespace Maiorano\Shortcodes\Manager;
 
+use Maiorano\Shortcodes\Contracts\AliasInterface;
 use Maiorano\Shortcodes\Contracts\AttributeInterface;
+use Maiorano\Shortcodes\Contracts\ContainerAwareInterface;
+use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
+use Maiorano\Shortcodes\Exceptions\DeregisterException;
+use Maiorano\Shortcodes\Exceptions\RegisterException;
 use Maiorano\Shortcodes\Parsers\DefaultParser;
+use Maiorano\Shortcodes\Parsers\ParserInterface;
 
 /**
- * Class ShortcodeManager
- * @package Maiorano\Shortcodes\Manager
+ * Class ShortcodeManager.
  */
-class ShortcodeManager extends BaseManager implements ManagerInterface
+class ShortcodeManager extends BaseManager
 {
+    /**
+     * @var DefaultParser|ParserInterface
+     */
+    protected $parser;
 
     /**
-     * @param array $shortcodes
+     * ShortcodeManager constructor.
+     *
+     * @param array                $shortcodes
+     * @param ParserInterface|null $parser
      */
-    public function __construct(array $shortcodes = [])
+    public function __construct(array $shortcodes = [], ParserInterface $parser = null)
     {
-        parent::__construct($shortcodes, new DefaultParser);
+        $this->parser = $parser ?? new DefaultParser();
+        $this->registerAll($shortcodes);
     }
 
     /**
-     * @param $content
+     * @param ShortcodeInterface $shortcode
+     * @param string|null        $name
+     *
+     * @throws RegisterException
+     *
+     * @return static
+     */
+    public function register(ShortcodeInterface $shortcode, ?string $name = null): ManagerInterface
+    {
+        parent::register($shortcode, $name);
+        if ($shortcode instanceof AliasInterface) {
+            foreach ($shortcode->getAlias() as $alias) {
+                if (!$this->isRegistered($alias)) {
+                    parent::register($shortcode, $alias);
+                }
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param array $shortcodes
+     *
+     * @return static
+     */
+    public function registerAll(array $shortcodes): ManagerInterface
+    {
+        foreach ($shortcodes as $k => $s) {
+            $this[$k] = $s;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @param bool   $includeAlias
+     *
+     * @throws DeregisterException
+     *
+     * @return static
+     */
+    public function deregister(string $name, bool $includeAlias = true): ManagerInterface
+    {
+        $shortcode = $this->shortcodes[$name] ?? false;
+        if ($shortcode && $shortcode instanceof AliasInterface) {
+            if ($name === $shortcode->getName() && $includeAlias) {
+                foreach ($shortcode->getAlias() as $alias) {
+                    parent::deregister($alias);
+                }
+            }
+        }
+
+        return parent::deregister($name);
+    }
+
+    /**
+     * @param string $name
+     * @param string $alias
+     *
+     * @throws RegisterException
+     *
+     * @return static
+     */
+    public function alias(string $name, string $alias): ManagerInterface
+    {
+        if (!$this->isRegistered($name)) {
+            throw RegisterException::missing($name);
+        }
+        if ($this[$name] instanceof AliasInterface) {
+            $this[$name]->alias($alias);
+        } else {
+            throw RegisterException::noAlias();
+        }
+
+        if (!$this[$name] instanceof ContainerAwareInterface) {
+            parent::register($this[$name], $alias);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param string       $content
      * @param string|array $tags
+     *
      * @return bool
      */
-    public function hasShortcode($content, $tags = [])
+    public function hasShortcode(string $content, $tags = []): bool
     {
         $tags = $this->preProcessTags($tags);
         $matches = $this->parser->parseShortcode($content, $tags);
 
-        if (empty($matches)) {
-            return false;
-        }
-
-        foreach ($matches as $shortcode) {
-            if (in_array($shortcode['tag'], $tags)) { //Shortcodes matched
-                return true;
-            } elseif ($shortcode['content']) {
-                return $this->hasShortcode($shortcode['content'], $tags); //Check Nested Shortcodes
-            }
-        }
-
-        return false;
+        return !empty($matches);
     }
 
     /**
-     * @param $content
+     * @param string       $content
      * @param string|array $tags
-     * @param bool $deep
-     * @return bool|mixed
+     * @param bool         $deep
+     *
+     * @return string
      */
-    public function doShortcode($content, $tags = [], $deep = false)
+    public function doShortcode(string $content, $tags = [], bool $deep = false): string
     {
         $tags = $this->preProcessTags($tags);
-        $content = $this->parser->parseShortcode($content, $tags, function ($tag, $content, $atts) {
-
+        $handler = function (string $tag, ?string $content = null, array $atts = []) {
             $shortcode = $this[$tag];
+
             if ($shortcode instanceof AttributeInterface) {
                 $atts = array_merge($shortcode->getAttributes(), $atts);
+
+                return $shortcode->handle($content, $atts);
             }
 
-            return $shortcode->handle($content, $atts);
-        });
+            return $shortcode->handle($content);
+        };
 
-        if ($deep && $this->hasShortcode($content, $tags)) {
-            return $this->doShortcode($content, $tags, $deep);
+        $result = (string) $this->parser->parseShortcode($content, $tags, $handler);
+
+        if ($deep && $this->hasShortcode($result, $tags)) {
+            return $this->doShortcode($result, $tags, $deep);
         }
 
-        return $content;
+        return $result;
     }
 
     /**
      * @param string|array $tags
+     *
      * @return array
      */
-    private function preProcessTags($tags)
+    private function preProcessTags($tags): array
     {
         if (!$tags) {
             return $this->getRegistered();

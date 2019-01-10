@@ -1,61 +1,55 @@
 <?php
+
 namespace Maiorano\Shortcodes\Manager;
 
 use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 
 /**
- * Interface ShortcodeManagerInterface
- * @package Maiorano\Shortcodes\Manager
+ * Interface ShortcodeManagerInterface.
  */
 interface ManagerInterface
 {
-
     /**
      * @param ShortcodeInterface $shortcode
-     * @return mixed
+     * @param string|null        $name
+     *
+     * @return static
      */
-    public function register(ShortcodeInterface $shortcode);
+    public function register(ShortcodeInterface $shortcode, ?string $name = null): self;
 
     /**
      * @param string $shortcode
-     * @return mixed
+     *
+     * @return static
      */
-    public function deregister($shortcode);
+    public function deregister(string $shortcode): self;
 
     /**
      * @param string $name
+     *
      * @return bool
      */
-    public function isRegistered($name);
+    public function isRegistered(string $name): bool;
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getRegistered();
+    public function getRegistered(): array;
 
     /**
-     * @param string $name
-     * @param string $alias
-     * @return mixed
-     */
-    public function alias($name, $alias);
-
-    /**
-     * @param string $content
-     * @param array $tags
+     * @param string       $content
+     * @param array|string $tags
+     *
      * @return bool
      */
-    public function hasShortcode($content, $tags = []);
+    public function hasShortcode(string $content, $tags = []): bool;
 
     /**
-     * @param string $content
-     * @param array $tags
+     * @param string       $content
+     * @param array|string $tags
+     * @param bool         $deep
+     *
      * @return string
      */
-    public function doShortcode($content, $tags = []);
-
-    /**
-     * @return  \Maiorano\Shortcodes\Parsers\ParserInterface
-     */
-    public function getParser();
+    public function doShortcode(string $content, $tags = [], bool $deep = false): string;
 }

@@ -1,24 +1,17 @@
 <?php
+
 namespace Maiorano\Shortcodes\Library;
 
-use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
-use Maiorano\Shortcodes\Contracts\AttributeInterface;
-use Maiorano\Shortcodes\Contracts\AliasInterface;
-use Maiorano\Shortcodes\Contracts\ContainerAwareInterface;
-
-use Maiorano\Shortcodes\Contracts\Traits\Shortcode;
-use Maiorano\Shortcodes\Contracts\Traits\Attribute;
-use Maiorano\Shortcodes\Contracts\Traits\CallableTrait;
-use Maiorano\Shortcodes\Contracts\Traits\Alias;
-use Maiorano\Shortcodes\Contracts\Traits\ContainerAware;
+use Closure;
+use Maiorano\Shortcodes\Contracts;
+use Maiorano\Shortcodes\Contracts\Traits;
 
 /**
- * Creation of Shortcodes programatically
- * @package Maiorano\Shortcodes\Contracts
+ * Creation of Shortcodes programatically.
  */
-class SimpleShortcode implements ShortcodeInterface, AttributeInterface, AliasInterface, ContainerAwareInterface
+class SimpleShortcode implements Contracts\AttributeInterface, Contracts\AliasInterface, Contracts\ContainerAwareInterface
 {
-    use Shortcode, Attribute, CallableTrait, Alias, ContainerAware;
+    use Traits\Attribute, Traits\Alias, Traits\ContainerAware;
 
     /**
      * @var string
@@ -31,29 +24,40 @@ class SimpleShortcode implements ShortcodeInterface, AttributeInterface, AliasIn
     protected $attributes;
 
     /**
-     * @var callable
-     */
-    protected $callback;
-
-    /**
      * @var array
      */
     protected $alias = [];
 
     /**
-     * @var \Maiorano\Shortcodes\Manager\ManagerInterface
+     * @var Closure|null
      */
-    protected $manager;
+    protected $callback;
 
     /**
-     * @param string $name
-     * @param array $atts
-     * @param callable $callback
+     * @param string       $name
+     * @param array|null   $atts
+     * @param Closure|null $callback
      */
-    public function __construct($name, $atts = [], Callable $callback = null)
+    public function __construct($name, $atts = [], Closure $callback = null)
     {
         $this->name = $name;
-        $this->attributes = (array)$atts;
+        $this->attributes = (array) $atts;
         $this->callback = $callback;
+    }
+
+    /**
+     * @param string|null $content
+     * @param array       $atts
+     *
+     * @return string
+     */
+    public function handle(?string $content = null, array $atts = []): string
+    {
+        if (is_null($this->callback)) {
+            return (string) $content;
+        }
+        $callback = $this->callback->bindTo($this, $this);
+
+        return $callback($content, $atts);
     }
 }

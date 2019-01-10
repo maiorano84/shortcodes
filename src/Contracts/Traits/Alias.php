@@ -1,4 +1,5 @@
 <?php
+
 namespace Maiorano\Shortcodes\Contracts\Traits;
 
 use Maiorano\Shortcodes\Contracts\AliasInterface;
@@ -8,24 +9,24 @@ use Maiorano\Shortcodes\Exceptions\RegisterException;
 /**
  * Trait Alias
  * Assists in satisfying the AliasInterface requirements
- * Allows shortcodes to be aliased
- * @package Maiorano\Shortcodes\Contracts\Traits
+ * Allows shortcodes to be aliased.
  */
 trait Alias
 {
-
     /**
      * @param string $alias
-     * @return \Maiorano\Shortcodes\Contracts\ShortcodeInterface
+     *
      * @throws RegisterException
+     *
+     * @return AliasInterface
      */
-    public function alias($alias)
+    public function alias(string $alias): AliasInterface
     {
         if (!($this instanceof AliasInterface)) {
-            throw new RegisterException(RegisterException::NO_ALIAS);
+            throw RegisterException::noAlias();
         }
         if (!$alias) {
-            throw new RegisterException(RegisterException::BLANK);
+            throw RegisterException::blank();
         }
 
         if (!in_array($alias, $this->alias)) {
@@ -33,8 +34,8 @@ trait Alias
         }
 
         if ($this instanceof ContainerAwareInterface && $this->isBound()) {
-            if (!$this->manager->isRegistered($alias)) {
-                $this->manager->register($this, $alias, false);
+            if (!$this->getManager()->isRegistered($alias)) {
+                $this->getManager()->register($this, $alias);
             }
         }
 
@@ -44,7 +45,7 @@ trait Alias
     /**
      * @return array
      */
-    public function getAlias()
+    public function getAlias(): array
     {
         return $this->alias;
     }

@@ -1,16 +1,21 @@
 <?php
+
 namespace Maiorano\Shortcodes\Exceptions;
 
-use \Exception;
+use Exception;
 
 /**
- * Class ShortcodeException
- * @package Maiorano\Shortcodes\Exceptions
+ * Class ShortcodeException.
  */
 class ShortcodeException extends Exception
 {
     /**
      * @const string
      */
-    const NO_ALIAS = 'Cannot alias a shortcode that does not implement \Maiorano\Shortcodes\Contracts\AliasInterface';
+    const BLANK = 'You must provide a name for your shortcode';
+
+    /**
+     * @const string
+     */
+    const MISSING = 'No shortcode with identifier \'%s\' has been registered';
 }

@@ -1,14 +1,29 @@
 <?php
+
 namespace Maiorano\Shortcodes\Exceptions;
 
 /**
- * Class DeregisterException
- * @package Maiorano\Shortcodes\Exceptions
+ * Class DeregisterException.
  */
 class DeregisterException extends ShortcodeException
 {
     /**
-     * @const string
+     * @return static
      */
-    const MISSING = 'The shortcode \'%s\' does not exist in the current library';
+    public static function blank(): self
+    {
+        return new static(parent::BLANK);
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return static
+     */
+    public static function missing(string $name): self
+    {
+        $e = sprintf(parent::MISSING, $name);
+
+        return new static($e);
+    }
 }

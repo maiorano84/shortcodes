@@ -1,21 +1,20 @@
 <?php
+
 namespace Maiorano\Shortcodes\Library;
 
-use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
+use DateInterval;
+use DateTime;
+use Exception;
 use Maiorano\Shortcodes\Contracts\AttributeInterface;
-use Maiorano\Shortcodes\Contracts\Traits\Shortcode;
 use Maiorano\Shortcodes\Contracts\Traits\Attribute;
-use \DateTime;
-use \DateInterval;
 
 /**
  * Calculates the age of something
- * Usage: [age units=years]September 19th 1984[/age]
- * @package Maiorano\Shortcodes\Library
+ * Usage: [age units=years]September 19th 1984[/age].
  */
-class Age implements ShortcodeInterface, AttributeInterface
+class Age implements AttributeInterface
 {
-    use Shortcode, Attribute;
+    use Attribute;
 
     /**
      * @var string
@@ -29,10 +28,13 @@ class Age implements ShortcodeInterface, AttributeInterface
 
     /**
      * @param string|null $content
-     * @param array $atts
+     * @param array       $atts
+     *
+     * @throws Exception
+     *
      * @return string
      */
-    public function handle($content = null, array $atts = [])
+    public function handle(string $content = null, array $atts = []): string
     {
         if (!$content) {
             return '';
@@ -46,8 +48,9 @@ class Age implements ShortcodeInterface, AttributeInterface
     }
 
     /**
-     * @param $units
+     * @param string       $units
      * @param DateInterval $diff
+     *
      * @return mixed
      */
     private function calculate($units, DateInterval $diff)
@@ -66,7 +69,7 @@ class Age implements ShortcodeInterface, AttributeInterface
                 return $diff->y * 12 + $diff->m;
             },
             'days' => function (DateInterval $diff) {
-                return $diff->days + $diff->d;
+                return $diff->days;
             },
             'hours' => function (DateInterval $diff) {
                 return ($diff->days * 24) + $diff->h;
@@ -76,7 +79,7 @@ class Age implements ShortcodeInterface, AttributeInterface
             },
             'seconds' => function (DateInterval $diff) {
                 return ($diff->days * 24 * 60 * 60) + $diff->s;
-            }
+            },
         ];
         $u = isset($calculator[$units]) ? $units : 'years';
 

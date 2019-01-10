@@ -1,162 +1,78 @@
 <?php
+
 namespace Maiorano\Shortcodes\Manager;
 
-use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
+use ArrayAccess;
+use ArrayIterator;
+use IteratorAggregate;
 use Maiorano\Shortcodes\Contracts\ContainerAwareInterface;
-use Maiorano\Shortcodes\Contracts\AliasInterface;
-use Maiorano\Shortcodes\Exceptions\RegisterException;
+use Maiorano\Shortcodes\Contracts\ShortcodeInterface;
 use Maiorano\Shortcodes\Exceptions\DeregisterException;
-use Maiorano\Shortcodes\Parsers\ParserInterface;
-use \ArrayAccess;
-use \IteratorAggregate;
-use \ArrayIterator;
+use Maiorano\Shortcodes\Exceptions\RegisterException;
 
 /**
- * Class BaseManager
- * @package Maiorano\Shortcodes\Manager
+ * Class BaseManager.
  */
-abstract class BaseManager implements ArrayAccess, IteratorAggregate
+abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAggregate
 {
-
-    /**
-     * @var ParserInterface
-     */
-    protected $parser;
-
     /**
      * @var array
      */
     protected $shortcodes = [];
 
     /**
-     * @param array $shortcodes
-     * @param ParserInterface $parser
-     * @throws RegisterException
-     */
-    public function __construct(array $shortcodes = [], ParserInterface $parser)
-    {
-        $this->parser = $parser;
-        foreach ($shortcodes as $k => $s) {
-            $this->register($s);
-        }
-    }
-
-    /**
-     * @param mixed $offset
-     * @param mixed $value
-     * @throws RegisterException
-     */
-    public function offsetSet($offset, $value)
-    {
-        $this->register($value);
-    }
-
-    /**
-     * @param mixed $offset
-     * @throws DeregisterException
-     */
-    public function offsetUnset($offset)
-    {
-        $this->deregister($offset);
-    }
-
-    /**
-     * @param mixed $offset
-     * @return bool
-     */
-    public function offsetExists($offset)
-    {
-        return $this->isRegistered($offset);
-    }
-
-    /**
-     * @param mixed $offset
-     * @return null
-     * @throws RegisterException
-     */
-    public function offsetGet($offset)
-    {
-        if (!$this->isRegistered($offset)) {
-            $e = sprintf(RegisterException::MISSING, $offset);
-            throw new RegisterException($e);
-        }
-
-        return $this->shortcodes[$offset];
-    }
-
-    /**
-     * @return ArrayIterator
-     */
-    public function getIterator()
-    {
-        return new ArrayIterator($this->shortcodes);
-    }
-
-    /**
      * @param ShortcodeInterface $shortcode
-     * @param string $name
-     * @param bool $includeAlias
-     * @return ManagerInterface
+     * @param string|null        $name
+     *
      * @throws RegisterException
+     *
+     * @return static
      */
-    public function register(ShortcodeInterface $shortcode, $name = null, $includeAlias = true)
+    public function register(ShortcodeInterface $shortcode, ?string $name = null): ManagerInterface
     {
         $name = $name ?: $shortcode->getName();
 
         if (!$name) {
-            throw new RegisterException(RegisterException::BLANK);
+            throw RegisterException::blank();
         } elseif ($this->isRegistered($name)) {
-            $e = sprintf(RegisterException::DUPLICATE, $name);
-            throw new RegisterException($e);
+            throw RegisterException::duplicate($name);
         }
 
-        $this->shortcodes[$name] = $shortcode;
         if ($shortcode instanceof ContainerAwareInterface) {
             $shortcode->bind($this);
         }
 
-        if ($includeAlias && $shortcode instanceof AliasInterface) {
-            foreach ($shortcode->getAlias() as $alias) {
-                $shortcode->alias($alias);
-                if (!($shortcode instanceof ContainerAwareInterface)) {
-                    $this->register($shortcode, $alias, false);
-                }
-            }
-        }
+        $this->shortcodes[$name] = $shortcode;
 
         return $this;
     }
 
     /**
-     * @param $name
-     * @param bool $includeAlias
-     * @return ManagerInterface
+     * @param string $name
+     *
      * @throws DeregisterException
+     *
+     * @return static
      */
-    public function deregister($name, $includeAlias = true)
+    public function deregister(string $name): ManagerInterface
     {
-        if (!$this->isRegistered($name)) {
-            $e = sprintf(DeregisterException::MISSING, $name);
-            throw new DeregisterException($e);
+        if (!$name) {
+            throw DeregisterException::blank();
+        } elseif (!$this->isRegistered($name)) {
+            throw DeregisterException::missing($name);
         }
 
-        $shortcode = $this->shortcodes[$name];
-
-        if ($includeAlias && $shortcode instanceof AliasInterface) {
-            foreach ($this->shortcodes[$name]->getAlias() as $alias) {
-                unset($this->shortcodes[$alias]);
-            }
-        }
         unset($this->shortcodes[$name]);
 
         return $this;
     }
 
     /**
-     * @param $name
+     * @param string $name
+     *
      * @return bool
      */
-    public function isRegistered($name)
+    public function isRegistered(string $name): bool
     {
         return isset($this->shortcodes[$name]);
     }
@@ -164,37 +80,81 @@ abstract class BaseManager implements ArrayAccess, IteratorAggregate
     /**
      * @return array
      */
-    public function getRegistered()
+    public function getRegistered(): array
     {
         return array_keys($this->shortcodes);
     }
 
+    /**
+     * @param string $content
+     * @param array  $tags
+     *
+     * @return bool
+     */
+    abstract public function hasShortcode(string $content, $tags = []): bool;
 
     /**
-     * @param string $name
-     * @param string $alias
-     * @return ManagerInterface $this
-     * @throws RegisterException
+     * @param string $content
+     * @param array  $tags
+     * @param bool   $deep
+     *
+     * @return string
      */
-    public function alias($name, $alias)
-    {
-        if (!($this[$name] instanceof AliasInterface)) {
-            throw new RegisterException(RegisterException::NO_ALIAS);
-        }
-        if (!$this->isRegistered($name)) {
-            $e = sprintf(RegisterException::MISSING, $name);
-            throw new RegisterException($e);
-        }
-        $this[$name]->alias($alias);
+    abstract public function doShortcode(string $content, $tags = [], bool $deep = false): string;
 
-        return $this;
+    /**
+     * @param mixed $offset
+     *
+     * @throws RegisterException
+     *
+     * @return ShortcodeInterface
+     */
+    public function offsetGet($offset): ShortcodeInterface
+    {
+        if (!$this->isRegistered($offset)) {
+            throw RegisterException::missing($offset);
+        }
+
+        return $this->shortcodes[$offset];
     }
 
     /**
-     * @return ParserInterface
+     * @param mixed $offset
+     * @param mixed $value
+     *
+     * @throws RegisterException
      */
-    public function getParser()
+    public function offsetSet($offset, $value): void
     {
-        return $this->parser;
+        $name = is_string($offset) && !is_numeric($offset) ? $offset : null;
+        $this->register($value, $name);
+    }
+
+    /**
+     * @param mixed $offset
+     *
+     * @throws DeregisterException
+     */
+    public function offsetUnset($offset): void
+    {
+        $this->deregister($offset);
+    }
+
+    /**
+     * @param mixed $offset
+     *
+     * @return bool
+     */
+    public function offsetExists($offset): bool
+    {
+        return $this->isRegistered($offset);
+    }
+
+    /**
+     * @return ArrayIterator
+     */
+    public function getIterator(): ArrayIterator
+    {
+        return new ArrayIterator($this->shortcodes);
     }
 }

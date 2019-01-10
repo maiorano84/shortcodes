@@ -1,33 +1,37 @@
 <?php
+
 namespace Maiorano\Shortcodes\Contracts\Traits;
 
 use Maiorano\Shortcodes\Contracts\AliasInterface;
-use Maiorano\Shortcodes\Manager\ManagerInterface;
 use Maiorano\Shortcodes\Exceptions\RegisterException;
+use Maiorano\Shortcodes\Manager\ManagerInterface;
 
 /**
  * Trait ContainerAware
  * Assists in satisfying the ContainerAwareInterface requirements
- * Exposes the management container and its public members
- * @package Maiorano\Shortcodes\Contracts\Traits
+ * Exposes the management container and its public members.
  */
 trait ContainerAware
 {
+    /**
+     * @var ManagerInterface
+     */
+    protected $manager;
 
     /**
      * @param ManagerInterface $manager
-     * @see \Maiorano\Shortcodes\Contracts\ContainerAwareInterface::bind()
+     *
+     * @return void
      */
-    public function bind(ManagerInterface $manager)
+    public function bind(ManagerInterface $manager): void
     {
         $this->manager = $manager;
     }
 
     /**
      * @return bool
-     * @see \Maiorano\Shortcodes\Contracts\ContainerAwareInterface::isBound()
      */
-    public function isBound()
+    public function isBound(): bool
     {
         return $this->manager instanceof ManagerInterface;
     }
@@ -35,51 +39,62 @@ trait ContainerAware
     /**
      * Convenience method
      * Utilizes manager's implementation of hasShortcode
-     * Limits search to this shortcode's context
+     * Limits search to this shortcode's context.
+     *
      * @param string $content
-     * @param bool $deep
-     * @return string
+     *
      * @throws RegisterException
+     *
+     * @return bool
      */
-    public function hasShortcode($content, $deep = false)
+    public function hasShortcode(string $content): bool
     {
         if (!($this->isBound())) {
-            $e = sprintf(RegisterException::MISSING, $this->name);
-            throw new RegisterException($e);
+            throw RegisterException::missing($this->name);
         }
 
-        return $this->manager->hasShortcode($content, $this->getContext(), $deep);
+        return $this->manager->hasShortcode($content, $this->getContext());
     }
 
     /**
      * Convenience method
      * Utilizes manager's implementation of doShortcode
-     * Limits search to this shortcode's context
+     * Limits search to this shortcode's context.
+     *
      * @param string $content
-     * @param bool $deep
-     * @return string
+     * @param bool   $deep
+     *
      * @throws RegisterException
+     *
+     * @return string
      */
-    public function doShortcode($content, $deep = false)
+    public function doShortcode(string $content, bool $deep = false): string
     {
         if (!($this->isBound())) {
-            $e = sprintf(RegisterException::MISSING, $this->name);
-            throw new RegisterException($e);
+            throw RegisterException::missing($this->name);
         }
 
         return $this->manager->doShortcode($content, $this->getContext(), $deep);
     }
 
     /**
-     * Utility method
-     * @return string|array
+     * @return ManagerInterface
      */
-    private function getContext()
+    public function getManager(): ManagerInterface
     {
-        $context = $this->name;
+        return $this->manager;
+    }
+
+    /**
+     * Utility method.
+     *
+     * @return array
+     */
+    private function getContext(): array
+    {
+        $context = [$this->name];
         if ($this instanceof AliasInterface) {
-            $context = $this->alias;
-            $context[] = $this->name;
+            $context = array_unique(array_merge($context, $this->getAlias()));
         }
 
         return $context;
