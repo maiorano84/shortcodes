@@ -18,9 +18,9 @@ trait Alias
      *
      * @throws RegisterException
      *
-     * @return AliasInterface
+     * @return void
      */
-    public function alias(string $alias): AliasInterface
+    public function aliasHelper(string $alias)
     {
         if (!($this instanceof AliasInterface)) {
             throw RegisterException::noAlias();
@@ -38,8 +38,6 @@ trait Alias
                 $this->getManager()->register($this, $alias);
             }
         }
-
-        return $this;
     }
 
     /**

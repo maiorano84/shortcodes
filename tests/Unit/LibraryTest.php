@@ -65,6 +65,8 @@ class LibraryTest extends TestCase
 
     /**
      * @return void
+     *
+     * @throws \Maiorano\Shortcodes\Exceptions\RegisterException
      */
     public function testIpsumShortcode(): void
     {
@@ -75,21 +77,27 @@ class LibraryTest extends TestCase
         bibendum accumsan. Maecenas sit amet ornare turpis, quis porttitor quam. Mauris turpis purus, bibendum in diam 
         in, rutrum accumsan arcu.
         '));
+        $this->ipsum->alias('i');
         $this->assertSame($str, $this->ipsum->handle());
+        $this->assertCount(2, $this->ipsum->getAlias());
     }
 
     /**
      * @return void
+     *
+     * @throws \Maiorano\Shortcodes\Exceptions\RegisterException
      */
     public function testSimpleShortcode(): void
     {
         $noContent = new Library\SimpleShortcode('alt');
+        $noContent->alias('a');
         $this->assertInstanceOf(Contracts\AliasInterface::class, $this->simple);
         $this->assertInstanceOf(Contracts\AttributeInterface::class, $this->simple);
         $this->assertInstanceOf(Contracts\ContainerAwareInterface::class, $this->simple);
         $this->assertInstanceOf(Contracts\ShortcodeInterface::class, $this->simple);
         $this->assertEquals('simple', $this->simple->handle('test'));
         $this->assertEquals('test', $noContent->handle('test'));
+        $this->assertCount(1, $noContent->getAlias());
     }
 
     /**

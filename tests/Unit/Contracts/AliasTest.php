@@ -39,6 +39,11 @@ class AliasTest extends TestCase
             {
                 return (string) $content;
             }
+            public function alias(string $string): Contracts\AliasInterface
+            {
+                $this->aliasHelper($string);
+                return $this;
+            }
         };
         $this->manager = $this->createMock(ManagerInterface::class);
     }
@@ -68,6 +73,11 @@ class AliasTest extends TestCase
             public function handle(?string $content = null): string
             {
                 return (string) $content;
+            }
+            public function alias(string $string): Contracts\AliasInterface
+            {
+                $this->aliasHelper($string);
+                return $this;
             }
         };
         $this->manager->expects($this->once())->method('isRegistered')->willReturn(false);
@@ -109,6 +119,6 @@ class AliasTest extends TestCase
          * @var Traits\Alias|MockObject
          */
         $bad = $this->getObjectForTrait(Traits\Alias::class);
-        $bad->alias('bad');
+        $bad->aliasHelper('bad');
     }
 }

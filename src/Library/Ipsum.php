@@ -43,4 +43,17 @@ class Ipsum implements ShortcodeInterface, AliasInterface
     {
         return trim((string) preg_replace('/\s+/', ' ', $this->ipsum));
     }
+
+    /**
+     * @param string $string
+     *
+     * @return AliasInterface
+     *
+     * @throws \Maiorano\Shortcodes\Exceptions\RegisterException
+     */
+    public function alias(string $string): AliasInterface
+    {
+        $this->aliasHelper($string);
+        return $this;
+    }
 }
