@@ -39,18 +39,16 @@ class LibraryTest extends TestCase
 
     /**
      * @param string $unit
-     * @param string $time
      *
      * @throws Exception
      *
      * @return void
      * @dataProvider ageVariationProvider
      */
-    public function testAgeShortcode(string $unit, string $time): void
+    public function testAgeShortcode(string $unit): void
     {
-        $date = strtotime($time);
-        $result = $this->age->handle("@{$date}", ['units' => $unit]);
-        $this->assertEquals("1 {$unit}", $result);
+        $result = $this->age->handle("now", ['units' => $unit]);
+        $this->assertEquals("0 {$unit}", $result);
     }
 
     /**
@@ -106,14 +104,14 @@ class LibraryTest extends TestCase
     public function ageVariationProvider(): array
     {
         return [
-            ['centuries', '-100 years'],
-            ['decades', '-10 years'],
-            ['years', '-1 year'],
-            ['months', '-1 month'],
-            ['days', '-1 day'],
-            ['hours', '-1 hour'],
-            ['minutes', '-1 minute'],
-            ['seconds', '-1 second'],
+            ['centuries'],
+            ['decades'],
+            ['years'],
+            ['months'],
+            ['days'],
+            ['hours'],
+            ['minutes'],
+            ['seconds'],
         ];
     }
 }
