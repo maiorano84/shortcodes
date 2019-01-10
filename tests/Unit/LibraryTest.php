@@ -1,6 +1,6 @@
 <?php
 
-namespace Maiorano\Shortcodes\Test;
+namespace Maiorano\Shortcodes\Test\Unit;
 
 use Exception;
 use Maiorano\Shortcodes\Contracts;

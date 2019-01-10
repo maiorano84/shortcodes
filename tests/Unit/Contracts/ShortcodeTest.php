@@ -1,6 +1,6 @@
 <?php
 
-namespace Maiorano\Shortcodes\Test\Contracts;
+namespace Maiorano\Shortcodes\Test\Unit\Contracts;
 
 use Maiorano\Shortcodes\Contracts;
 use Maiorano\Shortcodes\Contracts\Traits;

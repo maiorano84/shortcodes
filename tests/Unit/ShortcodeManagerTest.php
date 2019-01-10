@@ -1,6 +1,6 @@
 <?php
 
-namespace Maiorano\Shortcodes\Test;
+namespace Maiorano\Shortcodes\Test\Unit;
 
 use Maiorano\Shortcodes\Contracts;
 use Maiorano\Shortcodes\Exceptions\DeregisterException;

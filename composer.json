@@ -31,7 +31,7 @@
     }
   },
   "scripts": {
-    "phpunit": "phpunit --verbose",
+    "phpunit": "phpunit --verbose --coverage-clover=clover.xml",
     "phpstan": "phpstan analyse -c phpstan.neon src tests -l 7"
   }
 }
