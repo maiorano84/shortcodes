@@ -5,6 +5,7 @@ namespace Maiorano\Shortcodes\Contracts\Traits;
 use Maiorano\Shortcodes\Contracts\AliasInterface;
 use Maiorano\Shortcodes\Exceptions\RegisterException;
 use Maiorano\Shortcodes\Manager\ManagerInterface;
+use Maiorano\Shortcodes\Manager\ShortcodeManager;
 
 /**
  * Trait ContainerAware
@@ -14,7 +15,7 @@ use Maiorano\Shortcodes\Manager\ManagerInterface;
 trait ContainerAware
 {
     /**
-     * @var ManagerInterface
+     * @var ShortcodeManager|ManagerInterface
      */
     protected $manager;
 

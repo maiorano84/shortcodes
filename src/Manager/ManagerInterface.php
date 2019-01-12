@@ -47,9 +47,8 @@ interface ManagerInterface
     /**
      * @param string       $content
      * @param array|string $tags
-     * @param bool         $deep
      *
      * @return string
      */
-    public function doShortcode(string $content, $tags = [], bool $deep = false): string;
+    public function doShortcode(string $content, $tags = []): string;
 }

@@ -96,11 +96,10 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
     /**
      * @param string $content
      * @param array  $tags
-     * @param bool   $deep
      *
      * @return string
      */
-    abstract public function doShortcode(string $content, $tags = [], bool $deep = false): string;
+    abstract public function doShortcode(string $content, $tags = []): string;
 
     /**
      * @param mixed $offset
