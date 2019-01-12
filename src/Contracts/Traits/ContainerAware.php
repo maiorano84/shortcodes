@@ -5,7 +5,6 @@ namespace Maiorano\Shortcodes\Contracts\Traits;
 use Maiorano\Shortcodes\Contracts\AliasInterface;
 use Maiorano\Shortcodes\Exceptions\RegisterException;
 use Maiorano\Shortcodes\Manager\ManagerInterface;
-use Maiorano\Shortcodes\Manager\ShortcodeManager;
 
 /**
  * Trait ContainerAware
@@ -15,7 +14,7 @@ use Maiorano\Shortcodes\Manager\ShortcodeManager;
 trait ContainerAware
 {
     /**
-     * @var ShortcodeManager|ManagerInterface
+     * @var ManagerInterface
      */
     protected $manager;
 
@@ -63,19 +62,18 @@ trait ContainerAware
      * Limits search to this shortcode's context.
      *
      * @param string $content
-     * @param bool   $deep
      *
      * @throws RegisterException
      *
      * @return string
      */
-    public function doShortcode(string $content, bool $deep = false): string
+    public function doShortcode(string $content): string
     {
         if (!($this->isBound())) {
             throw RegisterException::missing($this->name);
         }
 
-        return $this->manager->doShortcode($content, $this->getContext(), $deep);
+        return $this->manager->doShortcode($content, $this->getContext());
     }
 
     /**
