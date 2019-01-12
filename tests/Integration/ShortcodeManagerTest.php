@@ -4,14 +4,13 @@ namespace Maiorano\Shortcodes\Test\Integration;
 
 use Maiorano\Shortcodes\Exceptions\DeregisterException;
 use Maiorano\Shortcodes\Exceptions\RegisterException;
+use Maiorano\Shortcodes\Library\SimpleShortcode;
 use Maiorano\Shortcodes\Manager\BaseManager;
 use Maiorano\Shortcodes\Manager\ShortcodeManager;
-use Maiorano\Shortcodes\Library\SimpleShortcode;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class ShortcodeManagerTest
- * @package Maiorano\Shortcodes\Test\Integration
+ * Class ShortcodeManagerTest.
  */
 class ShortcodeManagerTest extends TestCase
 {
@@ -39,10 +38,10 @@ class ShortcodeManagerTest extends TestCase
             'date' => new SimpleShortcode('date', null, function () use ($f) {
                 return date($f);
             }),
-            'mail' => new SimpleShortcode('mail', ['address'=>false], function($content, $atts){
+            'mail' => new SimpleShortcode('mail', ['address'=>false], function ($content, $atts) {
                 return sprintf('<a href="%s">%s</a>', $atts['address'] ? 'mailto:'.$atts['address'] : '#', $content);
             }),
-            'bold' => new SimpleShortcode('bold', null, function($content){
+            'bold' => new SimpleShortcode('bold', null, function ($content) {
                 return sprintf('<strong>%s</strong>', $content);
             }),
         ];
@@ -59,6 +58,7 @@ class ShortcodeManagerTest extends TestCase
 
     /**
      * @throws RegisterException
+     *
      * @return void
      */
     public function testDoShortcode(): void
@@ -76,7 +76,9 @@ class ShortcodeManagerTest extends TestCase
      * @param string $alias
      * @param string $shortcode
      * @param string $expected
+     *
      * @throws RegisterException
+     *
      * @return void
      * @dataProvider aliasChainProvider
      */
@@ -87,11 +89,13 @@ class ShortcodeManagerTest extends TestCase
     }
 
     /**
-     * @param string $content
+     * @param string       $content
      * @param array|string $tags
-     * @param bool $deep
-     * @param string $expected
+     * @param bool         $deep
+     * @param string       $expected
+     *
      * @throws RegisterException
+     *
      * @return void
      * @dataProvider nestedShortcodeProvider
      */
@@ -107,6 +111,7 @@ class ShortcodeManagerTest extends TestCase
 
     /**
      * @throws DeregisterException
+     *
      * @return void
      */
     public function testManagerDeregister(): void
@@ -119,6 +124,7 @@ class ShortcodeManagerTest extends TestCase
     /**
      * @throws RegisterException
      * @throws DeregisterException
+     *
      * @return void
      */
     public function testManagerDeregisterAlias(): void
@@ -134,11 +140,14 @@ class ShortcodeManagerTest extends TestCase
      */
     public function testUselessManager(): void
     {
-        $manager = new class extends BaseManager{
-            public function hasShortcode(string $content, $tags = []): bool{
+        $manager = new class() extends BaseManager {
+            public function hasShortcode(string $content, $tags = []): bool
+            {
                 return false;
             }
-            public function doShortcode(string $content, $tags = []): string{
+
+            public function doShortcode(string $content, $tags = []): string
+            {
                 return 'Useless';
             }
         };
@@ -156,7 +165,7 @@ class ShortcodeManagerTest extends TestCase
             ['date', 'd', '[d]', date($this->dateFormat)],
             ['mail', 'm', '[m address=test@test.com]Test[/m]', '<a href="mailto:test@test.com">Test</a>'],
             ['mail', 'm', '[m]Empty[/m]', '<a href="#">Empty</a>'],
-            ['bold', 'b', '[b]Bold[/b]', '<strong>Bold</strong>']
+            ['bold', 'b', '[b]Bold[/b]', '<strong>Bold</strong>'],
         ];
     }
 
@@ -168,6 +177,7 @@ class ShortcodeManagerTest extends TestCase
         $date = date($this->dateFormat);
         $mail = '<a href="#">Mail</a>';
         $bold = '<strong>Bold</strong>';
+
         return [
             [
                 '[nest]The date is [date], but "[mail]Mail[/mail]" doesn\'t work[/nest]',
