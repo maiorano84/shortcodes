@@ -28,7 +28,7 @@ final class Age implements AttributeInterface
 
     /**
      * @param string|null $content
-     * @param mixed[]       $atts
+     * @param mixed[]     $atts
      *
      * @throws Exception
      *

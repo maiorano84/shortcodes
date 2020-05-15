@@ -37,7 +37,7 @@ interface ManagerInterface
     public function getRegistered(): array;
 
     /**
-     * @param string       $content
+     * @param string          $content
      * @param string|string[] $tags
      *
      * @return bool
@@ -45,9 +45,9 @@ interface ManagerInterface
     public function hasShortcode(string $content, $tags = []): bool;
 
     /**
-     * @param string       $content
+     * @param string          $content
      * @param string|string[] $tags
-     * @param bool         $deep
+     * @param bool            $deep
      *
      * @return string
      */

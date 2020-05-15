@@ -21,11 +21,12 @@ final class ShortcodeManager extends BaseManager
      */
     protected $parser;
 
-
     /**
      * ShortcodeManager constructor.
+     *
      * @param ShortcodeInterface[] $shortcodes
      * @param ParserInterface|null $parser
+     *
      * @throws RegisterException
      */
     public function __construct(array $shortcodes = [], ParserInterface $parser = null)
@@ -56,11 +57,12 @@ final class ShortcodeManager extends BaseManager
         return $this;
     }
 
-
     /**
      * @param ShortcodeInterface[] $shortcodes
-     * @return ManagerInterface
+     *
      * @throws RegisterException
+     *
+     * @return ManagerInterface
      */
     public function registerAll(array $shortcodes): ManagerInterface
     {
@@ -120,7 +122,7 @@ final class ShortcodeManager extends BaseManager
     }
 
     /**
-     * @param string       $content
+     * @param string          $content
      * @param string|string[] $tags
      *
      * @return bool
@@ -134,9 +136,9 @@ final class ShortcodeManager extends BaseManager
     }
 
     /**
-     * @param string       $content
+     * @param string          $content
      * @param string|string[] $tags
-     * @param bool         $deep
+     * @param bool            $deep
      *
      * @return string
      */

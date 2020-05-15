@@ -38,7 +38,7 @@ final class SimpleShortcode implements Contracts\AttributeInterface, Contracts\A
 
     /**
      * @param string       $name
-     * @param mixed[]|null   $atts
+     * @param mixed[]|null $atts
      * @param Closure|null $callback
      */
     public function __construct($name, $atts = [], Closure $callback = null)
