@@ -8,8 +8,7 @@ use Maiorano\Shortcodes\Library\SimpleShortcode;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class SimpleShortcodeTest
- * @package Maiorano\Shortcodes\Test\Unit\Library
+ * Class SimpleShortcodeTest.
  */
 class SimpleShortcodeTest extends TestCase
 {
@@ -29,9 +28,9 @@ class SimpleShortcodeTest extends TestCase
     }
 
     /**
-     * @return void
      * @throws RegisterException
      *
+     * @return void
      */
     public function testAlias(): void
     {

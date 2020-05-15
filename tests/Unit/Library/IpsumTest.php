@@ -8,8 +8,7 @@ use Maiorano\Shortcodes\Library\Ipsum;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class IpsumTest
- * @package Maiorano\Shortcodes\Test\Unit\Library
+ * Class IpsumTest.
  */
 class IpsumTest extends TestCase
 {
@@ -31,7 +30,7 @@ class IpsumTest extends TestCase
      */
     public function testHandle(): void
     {
-        $str = trim((string)preg_replace('/\s+/', ' ', '
+        $str = trim((string) preg_replace('/\s+/', ' ', '
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent laoreet eu nulla sit amet porttitor. Sed 
         accumsan nulla est, sit amet lobortis nunc convallis pretium. Phasellus aliquet euismod lacus, non maximus 
         odio pulvinar quis. Nulla eu lorem malesuada, aliquam risus sit amet, interdum ligula. Vivamus sollicitudin 
@@ -43,9 +42,9 @@ class IpsumTest extends TestCase
     }
 
     /**
-     * @return void
      * @throws RegisterException
      *
+     * @return void
      */
     public function testAlias(): void
     {
