@@ -7,8 +7,7 @@ use Maiorano\Shortcodes\Library\Age;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class AgeTest
- * @package Maiorano\Shortcodes\Test\Unit\Library
+ * Class AgeTest.
  */
 class AgeTest extends TestCase
 {
@@ -28,10 +27,10 @@ class AgeTest extends TestCase
     /**
      * @param string $unit
      *
-     * @return void
-     * @dataProvider unitProvider
      * @throws Exception
      *
+     * @return void
+     * @dataProvider unitProvider
      */
     public function testHandle(string $unit): void
     {
@@ -40,9 +39,9 @@ class AgeTest extends TestCase
     }
 
     /**
-     * @return void
      * @throws Exception
      *
+     * @return void
      */
     public function testHandleEmpty(): void
     {
