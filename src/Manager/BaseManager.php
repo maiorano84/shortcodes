@@ -12,11 +12,14 @@ use Maiorano\Shortcodes\Exceptions\RegisterException;
 
 /**
  * Class BaseManager.
+ *
+ * @implements ArrayAccess<string, ShortcodeInterface>
+ * @implements IteratorAggregate<string, ShortcodeInterface>
  */
 abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAggregate
 {
     /**
-     * @var array
+     * @var ShortcodeInterface[]
      */
     protected $shortcodes = [];
 
@@ -26,7 +29,7 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
      *
      * @throws RegisterException
      *
-     * @return static
+     * @return ManagerInterface
      */
     public function register(ShortcodeInterface $shortcode, ?string $name = null): ManagerInterface
     {
@@ -52,7 +55,7 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
      *
      * @throws DeregisterException
      *
-     * @return static
+     * @return ManagerInterface
      */
     public function deregister(string $name): ManagerInterface
     {
@@ -78,7 +81,7 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getRegistered(): array
     {
@@ -87,7 +90,7 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
 
     /**
      * @param string $content
-     * @param array  $tags
+     * @param string[]  $tags
      *
      * @return bool
      */
@@ -95,7 +98,7 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
 
     /**
      * @param string $content
-     * @param array  $tags
+     * @param string[]  $tags
      * @param bool   $deep
      *
      * @return string
@@ -103,7 +106,7 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
     abstract public function doShortcode(string $content, $tags = [], bool $deep = false): string;
 
     /**
-     * @param mixed $offset
+     * @param string $offset
      *
      * @throws RegisterException
      *
@@ -119,7 +122,7 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
     }
 
     /**
-     * @param mixed $offset
+     * @param string $offset
      * @param mixed $value
      *
      * @throws RegisterException
@@ -151,7 +154,7 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
     }
 
     /**
-     * @return ArrayIterator
+     * @return ArrayIterator<string, ShortcodeInterface>
      */
     public function getIterator(): ArrayIterator
     {

@@ -20,7 +20,7 @@ trait Alias
      *
      * @return void
      */
-    public function aliasHelper(string $alias)
+    public function aliasHelper(string $alias): void
     {
         if (!($this instanceof AliasInterface)) {
             throw RegisterException::noAlias();
@@ -36,7 +36,7 @@ trait Alias
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getAlias(): array
     {

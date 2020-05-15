@@ -12,7 +12,7 @@ trait Attribute
     use Shortcode;
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getAttributes(): array
     {

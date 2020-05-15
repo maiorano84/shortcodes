@@ -8,11 +8,11 @@ use Generator;
 /**
  * Class DefaultParser.
  */
-class DefaultParser implements ParserInterface
+final class DefaultParser implements ParserInterface
 {
     /**
      * @param string       $content
-     * @param array        $tags
+     * @param string[]     $tags
      * @param Closure|null $callback
      *
      * @return array|string|string[]|null
@@ -35,7 +35,7 @@ class DefaultParser implements ParserInterface
     }
 
     /**
-     * @param array $tags
+     * @param string[] $tags
      *
      * @return string
      *
@@ -79,7 +79,7 @@ class DefaultParser implements ParserInterface
     /**
      * @param string $text
      *
-     * @return array
+     * @return mixed[]
      *
      * @see https://core.trac.wordpress.org/browser/tags/4.9/src/wp-includes/shortcodes.php#L482
      */
@@ -113,9 +113,9 @@ class DefaultParser implements ParserInterface
     }
 
     /**
-     * @param array $matches
+     * @param mixed[] $matches
      *
-     * @return Generator
+     * @return Generator<string|true>
      */
     private function generateAttributes(array $matches): Generator
     {
@@ -129,9 +129,9 @@ class DefaultParser implements ParserInterface
     }
 
     /**
-     * @param array $matches
+     * @param mixed[] $matches
      *
-     * @return Generator
+     * @return Generator<mixed>
      */
     private function generateResults(array $matches): Generator
     {

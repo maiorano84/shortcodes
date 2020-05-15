@@ -8,9 +8,9 @@ use Maiorano\Shortcodes\Contracts\Traits;
 use Maiorano\Shortcodes\Exceptions\RegisterException;
 
 /**
- * Creation of Shortcodes programatically.
+ * Creation of Shortcodes programmatically.
  */
-class SimpleShortcode implements Contracts\AttributeInterface, Contracts\AliasInterface, Contracts\ContainerAwareInterface
+final class SimpleShortcode implements Contracts\AttributeInterface, Contracts\AliasInterface, Contracts\ContainerAwareInterface
 {
     use Traits\Attribute;
     use Traits\Alias;
@@ -22,12 +22,12 @@ class SimpleShortcode implements Contracts\AttributeInterface, Contracts\AliasIn
     protected $name;
 
     /**
-     * @var array
+     * @var mixed[]
      */
     protected $attributes;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $alias = [];
 
@@ -38,7 +38,7 @@ class SimpleShortcode implements Contracts\AttributeInterface, Contracts\AliasIn
 
     /**
      * @param string       $name
-     * @param array|null   $atts
+     * @param mixed[]|null   $atts
      * @param Closure|null $callback
      */
     public function __construct($name, $atts = [], Closure $callback = null)
@@ -50,7 +50,7 @@ class SimpleShortcode implements Contracts\AttributeInterface, Contracts\AliasIn
 
     /**
      * @param string|null $content
-     * @param array       $atts
+     * @param mixed[]     $atts
      *
      * @return string
      */

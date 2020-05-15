@@ -5,7 +5,7 @@ namespace Maiorano\Shortcodes\Exceptions;
 /**
  * Class DeregisterException.
  */
-class DeregisterException extends ShortcodeException
+final class DeregisterException extends ShortcodeException
 {
     /**
      * @return static

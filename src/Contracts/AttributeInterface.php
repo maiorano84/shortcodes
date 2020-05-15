@@ -10,7 +10,7 @@ interface AttributeInterface extends ShortcodeInterface
     /**
      * Get an array of recognized attributes and their defaults.
      *
-     * @return array
+     * @return mixed[]
      */
     public function getAttributes(): array;
 
@@ -18,7 +18,7 @@ interface AttributeInterface extends ShortcodeInterface
      * Executed upon match and determines output of Shortcodes.
      *
      * @param string|null $content
-     * @param array       $atts
+     * @param mixed[]     $atts
      *
      * @return string
      */

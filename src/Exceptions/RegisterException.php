@@ -7,7 +7,7 @@ use Maiorano\Shortcodes\Contracts\AliasInterface;
 /**
  * Class RegisterException.
  */
-class RegisterException extends ShortcodeException
+final class RegisterException extends ShortcodeException
 {
     /**
      * @const string

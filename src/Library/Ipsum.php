@@ -12,7 +12,7 @@ use Maiorano\Shortcodes\Exceptions\RegisterException;
  * Generate Lorem Ipsum
  * Usage: [loremipsum] or [ipsum].
  */
-class Ipsum implements ShortcodeInterface, AliasInterface
+final class Ipsum implements ShortcodeInterface, AliasInterface
 {
     use Shortcode;
     use Alias;
@@ -23,7 +23,7 @@ class Ipsum implements ShortcodeInterface, AliasInterface
     protected $name = 'loremipsum';
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $alias = ['ipsum'];
 

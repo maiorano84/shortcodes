@@ -14,18 +14,19 @@ use Maiorano\Shortcodes\Parsers\ParserInterface;
 /**
  * Class ShortcodeManager.
  */
-class ShortcodeManager extends BaseManager
+final class ShortcodeManager extends BaseManager
 {
     /**
-     * @var DefaultParser|ParserInterface
+     * @var ParserInterface
      */
     protected $parser;
 
+
     /**
      * ShortcodeManager constructor.
-     *
-     * @param array                $shortcodes
+     * @param ShortcodeInterface[] $shortcodes
      * @param ParserInterface|null $parser
+     * @throws RegisterException
      */
     public function __construct(array $shortcodes = [], ParserInterface $parser = null)
     {
@@ -39,7 +40,7 @@ class ShortcodeManager extends BaseManager
      *
      * @throws RegisterException
      *
-     * @return static
+     * @return ManagerInterface
      */
     public function register(ShortcodeInterface $shortcode, ?string $name = null): ManagerInterface
     {
@@ -55,15 +56,16 @@ class ShortcodeManager extends BaseManager
         return $this;
     }
 
+
     /**
-     * @param array $shortcodes
-     *
-     * @return static
+     * @param ShortcodeInterface[] $shortcodes
+     * @return ManagerInterface
+     * @throws RegisterException
      */
     public function registerAll(array $shortcodes): ManagerInterface
     {
         foreach ($shortcodes as $k => $s) {
-            $this[$k] = $s;
+            $this->register($s, $k);
         }
 
         return $this;
@@ -75,7 +77,7 @@ class ShortcodeManager extends BaseManager
      *
      * @throws DeregisterException
      *
-     * @return static
+     * @return ManagerInterface
      */
     public function deregister(string $name, bool $includeAlias = true): ManagerInterface
     {
@@ -97,7 +99,7 @@ class ShortcodeManager extends BaseManager
      *
      * @throws RegisterException
      *
-     * @return static
+     * @return ManagerInterface
      */
     public function alias(string $name, string $alias): ManagerInterface
     {
@@ -119,7 +121,7 @@ class ShortcodeManager extends BaseManager
 
     /**
      * @param string       $content
-     * @param string|array $tags
+     * @param string|string[] $tags
      *
      * @return bool
      */
@@ -133,7 +135,7 @@ class ShortcodeManager extends BaseManager
 
     /**
      * @param string       $content
-     * @param string|array $tags
+     * @param string|string[] $tags
      * @param bool         $deep
      *
      * @return string
@@ -163,9 +165,9 @@ class ShortcodeManager extends BaseManager
     }
 
     /**
-     * @param string|array $tags
+     * @param string|string[] $tags
      *
-     * @return array
+     * @return string[]
      */
     private function preProcessTags($tags): array
     {

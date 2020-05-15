@@ -13,7 +13,7 @@ interface ParserInterface
      * Scan all content for possible shortcode.
      *
      * @param string       $content
-     * @param array        $tags
+     * @param mixed[]      $tags
      * @param Closure|null $callback
      *
      * @return mixed

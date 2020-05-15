@@ -19,7 +19,7 @@ interface AliasInterface extends ShortcodeInterface
     /**
      * Returns an array of registered aliases.
      *
-     * @return array
+     * @return string[]
      */
     public function getAlias(): array;
 }

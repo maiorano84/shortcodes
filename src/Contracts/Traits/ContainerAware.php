@@ -88,7 +88,7 @@ trait ContainerAware
     /**
      * Utility method.
      *
-     * @return array
+     * @return string[]
      */
     private function getContext(): array
     {

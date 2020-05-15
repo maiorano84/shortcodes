@@ -13,14 +13,14 @@ interface ManagerInterface
      * @param ShortcodeInterface $shortcode
      * @param string|null        $name
      *
-     * @return static
+     * @return ManagerInterface
      */
     public function register(ShortcodeInterface $shortcode, ?string $name = null): self;
 
     /**
      * @param string $shortcode
      *
-     * @return static
+     * @return ManagerInterface
      */
     public function deregister(string $shortcode): self;
 
@@ -32,13 +32,13 @@ interface ManagerInterface
     public function isRegistered(string $name): bool;
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getRegistered(): array;
 
     /**
      * @param string       $content
-     * @param array|string $tags
+     * @param string|string[] $tags
      *
      * @return bool
      */
@@ -46,7 +46,7 @@ interface ManagerInterface
 
     /**
      * @param string       $content
-     * @param array|string $tags
+     * @param string|string[] $tags
      * @param bool         $deep
      *
      * @return string

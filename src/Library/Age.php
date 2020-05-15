@@ -12,7 +12,7 @@ use Maiorano\Shortcodes\Contracts\Traits\Attribute;
  * Calculates the age of something
  * Usage: [age units=years]September 19th 1984[/age].
  */
-class Age implements AttributeInterface
+final class Age implements AttributeInterface
 {
     use Attribute;
 
@@ -22,13 +22,13 @@ class Age implements AttributeInterface
     protected $name = 'age';
 
     /**
-     * @var array
+     * @var mixed[]
      */
     protected $attributes = ['units' => 'years'];
 
     /**
      * @param string|null $content
-     * @param array       $atts
+     * @param mixed[]       $atts
      *
      * @throws Exception
      *
