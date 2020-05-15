@@ -89,17 +89,17 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
     }
 
     /**
-     * @param string $content
-     * @param string[]  $tags
+     * @param string   $content
+     * @param string[] $tags
      *
      * @return bool
      */
     abstract public function hasShortcode(string $content, $tags = []): bool;
 
     /**
-     * @param string $content
-     * @param string[]  $tags
-     * @param bool   $deep
+     * @param string   $content
+     * @param string[] $tags
+     * @param bool     $deep
      *
      * @return string
      */
@@ -123,7 +123,7 @@ abstract class BaseManager implements ManagerInterface, ArrayAccess, IteratorAgg
 
     /**
      * @param string $offset
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @throws RegisterException
      */
