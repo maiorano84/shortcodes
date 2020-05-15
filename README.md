@@ -7,7 +7,7 @@ Implementation of Wordpress' Shortcode syntax as a standalone package. Content f
 [![Latest Unstable Version](https://poser.pugx.org/maiorano84/shortcodes/v/unstable)](https://packagist.org/packages/maiorano84/shortcodes)
 [![Total Downloads](https://poser.pugx.org/maiorano84/shortcodes/downloads)](https://packagist.org/packages/maiorano84/shortcodes)
 [![License](https://poser.pugx.org/maiorano84/shortcodes/license)](https://packagist.org/packages/maiorano84/shortcodes)
-[![Build Status](https://travis-ci.org/maiorano84/shortcodes.svg?branch=master)](https://travis-ci.org/maiorano84/shortcodes)
+[![Build Status](https://travis-ci.com/maiorano84/shortcodes.svg?branch=master)](https://travis-ci.com/github/maiorano84/shortcodes)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/maiorano84/shortcodes/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/maiorano84/shortcodes/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/maiorano84/shortcodes/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/maiorano84/shortcodes/?branch=master)
 [![StyleCI](https://github.styleci.io/repos/34288149/shield?branch=master)](https://github.styleci.io/repos/34288149)
