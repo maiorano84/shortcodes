@@ -12,7 +12,9 @@ use Maiorano\Shortcodes\Exceptions\RegisterException;
  */
 class SimpleShortcode implements Contracts\AttributeInterface, Contracts\AliasInterface, Contracts\ContainerAwareInterface
 {
-    use Traits\Attribute, Traits\Alias, Traits\ContainerAware;
+    use Traits\Attribute;
+    use Traits\Alias;
+    use Traits\ContainerAware;
 
     /**
      * @var string

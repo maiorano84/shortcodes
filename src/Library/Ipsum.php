@@ -14,7 +14,8 @@ use Maiorano\Shortcodes\Exceptions\RegisterException;
  */
 class Ipsum implements ShortcodeInterface, AliasInterface
 {
-    use Shortcode, Alias;
+    use Shortcode;
+    use Alias;
 
     /**
      * @var string
